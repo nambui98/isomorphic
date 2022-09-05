@@ -1,22 +1,17 @@
-import React from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import React from "react";
+import { Link, useRouteMatch } from "react-router-dom";
 
-import Menu from '@iso/components/uielements/menu';
-import IntlMessages from '@iso/components/utility/intlMessages';
+import Menu from "@iso/components/uielements/menu";
+import IntlMessages from "@iso/components/utility/intlMessages";
 const SubMenu = Menu.SubMenu;
 
-const stripTrailingSlash = str => {
-  if (str.substr(-1) === '/') {
+const stripTrailingSlash = (str) => {
+  if (str.substr(-1) === "/") {
     return str.substr(0, str.length - 1);
   }
   return str;
 };
-export default React.memo(function SidebarMenu({
-  singleOption,
-  submenuStyle,
-  submenuColor,
-  ...rest
-}) {
+export default React.memo(function SidebarMenu({ singleOption, submenuStyle, submenuColor, ...rest }) {
   let match = useRouteMatch();
 
   const { key, label, leftIcon, children } = singleOption;
@@ -36,10 +31,8 @@ export default React.memo(function SidebarMenu({
         }
         {...rest}
       >
-        {children.map(child => {
-          const linkTo = child.withoutDashboard
-            ? `/${child.key}`
-            : `${url}/${child.key}`;
+        {children.map((child) => {
+          const linkTo = child.withoutDashboard ? `/${child.key}` : `${url}/${child.key}`;
           return (
             <Menu.Item style={submenuStyle} key={child.key}>
               <Link style={submenuColor} to={linkTo}>

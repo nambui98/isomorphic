@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import siteConfig from '@iso/config/site.config';
+import React from "react";
+import { Link } from "react-router-dom";
+import siteConfig from "@iso/config/site.config";
 
 export default ({ collapsed }) => {
   return (
@@ -15,7 +15,7 @@ export default ({ collapsed }) => {
         </div>
       ) : (
         <h3>
-          <Link to="/dashboard">{siteConfig.siteName}</Link>
+          <Link to="/dashboard">BEFITTER</Link>
         </h3>
       )}
     </div>
