@@ -18,12 +18,14 @@ import profileSaga from "@iso/redux/profile/saga";
 import quizSaga from "@iso/redux/quiz/saga";
 import accountSaga from "@iso/redux/account/saga";
 import notiSaga from "@iso/redux/notification/saga";
+import cdnSaga from "@iso/redux/cdn/saga";
 
 export default function* rootSaga(getState) {
   yield all([
     authSagas(),
     accountSaga(),
     notiSaga(),
+    cdnSaga(),
     roleSagas(),
     contactSagas(),
     mailSagas(),

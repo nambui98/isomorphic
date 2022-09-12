@@ -128,6 +128,11 @@ const options = [
     label: "Change Password",
     leftIcon: "ion-android-checkbox-outline",
   },
+  {
+    key: "cdn",
+    label: "CDN",
+    leftIcon: "ion-android-menu",
+  },
   // {
   //   key: "shuffle",
   //   label: "sidebar.shuffle",

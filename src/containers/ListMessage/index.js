@@ -26,7 +26,7 @@ export default function ListMessage() {
   useEffect(() => {
     dispatch(
       actions.getListNotifications({
-        limit: 20,
+        limit: 8,
         page: pages,
         channel: null,
         notifyType: null,
@@ -45,7 +45,7 @@ export default function ListMessage() {
           responsive={width <= 400}
           style={{ textAlign: "center", margin: "10px 0" }}
           defaultCurrent={1}
-          pageSize={20}
+          pageSize={8}
           total={totalNoti}
           showSizeChanger={false}
           onChange={(currentPage) => setPages(currentPage)}

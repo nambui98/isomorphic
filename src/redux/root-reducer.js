@@ -26,12 +26,14 @@ import githubSearch from "@iso/redux/githubSearch/reducers";
 import quiz from "@iso/redux/quiz/reducer";
 import Account from "@iso/redux/account/reducer";
 import Noti from "@iso/redux/notification/reducer";
+import Cdn from "@iso/redux/cdn/reducer";
 
 export default combineReducers({
   Auth,
   Account,
   Noti,
   Role,
+  Cdn,
   App,
   ThemeSwitcher,
   LanguageSwitcher,

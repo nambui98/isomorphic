@@ -44,6 +44,10 @@ const routes = [
     path: "changePassword",
     component: lazy(() => import("@iso/containers/Pages/ResetPassword/ResetPassword")),
   },
+  {
+    path: "cdn",
+    component: lazy(() => import("@iso/containers/CDN/PageCdn")),
+  },
 
   // {
   //   path: "addAccount",

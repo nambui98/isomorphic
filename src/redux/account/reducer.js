@@ -13,7 +13,19 @@ function initStateEdit(edit) {
 }
 
 export default function accountReducer(
-  state = { ...initState, listAccount: [], idAccount: null, addAccount: false, editView: false, disabledView: false, resetPasswordView: false, changeRoleView: false, activeView: false },
+  state = {
+    ...initState,
+    listAccount: [],
+    idAccount: null,
+    addAccount: false,
+    editView: false,
+    disabledView: false,
+    resetPasswordView: false,
+    changeRoleView: false,
+    activeView: false,
+    statusDisableAccount: false,
+    statusChangeRole: false,
+  },
   action
 ) {
   switch (action.type) {
@@ -45,6 +57,36 @@ export default function accountReducer(
         error: null,
         success: false,
         listAccount: action.payload?.data.accounts,
+      };
+    case actions.ACTIVE_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        activeAccountRequest: true,
+      };
+    case actions.ACTIVE_ACCOUNT_PENDING:
+      return {
+        ...state,
+        activeAccountRequest: false,
+      };
+    case actions.DISABLE_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        statusDisableAccount: true,
+      };
+    case actions.DISABLE_ACCOUNT_PENDING:
+      return {
+        ...state,
+        statusDisableAccount: false,
+      };
+    case actions.CHANGE_ROLE_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        statusChangeRole: true,
+      };
+    case actions.CHANGE_ROLE_ACCOUNT_PENDING:
+      return {
+        ...state,
+        statusChangeRole: false,
       };
     case actions.CHANGE_ID_ACCOUNT:
       return {
