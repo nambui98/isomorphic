@@ -1,7 +1,7 @@
 import { all, takeEvery, put, fork } from "redux-saga/effects";
 import { createBrowserHistory } from "history";
 import authRequest from "../../service/auth";
-
+import { openNotificationWithIcon } from "@iso/containers/Feedback/Notification/Notification";
 import { getToken, clearToken } from "@iso/lib/helpers/utility";
 import actions from "./actions";
 
@@ -33,9 +33,9 @@ function* requestResetPassword(action) {
   console.log("asdifhuef", action);
 
   return yield createBlankAsyncSagaRequest({
-    // api,
-    // success,
-    // failure
+    api: authRequest.changeAccount,
+    success: [(res) => openNotificationWithIcon("success", "Success", "Change Account Success")],
+    failure: [(res) => openNotificationWithIcon("error", "Error", res.data?.meta.error_message)],
   })(action);
 }
 

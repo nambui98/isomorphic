@@ -17,11 +17,13 @@ import scrumBoardSaga from "@iso/redux/scrumBoard/saga";
 import profileSaga from "@iso/redux/profile/saga";
 import quizSaga from "@iso/redux/quiz/saga";
 import accountSaga from "@iso/redux/account/saga";
+import notiSaga from "@iso/redux/notification/saga";
 
 export default function* rootSaga(getState) {
   yield all([
     authSagas(),
     accountSaga(),
+    notiSaga(),
     roleSagas(),
     contactSagas(),
     mailSagas(),

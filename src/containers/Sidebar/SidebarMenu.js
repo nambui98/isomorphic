@@ -25,7 +25,8 @@ export default React.memo(function SidebarMenu({ singleOption, submenuStyle, sub
           <span className="isoMenuHolder" style={submenuColor}>
             <i className={leftIcon} />
             <span className="nav-text">
-              <IntlMessages id={label} />
+              {/* <IntlMessages id={label} /> */}
+              {label}
             </span>
           </span>
         }
@@ -36,7 +37,8 @@ export default React.memo(function SidebarMenu({ singleOption, submenuStyle, sub
           return (
             <Menu.Item style={submenuStyle} key={child.key}>
               <Link style={submenuColor} to={linkTo}>
-                <IntlMessages id={child.label} />
+                {/* <IntlMessages id={child.label} /> */}
+                {child.label}
               </Link>
             </Menu.Item>
           );
@@ -51,7 +53,8 @@ export default React.memo(function SidebarMenu({ singleOption, submenuStyle, sub
         <span className="isoMenuHolder" style={submenuColor}>
           <i className={leftIcon} />
           <span className="nav-text">
-            <IntlMessages id={label} />
+            {/* <IntlMessages id={label} /> */}
+            {label}
           </span>
         </span>
       </Link>

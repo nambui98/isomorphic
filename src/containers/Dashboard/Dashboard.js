@@ -28,7 +28,7 @@ const styles = {
   },
 };
 
-export default function Dashboard() {
+export default function Dashboard({ chooseSidebarOptions }) {
   const dispatch = useDispatch();
   const appHeight = useSelector((state) => state.App.height);
   const { width, height } = useWindowSize();
@@ -42,7 +42,7 @@ export default function Dashboard() {
       <Layout style={{ height: height }}>
         <Topbar />
         <Layout style={styles.layout}>
-          <Sidebar />
+          <Sidebar chooseSidebarOptions={chooseSidebarOptions} />
           <Layout
             className="isoContentMainLayout"
             style={{

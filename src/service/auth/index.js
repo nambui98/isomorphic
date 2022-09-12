@@ -1,5 +1,6 @@
 import { axiosClient } from "@iso/lib/axios/axios";
 // import { AXIOS_CONFIGS, AXIOS_REQUEST_METHOD } from "../../constants/api";
+import { getToken } from "@iso/lib/helpers/utility";
 
 const authRequest = {
   login2FA(user) {
@@ -11,6 +12,10 @@ const authRequest = {
   login(payload) {
     console.log("iosadufuewqfsadf", payload);
     return axiosClient.post("account/verify-otp", { refId: payload.refId, otp: payload.textCode, action: payload.action });
+  },
+  changeAccount(payload) {
+    console.log("iosadufuewqfsadf", payload);
+    return axiosClient.post("account/change-password", payload, { headers: { Authorization: "Bearer " + getToken().get("accessToken") } });
   },
 };
 

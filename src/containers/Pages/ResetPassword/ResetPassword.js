@@ -21,8 +21,6 @@ export default function () {
   const { resetPassword } = authAction;
 
   const handleSubmitFormLogin = (props) => {
-    const { password, newPassword } = props;
-
     dispatch(resetPassword(props));
   };
 
@@ -32,14 +30,13 @@ export default function () {
         <div className="isoFormContent">
           <div className="isoLogoWrapper">
             <Link to="/dashboard">
-              <IntlMessages id="BEFITTER" />
+              {/* <IntlMessages id="BEFITTER" /> */}
+              BEFITTER
             </Link>
           </div>
 
           <div className="isoFormHeadText">
-            <h3>
-              <IntlMessages id="page.resetPassSubTitle" />
-            </h3>
+            <h3>Change Password</h3>
             <p>
               <IntlMessages id="page.resetPassDescription" />
             </p>
@@ -76,7 +73,7 @@ export default function () {
                   </div>
 
                   <div className="isoInputWrapper">
-                    <Button htmlType="submit" type="primary" disabled={isSubmitting}>
+                    <Button htmlType="submit" type="primary">
                       <IntlMessages id="page.resetPassSave" />
                     </Button>
                   </div>

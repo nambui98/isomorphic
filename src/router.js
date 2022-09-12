@@ -7,6 +7,7 @@ import { PUBLIC_ROUTE, PRIVATE_ROUTE } from "./route.constants";
 import Loader from "@iso/components/utility/loader";
 
 const Dashboard = lazy(() => import("./containers/Dashboard/Dashboard"));
+// const UpdateNoti = lazy(() => import("./containers/UpdateNoti/UpdateNoti"));
 
 const publicRoutes = [
   {
@@ -82,6 +83,9 @@ export default function Routes() {
             ))}
             <PrivateRoute path="/dashboard">
               <Dashboard />
+            </PrivateRoute>
+            <PrivateRoute path="/notification">
+              <Dashboard chooseSidebarOptions="notification" />
             </PrivateRoute>
           </Switch>
         </Router>

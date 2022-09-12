@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Layout } from "antd";
-import options from "./options";
+import { options, optionsNoti } from "./options";
 import Scrollbars from "@iso/components/utility/customScrollBar";
 import Menu from "@iso/components/uielements/menu";
 import IntlMessages from "@iso/components/utility/intlMessages";
@@ -15,7 +15,7 @@ const { Sider } = Layout;
 
 const { toggleOpenDrawer, changeOpenKeys, changeCurrent, toggleCollapsed } = appActions;
 
-export default function Sidebar() {
+export default function Sidebar({ chooseSidebarOptions }) {
   const dispatch = useDispatch();
   const { view, openKeys, collapsed, openDrawer, current, height } = useSelector((state) => state.App);
   const customizedTheme = useSelector((state) => state.ThemeSwitcher.sidebarTheme);
@@ -74,13 +74,29 @@ export default function Sidebar() {
   const submenuColor = {
     color: customizedTheme.textColor,
   };
+
+  const chooseOptions = useMemo(() => {
+    let newOptions;
+
+    switch (chooseSidebarOptions) {
+      case "notification":
+        newOptions = optionsNoti;
+        break;
+      default:
+        newOptions = options;
+        break;
+    }
+
+    return newOptions;
+  }, [chooseSidebarOptions]);
+
   return (
     <SidebarWrapper>
       <Sider trigger={null} collapsible={true} collapsed={isCollapsed} width={240} className="isomorphicSidebar" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} style={styling}>
         <Logo collapsed={isCollapsed} />
         <Scrollbars style={{ height: height - 70 }}>
           <Menu onClick={handleClick} theme="dark" className="isoDashboardMenu" mode={mode} openKeys={isCollapsed ? [] : openKeys} selectedKeys={current} onOpenChange={onOpenChange}>
-            {options.map((singleOption) => (
+            {chooseOptions.map((singleOption) => (
               <SidebarMenu key={singleOption.key} submenuStyle={submenuStyle} submenuColor={submenuColor} singleOption={singleOption} />
             ))}
             {/* Demo Menu */}

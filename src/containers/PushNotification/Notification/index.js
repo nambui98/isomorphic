@@ -1,6 +1,10 @@
 import React, { useState, useRef } from "react";
+import _ from "lodash";
+
+import { useSelector, useDispatch } from "react-redux";
 
 import { Steps, Typography, Carousel } from "antd";
+import { openNotificationWithIcon } from "@iso/containers/Feedback/Notification/Notification";
 
 import NotiWrapper from "./Notification.styles";
 import Content from "./Content";
@@ -8,56 +12,77 @@ import Content from "./Content";
 import { Form, FastField, Formik, ErrorMessage } from "formik";
 import BoxTitle from "@iso/components/utility/boxTitle";
 import Button from "@iso/components/uielements/button";
-import { AntInput, AntTextArea } from "@iso/components/ScrumBoard/AntFields";
-import Attachment from "@iso/components/ScrumBoard/Attachment";
-import { isRequired } from "@iso/components/ScrumBoard/ValidateFields";
 import { Noti } from "./Content/Noti";
 import { Target } from "./Content/Target";
 import { Scheduling } from "./Content/Scheduling";
 import { Additional } from "./Content/Additional";
+import { initialValue } from "./const";
+import actions from "@iso/redux/notification/actions";
+import { calculatorTtl } from "@iso/containers/common";
 
 const { Title, Text } = Typography;
 const { Step } = Steps;
 
+const transitionData = (values) => {
+  const newdata = {
+    ...values,
+    toEmail: values?.email.split(", "),
+    extraData: {
+      messageType: "SYSTEM_MANUAL",
+      detail: {
+        image: values.image,
+        ttl: calculatorTtl(values.expires, values.time),
+      },
+    },
+    os: values.device,
+  };
+
+  return _.omit(newdata, ["image", "email", "device", "expires", "time", "selectOptionsChannel", "selectOptionsDevice", "selectOptionsExpires", "selectOptionsNotifyType", "selectOptionsSegment"]);
+};
+
 export default function TabNotification() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [loading, setLoading] = useState(false);
   const carouselRef = useRef();
+  const formikRef = useRef();
+  const dispatch = useDispatch();
+  const { idSave } = useSelector((state) => state.Noti);
 
-  console.log("adsfhuisdhaf", currentStep);
+  console.log("sdoifieqwhfa", idSave);
 
   const handleClickNext = (e) => {
     e.preventDefault();
+    carouselRef.current.next();
     setCurrentStep((prev) => {
       if (prev > 2) return 0;
       return (prev += 1);
     });
-    carouselRef.current.next();
   };
+
   const handleClickPrev = (e) => {
     e.preventDefault();
+    carouselRef.current.prev();
     setCurrentStep((prev) => {
-      console.log("adhfsadf", prev);
       if (prev < 1) return 3;
       return (prev -= 1);
     });
-    carouselRef.current.prev();
   };
-
-  const initialValues = {
-    title: "",
-    content: "",
-    name: "",
-    image: "",
-  };
-
-  const handleValidateFormLogin = (propsField) => {};
 
   const handleSubmitFormLogin = (values) => {
-    console.log("adhufsadf", values);
+    dispatch(actions.sendNoti(transitionData(values)));
   };
 
-  const onChangeCarousel = (currentSlide) => {
-    console.log("sdjfjsda", currentSlide);
+  const afterChangeCarousel = (currentSlide) => {
+    setLoading(false);
+  };
+  const beforeChangeCarousel = (from, to) => {
+    setLoading(true);
+  };
+
+  const handleSave = (value) => {
+    if (!value.content) return openNotificationWithIcon("error", "Error", "invalid content");
+
+    dispatch(actions.draftNoti({ ...transitionData(value), id: idSave }));
   };
 
   return (
@@ -69,29 +94,32 @@ export default function TabNotification() {
         <Step title="Additional options" />
       </Steps>
       <br></br>
-      <Formik initialValues={initialValues} enableReinitialize validate={handleValidateFormLogin} onSubmit={handleSubmitFormLogin}>
-        {({ values, handleSubmit, isSubmitting, handleReset, errors, touched }) => (
-          <Form onSubmit={handleSubmit}>
-            {/* {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>} */}
-            {/* <div style={{ display: "flex" }}> */}
-            <Carousel afterChange={onChangeCarousel} ref={carouselRef}>
+      <Formik initialValues={initialValue} enableReinitialize onSubmit={handleSubmitFormLogin} innerRef={formikRef}>
+        {({ values, handleSubmit, isSubmitting, handleReset, errors, touched, isValidating }) => (
+          <Form>
+            <Carousel dots={false} beforeChange={beforeChangeCarousel} afterChange={afterChangeCarousel} ref={carouselRef}>
               <Noti currentStep={currentStep} />
-              <Target currentStep={currentStep} />
+              <Target currentStep={currentStep} formikRef={formikRef} />
               <Scheduling currentStep={currentStep} />
               <Additional currentStep={currentStep} />
             </Carousel>
-            {/* </div> */}
             <div className="isoInputWrapper isoLeftRightComponent">
-              {/* <Checkbox>
-                      <BoxTitle subtitle="Remember me" />
-                    </Checkbox> */}
-              <Button type="primary" onClick={handleClickPrev}>
-                <BoxTitle subtitle="Prev" primary />
+              <Button type="default" onClick={handleClickPrev} disabled={loading}>
+                Prev
               </Button>
-              <Button type="primary" onClick={handleClickNext}>
-                <BoxTitle subtitle="Next" primary />
+
+              <Button type="primary" onClick={() => handleSave(values)} disabled={currentStep !== 3}>
+                <BoxTitle subtitle="Save" primary />
+              </Button>
+              <Button type="primary" htmlType="submit" disabled={currentStep !== 3}>
+                <BoxTitle subtitle="Send" primary />
+              </Button>
+
+              <Button type="default" onClick={handleClickNext} disabled={loading}>
+                Next
               </Button>
             </div>
+            {isSubmitting && errors.content && openNotificationWithIcon("error", "Error", "invalid content")}
           </Form>
         )}
       </Formik>
