@@ -46,6 +46,10 @@ const options = [
         key: "In-AppMessaging",
         label: "In-App Messaging",
       },
+      {
+        key: "listmessage",
+        label: "List Message",
+      },
     ],
   },
   // {
@@ -109,11 +113,21 @@ const options = [
   //     },
   //   ],
   // },
-  // {
-  //   key: "contacts",
-  //   label: "sidebar.contacts",
-  //   leftIcon: "ion-android-person-add",
-  // },
+  {
+    key: "role",
+    label: "Role",
+    leftIcon: "ion-person",
+  },
+  {
+    key: "account",
+    label: "Account",
+    leftIcon: "ion-android-person-add",
+  },
+  {
+    key: "changePassword",
+    label: "Change Password",
+    leftIcon: "ion-android-checkbox-outline",
+  },
   // {
   //   key: "shuffle",
   //   label: "sidebar.shuffle",
@@ -322,54 +336,54 @@ const options = [
   //     },
   //   ],
   // },
-  {
-    key: "pages",
-    label: "sidebar.pages",
-    leftIcon: "ion-document-text",
-    children: [
-      // {
-      //   key: "404",
-      //   label: "sidebar.404",
-      //   withoutDashboard: true,
-      // },
-      // {
-      //   key: "500",
-      //   label: "sidebar.500",
-      //   withoutDashboard: true,
-      // },
-      // {
-      //   key: "signin",
-      //   label: "sidebar.signIn",
-      //   withoutDashboard: true,
-      // },
-      // {
-      //   key: "signup",
-      //   label: "sidebar.signUp",
-      //   withoutDashboard: true,
-      // },
-      {
-        key: "forgotpassword",
-        label: "sidebar.forgotPw",
-        withoutDashboard: true,
-      },
-      {
-        key: "resetpassword",
-        label: "sidebar.resetPw",
-        withoutDashboard: true,
-      },
-      {
-        key: "addaccount",
-        label: "Add Account",
-        withoutDashboard: true,
-      },
+  // {
+  //   key: "pages",
+  //   label: "sidebar.pages",
+  //   leftIcon: "ion-document-text",
+  //   children: [
+  // {
+  //   key: "404",
+  //   label: "sidebar.404",
+  //   withoutDashboard: true,
+  // },
+  // {
+  //   key: "500",
+  //   label: "sidebar.500",
+  //   withoutDashboard: true,
+  // },
+  // {
+  //   key: "signin",
+  //   label: "sidebar.signIn",
+  //   withoutDashboard: true,
+  // },
+  // {
+  //   key: "signup",
+  //   label: "sidebar.signUp",
+  //   withoutDashboard: true,
+  // },
+  // {
+  //   key: "forgotpassword",
+  //   label: "sidebar.forgotPw",
+  //   withoutDashboard: true,
+  // },
+  // {
+  //   key: "resetpassword",
+  //   label: "sidebar.resetPw",
+  //   withoutDashboard: true,
+  // },
+  // {
+  //   key: "addaccount",
+  //   label: "Add Account",
+  //   withoutDashboard: true,
+  // },
 
-      // {
-      //   key: 'comingSoon',
-      //   label: 'sidebar.comingSoon',
-      //    withoutDashboard: true
-      // }
-    ],
-  },
+  // {
+  //   key: 'comingSoon',
+  //   label: 'sidebar.comingSoon',
+  //    withoutDashboard: true
+  // }
+  //   ],
+  // },
   // {
   //   key: "githubSearch",
   //   label: "sidebar.githubSearch",
@@ -381,4 +395,13 @@ const options = [
   //   leftIcon: "ion-document",
   // },
 ];
-export default options;
+
+const optionsNoti = [
+  {
+    key: "update",
+    label: "Update",
+    leftIcon: "ion-document",
+  },
+];
+
+export { options, optionsNoti };

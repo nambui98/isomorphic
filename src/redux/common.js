@@ -48,12 +48,15 @@ function isGenerator(fn) {
 }
 
 function* mappingActionCreators(creators, response, currentAction) {
+  console.log("ksdhfuiqwherq", { h: Array.isArray(creators), creators: creators });
   if (Array.isArray(creators)) {
     for (const action of creators) {
       if (isGenerator(action)) {
         const nextActionGF = yield action(response, currentAction);
+        console.log("adkfjasdhfuw", nextActionGF);
 
         if (typeof nextActionGF === "object") {
+          console.log("sdakjfewurq", nextActionGF);
           yield put(nextActionGF);
         } else if (typeof nextActionGF === "function") {
           yield put(nextActionGF(response, currentAction));
@@ -112,18 +115,20 @@ export const createBlankAsyncSagaRequest = ({ api, success, failure }) => {
         );
       }
 
+      console.log("oiadfyusdafa", response.status);
+
       if (RESPONSE_STATUS_CODE.SUCCESS.includes(response.status)) {
         // build success
         const rsSuccess = buildResponseSuccess(response);
 
-        yield mappingActionCreators(success, rsSuccess, action);
-
-        return yield put(
+        yield put(
           makeActionSuccess({
             type: action.type,
             data: rsSuccess.successfulData,
           })
         );
+
+        return yield mappingActionCreators(success, rsSuccess, action);
       }
 
       // build error
@@ -138,6 +143,8 @@ export const createBlankAsyncSagaRequest = ({ api, success, failure }) => {
         })
       );
     } catch (exception) {
+      console.log("iewruewqyr", exception);
+      console.log("iewrdfduedfdwqyr", action);
       return yield put(
         makeActionError({
           type: action.type,

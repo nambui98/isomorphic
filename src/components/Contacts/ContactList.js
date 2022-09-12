@@ -1,69 +1,67 @@
-import React from 'react';
-import IntlMessages from '../utility/intlMessages';
-import { InputSearch } from '../uielements/input';
-import DeleteButton from './DeleteButton';
-import { ContactListWrapper } from './ContactList.style';
-import Scrollbar from '../utility/customScrollBar';
-import { useIntl } from 'react-intl';
-
-function filterContacts(contacts, search) {
-  search = search.toUpperCase();
-  return search
-    ? contacts.filter((contact) => contact.name.toUpperCase().includes(search))
-    : contacts;
-}
+import React from "react";
+import IntlMessages from "../utility/intlMessages";
+import { InputSearch } from "../uielements/input";
+import DeleteButton from "./DeleteButton";
+import { ContactListWrapper } from "./ContactList.style";
+import Scrollbar from "../utility/customScrollBar";
+import { useIntl } from "react-intl";
+import useDebounce from "@iso/lib/hooks/useDebounce";
+import { useDispatch } from "react-redux";
+import actions from "@iso/redux/role/actions";
 
 export default function ContactList(props) {
   const intl = useIntl();
-  const [search, setSearch] = React.useState('');
+  const dispatch = useDispatch();
+  const [search, setSearch] = React.useState("");
+  const { selectedId, deleteContact, changeContact } = props;
+
+  console.log("iewojfsadfas", selectedId);
+
   function singleContact(contact) {
-    const { selectedId, deleteContact, changeContact } = props;
-    const activeClass = selectedId === contact.id ? 'active' : '';
+    const activeClass = selectedId === contact.id ? "active" : "";
     const onChange = () => changeContact(contact.id);
     return (
-      <div
-        key={contact.id}
-        className={`${activeClass} isoSingleContact`}
-        onClick={onChange}
-      >
-        <div className="isoAvatar">
+      <div key={contact.id} className={`${activeClass} isoSingleContact`} onClick={onChange}>
+        {/* <div className="isoAvatar">
           {contact.avatar ? <img alt="#" src={contact.avatar} /> : ''}
-        </div>
+        </div> */}
         <div className="isoContactName">
-          <h3>{contact.name ? contact.name : 'No Name'}</h3>
+          <h3>{contact.roleName ? contact.roleName : "No Name"}</h3>
         </div>
-        <DeleteButton deleteContact={deleteContact} contact={contact} />
       </div>
     );
   }
+
   function onChange(event) {
-    setSearch(event.target.value);
+    props.setTxtSearch(event.target.value);
   }
 
-  const contacts = filterContacts(props.contacts, search);
+  useDebounce(
+    () => {
+      dispatch({
+        type: actions.GET_ALL_ROLE,
+        payload: {
+          txtSearch: props.textSearch,
+          limit: 20,
+          page: 1,
+        },
+      });
+    },
+    500,
+    [props.textSearch]
+  );
+
   return (
     <ContactListWrapper className="isoContactListWrapper">
-      <InputSearch
-        placeholder={intl.formatMessage({
-          id: 'contactlist.searchContacts',
-        })}
-        value={search}
-        onChange={onChange}
-        className="isoSearchBar"
-      />
-      {contacts && contacts.length > 0 ? (
+      <InputSearch placeholder="Search role name" value={props.textSearch} onChange={onChange} className="isoSearchBar" />
+      {props.data && props.data.length > 0 ? (
         <div className="isoContactList">
-          <Scrollbar
-            className="contactListScrollbar"
-            style={{ height: 'calc(100vh - 200px)' }}
-          >
-            {contacts.map((contact) => singleContact(contact))}
+          <Scrollbar className="contactListScrollbar" style={{ height: "calc(100vh - 200px)" }}>
+            {props.data.map((contact) => singleContact(contact))}
           </Scrollbar>
         </div>
       ) : (
-        <span className="isoNoResultMsg">
-          {<IntlMessages id="Component.contacts.noOption" />}
-        </span>
+        <span className="isoNoResultMsg">No role</span>
       )}
     </ContactListWrapper>
   );

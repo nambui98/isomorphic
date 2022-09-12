@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { palette } from 'styled-theme';
-import bgImage from '@iso/assets/images/image5.jpg';
-import WithDirection from '@iso/lib/helpers/rtl';
+import styled from "styled-components";
+import { palette } from "styled-theme";
+import bgImage from "@iso/assets/images/image5.jpg";
+import WithDirection from "@iso/lib/helpers/rtl";
 
 const ResetPasswordStyleWrapper = styled.div`
   width: 100%;
@@ -11,11 +11,13 @@ const ResetPasswordStyleWrapper = styled.div`
   justify-content: flex-end;
   align-items: center;
   position: relative;
-  background: url(${bgImage}) no-repeat center center;
+  background: url(https://media-exp1.licdn.com/dms/image/C4E1BAQGnT-jhskVWnw/company-background_10000/0/1638984455187?e=1663520400&v=beta&t=fnJa5q5GmPsBYwFdiR04BTjo0jYlJ7ZQHIIGbmtVcZs) no-repeat
+    center center;
   background-size: cover;
+  // object-fit: fill;
 
   &:before {
-    content: '';
+    content: "";
     width: 100%;
     height: auto;
     display: flex;
@@ -23,8 +25,8 @@ const ResetPasswordStyleWrapper = styled.div`
     position: absolute;
     z-index: 1;
     top: 0;
-    left: ${props => (props['data-rtl'] === 'rtl' ? 'inherit' : '0')};
-    right: ${props => (props['data-rtl'] === 'rtl' ? '0' : 'inherit')};
+    left: ${(props) => (props["data-rtl"] === "rtl" ? "inherit" : "0")};
+    right: ${(props) => (props["data-rtl"] === "rtl" ? "0" : "inherit")};
   }
 
   .isoFormContentWrapper {
@@ -59,7 +61,7 @@ const ResetPasswordStyleWrapper = styled.div`
         font-weight: 300;
         line-height: 1;
         text-transform: uppercase;
-        color: ${palette('secondary', 2)};
+        color: ${palette("secondary", 2)};
       }
     }
 
@@ -75,7 +77,7 @@ const ResetPasswordStyleWrapper = styled.div`
         font-weight: 500;
         line-height: 1.2;
         margin: 0 0 7px;
-        color: ${palette('text', 0)};
+        color: ${palette("text", 0)};
       }
 
       p {
@@ -83,7 +85,7 @@ const ResetPasswordStyleWrapper = styled.div`
         font-weight: 400;
         line-height: 1.2;
         margin: 0;
-        color: ${palette('text', 2)};
+        color: ${palette("text", 2)};
       }
     }
 
@@ -102,18 +104,18 @@ const ResetPasswordStyleWrapper = styled.div`
 
         input {
           &::-webkit-input-placeholder {
-            color: ${palette('grayscale', 0)};
+            color: ${palette("grayscale", 0)};
           }
 
           &:-moz-placeholder {
-            color: ${palette('grayscale', 0)};
+            color: ${palette("grayscale", 0)};
           }
 
           &::-moz-placeholder {
-            color: ${palette('grayscale', 0)};
+            color: ${palette("grayscale", 0)};
           }
           &:-ms-input-placeholder {
-            color: ${palette('grayscale', 0)};
+            color: ${palette("grayscale", 0)};
           }
         }
 

@@ -24,6 +24,27 @@ const routes = [
     path: "In-AppMessaging",
     component: lazy(() => import("@iso/containers/PushNotification")),
   },
+  {
+    path: "listmessage",
+    component: lazy(() => import("@iso/containers/ListMessage")),
+  },
+  {
+    path: "update",
+    component: lazy(() => import("@iso/containers/UpdateNoti/UpdateNoti")),
+  },
+  {
+    path: "role",
+    component: lazy(() => import("@iso/containers/Role/Role")),
+  },
+  {
+    path: "account",
+    component: lazy(() => import("@iso/containers/Account/Account")),
+  },
+  {
+    path: "changePassword",
+    component: lazy(() => import("@iso/containers/Pages/ResetPassword/ResetPassword")),
+  },
+
   // {
   //   path: "addAccount",
   //   component: lazy(() => import("@iso/containers/Pages/AddAccount/AddAccount")),

@@ -42,7 +42,8 @@ export default function () {
         <div className="isoFormContent">
           <div className="isoLogoWrapper">
             <Link to="/dashboard">
-              <IntlMessages id="BEFITTER" />
+              {/* <IntlMessages id="BEFITTER" /> */}
+              BEFITTER
             </Link>
           </div>
 

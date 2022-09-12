@@ -1,5 +1,24 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
+// import { Form, FastField, Formik } from "formik";
+import { InputSearch, InputGroup, Textarea } from "@iso/components/uielements/input";
+import { Col, Row, Typography, Input } from "antd";
+import Box from "@iso/components/utility/box";
+import ContentHolder from "@iso/components/utility/contentHolder";
+// import { AntInput } from "@iso/components/ScrumBoard/AntFields";
 
-export function Additional() {
-  return <div>Additional</div>;
+import { Form, FastField, Formik, useFormikContext } from "formik";
+import { AntInput, AntTextArea, AntSelect, AntDatePicker } from "@iso/components/ScrumBoard/AntFields";
+
+const { Title, Text } = Typography;
+const { TextArea } = Input;
+
+export function Additional({ currentStep }) {
+  const { values } = useFormikContext();
+
+  return (
+    <div style={{ display: "flex", alignItems: "end" }}>
+      <FastField component={AntInput} defaultValue={values.time} name="time" type="number" placeholder="time" size="large" tasklabel={<Text>EXPIRES</Text>} />
+      <FastField component={AntSelect} defaultValue={values.expires} selectOptions={values.selectOptionsExpires} name="expires" placeholder="Expires" size="large" />
+    </div>
+  );
 }

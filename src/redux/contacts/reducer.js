@@ -1,5 +1,5 @@
-import fakeData from './data';
-import contactActions from './actions';
+import fakeData from "./data";
+import contactActions from "./actions";
 
 const contacts = new fakeData(10).getAll();
 
@@ -7,6 +7,7 @@ const initState = {
   contacts,
   selectedId: contacts[0].id,
   editView: false,
+  addRole: false,
 };
 
 export default function contactReducer(state = initState, action) {
@@ -16,6 +17,7 @@ export default function contactReducer(state = initState, action) {
         ...state,
         selectedId: action.id,
         editView: false,
+        addRole: false,
       };
     case contactActions.ADD_CONTACT:
       return {
@@ -23,6 +25,7 @@ export default function contactReducer(state = initState, action) {
         contacts: action.contacts,
         selectedId: action.selectedId,
         editView: true,
+        addRole: true,
       };
     case contactActions.EDIT_CONTACT:
       return {
@@ -36,6 +39,7 @@ export default function contactReducer(state = initState, action) {
         selectedId: action.selectedId,
       };
     case contactActions.EDIT_VIEW:
+      console.log("kadshfhewuqf", action);
       return {
         ...state,
         editView: action.view,

@@ -20,7 +20,7 @@ export function Noti({ currentStep }) {
   console.log("sadfhudsahf", { values, currentStep });
 
   return (
-    <div>
+    <div style={{ width: "99%" }}>
       <FastField
         component={AntInput}
         defaultValue={values.title}
@@ -49,7 +49,7 @@ export function Noti({ currentStep }) {
         tasklabel={<Text>Content (*)</Text>}
       />
 
-      <FastField component={Attachment} name="image" defaultValue={values.image} />
+      <FastField component={AntInput} defaultValue={values.image} name="image" type="text" placeholder="url" size="large" tasklabel={<Text>Image</Text>} />
 
       <FastField
         component={AntInput}

@@ -3,7 +3,19 @@ import { INIT_STATE } from "../common";
 
 const initState = INIT_STATE;
 
-export default function accountReducer(state = initState, action) {
+function initStateEdit(edit) {
+  const initState = { disabledView: false, resetPasswordView: false, changeRoleView: false, activeView: false };
+  if (!edit) return initState;
+
+  console.log("asdjfuewhqr", initState[edit]);
+
+  return { ...initState, [edit]: true };
+}
+
+export default function accountReducer(
+  state = { ...initState, listAccount: [], idAccount: null, addAccount: false, editView: false, disabledView: false, resetPasswordView: false, changeRoleView: false, activeView: false },
+  action
+) {
   switch (action.type) {
     case actions.ADD_ACCOUNT_SUCCESS:
       return {
@@ -25,6 +37,57 @@ export default function accountReducer(state = initState, action) {
         isLoading: true,
         error: null,
         success: false,
+      };
+    case actions.GET_LIST_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+        success: false,
+        listAccount: action.payload?.data.accounts,
+      };
+    case actions.CHANGE_ID_ACCOUNT:
+      return {
+        ...state,
+        idAccount: action.payload,
+      };
+    case actions.ADD_ACCOUNT_ACTION:
+      return {
+        ...state,
+        addAccount: true,
+      };
+    case actions.CHANGE_ACCOUNT:
+      return {
+        ...state,
+        addAccount: false,
+        editView: false,
+        ...initStateEdit(""),
+      };
+    case actions.CHANGE_VIEW:
+      return {
+        ...state,
+        editView: action.payload,
+        activeView: true,
+      };
+    case actions.DISABLE_VIEW:
+      return {
+        ...state,
+        ...initStateEdit("disabledView"),
+      };
+    case actions.RESET_PASSWORD_VIEW:
+      return {
+        ...state,
+        ...initStateEdit("resetPasswordView"),
+      };
+    case actions.CHANGE_ROLE:
+      return {
+        ...state,
+        ...initStateEdit("changeRoleView"),
+      };
+    case actions.ACTIVE_VIEW:
+      return {
+        ...state,
+        ...initStateEdit("activeView"),
       };
     default:
       return state;

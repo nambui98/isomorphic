@@ -1,9 +1,7 @@
 export const otherAttributes = [
-  { title: 'Mobile', value: 'mobile', type: 'phoneNumber' },
-  { title: 'Home', value: 'home', type: 'phoneNumber' },
-  { title: 'Company', value: 'company', type: 'company' },
-  { title: 'Work', value: 'work', type: 'phoneNumber' },
-  { title: 'Notes', value: 'note', type: 'paragraph' },
+  { title: "Id", value: "id", type: "phoneNumber" },
+  { title: "Role Key", value: "roleKey", type: "phoneNumber" },
+  { title: "Role Name", value: "roleName", type: "company" },
 ];
 
 const contactList = JSON.parse(
@@ -143,13 +141,7 @@ export default class fakeData {
         this.getObjectAt(i);
       }
     }
-    return this.datas
-      .slice()
-      .sort(
-        (contact1, contact2) =>
-          `${contact1.firstName}${contact1.LastName}`.toUpperCase() >
-          `${contact2.firstName}${contact2.LastName}`.toUpperCase()
-      );
+    return this.datas.slice().sort((contact1, contact2) => `${contact1.firstName}${contact1.LastName}`.toUpperCase() > `${contact2.firstName}${contact2.LastName}`.toUpperCase());
   }
 
   getSize() {
