@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import contactActions from "@iso/redux/contacts/actions";
 import { CheckOutlined, EditOutlined } from "@ant-design/icons";
@@ -20,12 +20,24 @@ const { changeContact, addContact, editContact, deleteContact, viewChange } = co
 const { Content } = Layout;
 export default function Contacts({ setTxtSearch, textSearch }) {
   const { editView, contacts, addRole } = useSelector((state) => state.Contacts);
-  const { listRole, selectedId } = useSelector((state) => state.Role);
+  const { listRole, selectedId, statusAddRole, statusEditRole } = useSelector((state) => state.Role);
   const dispatch = useDispatch();
   const [nameRole, setRoleName] = useState("");
   const [keyRole, setKeyRole] = useState("");
 
   console.log("dsahfueiwqfhas", addRole);
+
+  useEffect(() => {
+    (statusAddRole || statusEditRole) &&
+      dispatch({
+        type: actions.GET_ALL_ROLE,
+        payload: {
+          txtSearch: "",
+          limit: 20,
+          page: 1,
+        },
+      });
+  }, [statusAddRole, statusEditRole]);
 
   const selectedContact = selectedId ? listRole.filter((contact) => contact.id === selectedId)[0] : null;
 
@@ -42,20 +54,11 @@ export default function Contacts({ setTxtSearch, textSearch }) {
             roleName: nameRole,
           })
         );
-
-        dispatch({
-          type: actions.GET_ALL_ROLE,
-          payload: {
-            txtSearch: "",
-            limit: 20,
-            page: 1,
-          },
-        });
-
-        setTxtSearch("");
       } else {
         dispatch(actions.editRole(selectedContact));
       }
+
+      setTxtSearch("");
     }
   };
 

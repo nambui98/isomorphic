@@ -18,7 +18,7 @@ export const columnNoti = [
   {
     title: "Content",
     key: "content",
-    width: "1%",
+    width: "20%",
     render: (object) => renderCell(object, "TextCell", "content"),
   },
   {

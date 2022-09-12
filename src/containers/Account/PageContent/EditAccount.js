@@ -88,15 +88,15 @@ export default function ({ contact, otherAttributes, editContact, setRoleId }) {
         </div>
         <div className="isoContactInfoWrapper">{renderInfo()}</div>
       </ContactCardWrapper>
-      <div style={{ padding: 30, marginTop: 60 }}>
+      <div style={{ padding: 30, marginTop: 60, textAlign: "center" }}>
         <Button onClick={() => dispatch({ type: actions.ACTIVE_VIEW })} type={activeView ? "primary" : "default"}>
           Active
         </Button>
-        <Button type={disabledView ? "primary" : "default"} onClick={() => dispatch({ type: actions.DISABLE_VIEW })}>
+        <Button style={{ margin: "0 10px" }} type={disabledView ? "primary" : "default"} onClick={() => dispatch({ type: actions.DISABLE_VIEW })}>
           Disabled
         </Button>
-        <Button type={resetPasswordView ? "primary" : "default"} onClick={() => dispatch({ type: actions.RESET_PASSWORD_VIEW })}>
-          Reset Password
+        <Button style={{ marginRight: "10px" }} type={resetPasswordView ? "primary" : "default"} onClick={() => dispatch({ type: actions.RESET_PASSWORD_VIEW })}>
+          Reset Pw
         </Button>
         <Button type={changeRoleView ? "primary" : "default"} onClick={() => dispatch({ type: actions.CHANGE_ROLE })}>
           Change Role

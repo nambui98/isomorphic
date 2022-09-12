@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import contactActions from "@iso/redux/contacts/actions";
 import { CheckOutlined, EditOutlined } from "@ant-design/icons";
@@ -22,15 +22,18 @@ const { Content } = Layout;
 export default function Account() {
   const { contacts, addRole } = useSelector((state) => state.Contacts);
   const { listRole, selectedId } = useSelector((state) => state.Role);
-  const { listAccount, idAccount, addAccount, editView, disabledView, resetPasswordView, changeRoleView, activeView } = useSelector((state) => state.Account);
+  const { listAccount, idAccount, success, statusChangeRole, statusDisableAccount, addAccount, editView, activeAccountRequest, disabledView, resetPasswordView, changeRoleView, activeView } =
+    useSelector((state) => state.Account);
 
   const dispatch = useDispatch();
   const [email, setNewEmail] = useState("");
   const [account, setNewAccount] = useState("");
   const [role, setNewRole] = useState("");
   const [textSearch, setTxtSearch] = useState("");
+  const [toggle, setToggle] = useState(false);
 
-  console.log("kadfuihfa", contacts);
+  console.log("kadfuihfa", activeAccountRequest);
+  console.log("asdfushdafas", listAccount);
 
   useEffect(() => {
     dispatch({
@@ -42,6 +45,18 @@ export default function Account() {
       },
     });
   }, []);
+
+  useEffect(() => {
+    (activeAccountRequest || statusDisableAccount || statusChangeRole || success) &&
+      dispatch({
+        type: actions.GET_LIST_ACCOUNT,
+        payload: {
+          txtSearch: "",
+          limit: 20,
+          page: 1,
+        },
+      });
+  }, [activeAccountRequest, statusDisableAccount, statusChangeRole, success]);
 
   useEffect(() => {
     if (listRole.length > 0) return listRole;
@@ -58,7 +73,9 @@ export default function Account() {
 
   console.log("dsahfueiwqfhas", addRole);
 
-  const selectedAccount = idAccount ? listAccount.filter((contact) => contact.id === idAccount)[0] : null;
+  const selectedAccount = useMemo(() => {
+    return idAccount ? listAccount.filter((contact) => contact.id === idAccount)[0] : null;
+  }, [idAccount, listAccount]);
   const [roleId, setRoleId] = useState("");
   console.log("kdasuiyerq", selectedAccount);
 
@@ -104,15 +121,6 @@ export default function Account() {
           );
         }
       }
-      dispatch({
-        type: actions.GET_LIST_ACCOUNT,
-        payload: {
-          txtSearch: "",
-          limit: 20,
-          page: 1,
-        },
-      });
-
       setTxtSearch("");
     }
   };
