@@ -5,8 +5,8 @@ import WithDirection from "@iso/lib/helpers/rtl";
 
 const ResetPasswordStyleWrapper = styled.div`
   width: 100%;
-  min-height: 100vh;
-  height: 100vh;
+  min-height: 100%;
+  height: 100%;
   display: flex;
   justify-content: flex-end;
   align-items: center;

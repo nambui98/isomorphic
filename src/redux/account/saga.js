@@ -21,7 +21,6 @@ function* addAccountRequest() {
 function* handleGetListAccount(action) {
   return yield createBlankAsyncSagaRequest({
     api: accountRequest.getListAccount,
-    // success: [(res) => openNotificationWithIcon("success", "Success", "Add Account Success")],
     failure: [(res) => openNotificationWithIcon("error", "Error", "Errors: get list account errors")],
   })(action);
 }
@@ -79,5 +78,13 @@ function* changeRoleAccountRequest() {
 }
 
 export default function* accountSaga() {
-  yield all([fork(addAccountRequest), fork(getListAccountRequest), fork(activeAccountRequest), fork(disableAccountRequest), fork(resetAccountRequest), fork(changeRoleAccountRequest)]);
+  yield all([
+    fork(addAccountRequest),
+    fork(getListAccountRequest),
+    fork(activeAccountRequest),
+    fork(disableAccountRequest),
+    fork(resetAccountRequest),
+    fork(changeRoleAccountRequest),
+    // fork(activeAccountRequestSuccess),
+  ]);
 }
