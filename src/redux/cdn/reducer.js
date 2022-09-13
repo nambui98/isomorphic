@@ -1,6 +1,6 @@
 import actions from "./actions";
 
-const initState = { listCdn: {}, versionId: null, contentVersion: null, editView: false, addCdn: false, statusAddCdn: false };
+const initState = { listCdn: {}, loading: false, loadingViewContent: false, versionId: null, contentVersion: null, editView: false, addCdn: false, statusAddCdn: false };
 
 export default function cdnReducer(state = initState, action) {
   console.log("dsaueywuqruiweyrwqe", action);
@@ -9,6 +9,17 @@ export default function cdnReducer(state = initState, action) {
       return {
         ...state,
         listCdn: action.payload.data,
+        loading: false,
+      };
+    case actions.GET_LIST_CDN_PENDING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actions.GET_LIST_CDN_ERROR:
+      return {
+        ...state,
+        loading: false,
       };
     case actions.CHANGE_VERSION_ID:
       return {
@@ -21,6 +32,17 @@ export default function cdnReducer(state = initState, action) {
         contentVersion: action.payload.data,
         editView: false,
         addCdn: false,
+        loadingViewContent: false,
+      };
+    case actions.VIEW_VERSION_CONTENT_PENDING:
+      return {
+        ...state,
+        loadingViewContent: true,
+      };
+    case actions.VIEW_VERSION_CONTENT_ERROR:
+      return {
+        ...state,
+        loadingViewContent: false,
       };
     case actions.VIEW_CHANGE:
       return {

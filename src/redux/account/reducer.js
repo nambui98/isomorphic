@@ -53,10 +53,20 @@ export default function accountReducer(
     case actions.GET_LIST_ACCOUNT_SUCCESS:
       return {
         ...state,
-        isLoading: true,
+        isLoading: false,
         error: null,
         success: false,
         listAccount: action.payload?.data.accounts,
+      };
+    case actions.GET_LIST_ACCOUNT_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case actions.GET_LIST_ACCOUNT_ERROR:
+      return {
+        ...state,
+        isLoading: false,
       };
     case actions.ACTIVE_ACCOUNT_SUCCESS:
       return {
@@ -97,6 +107,7 @@ export default function accountReducer(
       return {
         ...state,
         addAccount: true,
+        editView: true,
       };
     case actions.CHANGE_ACCOUNT:
       return {

@@ -8,21 +8,20 @@ import AccountList from "./PageContent/AccountList";
 import SingleContactView from "@iso/components/Contacts/SingleView";
 import EditAccountView from "./PageContent/EditAccount";
 import AddAccountView from "./PageContent/AddAccount";
-import DeleteButton from "@iso/components/Contacts/DeleteButton";
 import { otherAttributes } from "./const";
 import { ContactsWrapper } from "./Account.styles";
 import Scrollbar from "@iso/components/utility/customScrollBar";
 import actions from "@iso/redux/account/actions";
 import actionRole from "@iso/redux/role/actions";
 import { useEffect } from "react";
+import LazyLoadingSpin from "@iso/components/LazyLoadingSpin";
 
-const { changeContact, addContact, editContact, deleteContact, viewChange } = contactActions;
+const { editContact, deleteContact } = contactActions;
 
 const { Content } = Layout;
 export default function Account() {
-  const { contacts, addRole } = useSelector((state) => state.Contacts);
-  const { listRole, selectedId } = useSelector((state) => state.Role);
-  const { listAccount, idAccount, success, statusChangeRole, statusDisableAccount, addAccount, editView, activeAccountRequest, disabledView, resetPasswordView, changeRoleView, activeView } =
+  const { listRole } = useSelector((state) => state.Role);
+  const { listAccount, isLoading, idAccount, statusChangeRole, statusDisableAccount, addAccount, editView, activeAccountRequest, disabledView, resetPasswordView, changeRoleView, activeView } =
     useSelector((state) => state.Account);
 
   const dispatch = useDispatch();
@@ -30,10 +29,6 @@ export default function Account() {
   const [account, setNewAccount] = useState("");
   const [role, setNewRole] = useState("");
   const [textSearch, setTxtSearch] = useState("");
-  const [toggle, setToggle] = useState(false);
-
-  console.log("kadfuihfa", activeAccountRequest);
-  console.log("asdfushdafas", listAccount);
 
   useEffect(() => {
     dispatch({
@@ -47,7 +42,7 @@ export default function Account() {
   }, []);
 
   useEffect(() => {
-    (activeAccountRequest || statusDisableAccount || statusChangeRole || success) &&
+    (activeAccountRequest || statusDisableAccount || statusChangeRole) &&
       dispatch({
         type: actions.GET_LIST_ACCOUNT,
         payload: {
@@ -56,7 +51,7 @@ export default function Account() {
           page: 1,
         },
       });
-  }, [activeAccountRequest, statusDisableAccount, statusChangeRole, success]);
+  }, [activeAccountRequest, statusDisableAccount, statusChangeRole]);
 
   useEffect(() => {
     if (listRole.length > 0) return listRole;
@@ -71,13 +66,10 @@ export default function Account() {
     });
   }, [dispatch, listRole]);
 
-  console.log("dsahfueiwqfhas", addRole);
-
   const selectedAccount = useMemo(() => {
     return idAccount ? listAccount.filter((contact) => contact.id === idAccount)[0] : null;
   }, [idAccount, listAccount]);
   const [roleId, setRoleId] = useState("");
-  console.log("kdasuiyerq", selectedAccount);
 
   const onVIewChange = () => {
     if (!editView) {
@@ -128,17 +120,19 @@ export default function Account() {
   return (
     <ContactsWrapper className="isomorphicContacts" style={{ background: "none" }}>
       <div className="isoContactListBar">
-        <AccountList
-          textSearch={textSearch}
-          setTxtSearch={setTxtSearch}
-          data={listAccount}
-          selectedId={idAccount}
-          changeContact={(id) => {
-            dispatch(actions.changeIdAccount(id));
-            dispatch({ type: actions.CHANGE_ACCOUNT });
-          }}
-          deleteContact={(e) => dispatch(deleteContact(e))}
-        />
+        <LazyLoadingSpin loading={isLoading}>
+          <AccountList
+            textSearch={textSearch}
+            setTxtSearch={setTxtSearch}
+            data={listAccount}
+            selectedId={idAccount}
+            changeContact={(id) => {
+              dispatch(actions.changeIdAccount(id));
+              dispatch({ type: actions.CHANGE_ACCOUNT });
+            }}
+            deleteContact={(e) => dispatch(deleteContact(e))}
+          />
+        </LazyLoadingSpin>
       </div>
       <Layout className="isoContactBoxWrapper">
         <Content className="isoContactBox">
@@ -147,7 +141,6 @@ export default function Account() {
               {editView || addAccount ? <CheckOutlined /> : selectedAccount ? <EditOutlined /> : ""}
             </Button>
 
-            {/* <DeleteButton deleteContact={(id) => dispatch(deleteContact(id))} contact={selectedContact} /> */}
             <Button type="primary" onClick={() => dispatch({ type: actions.ADD_ACCOUNT_ACTION })} className="isoAddContactBtn">
               Add Account
             </Button>

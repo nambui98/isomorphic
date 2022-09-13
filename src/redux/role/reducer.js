@@ -14,7 +14,14 @@ export default function roleReducer(state = initState, action) {
       };
     case actions.GET_ALL_ROLE_ERROR:
       return {
-        ...initState,
+        ...state,
+        isLoading: false,
+        errors: action.payload?.data?.meta?.error_message,
+      };
+    case actions.GET_ALL_ROLE_PENDING:
+      return {
+        ...state,
+        isLoading: true,
       };
     case actions.CHANGE_ROLE_ID:
       return {

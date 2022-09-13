@@ -14,13 +14,14 @@ import IntlMessages from "@iso/components/utility/intlMessages";
 import { ContactsWrapper } from "./Contacts.styles";
 import Scrollbar from "@iso/components/utility/customScrollBar";
 import actions from "@iso/redux/role/actions";
+import LazyLoadingSpin from "@iso/components/LazyLoadingSpin";
 
 const { changeContact, addContact, editContact, deleteContact, viewChange } = contactActions;
 
 const { Content } = Layout;
 export default function Contacts({ setTxtSearch, textSearch }) {
   const { editView, contacts, addRole } = useSelector((state) => state.Contacts);
-  const { listRole, selectedId, statusAddRole, statusEditRole } = useSelector((state) => state.Role);
+  const { listRole, selectedId, statusAddRole, statusEditRole, isLoading } = useSelector((state) => state.Role);
   const dispatch = useDispatch();
   const [nameRole, setRoleName] = useState("");
   const [keyRole, setKeyRole] = useState("");
@@ -65,17 +66,19 @@ export default function Contacts({ setTxtSearch, textSearch }) {
   return (
     <ContactsWrapper className="isomorphicContacts" style={{ background: "none" }}>
       <div className="isoContactListBar">
-        <ContactList
-          textSearch={textSearch}
-          setTxtSearch={setTxtSearch}
-          data={listRole}
-          selectedId={selectedId}
-          changeContact={(id) => {
-            dispatch(actions.changeIdRole(id));
-            dispatch(changeContact());
-          }}
-          deleteContact={(e) => dispatch(deleteContact(e))}
-        />
+        <LazyLoadingSpin loading={isLoading}>
+          <ContactList
+            textSearch={textSearch}
+            setTxtSearch={setTxtSearch}
+            data={listRole}
+            selectedId={selectedId}
+            changeContact={(id) => {
+              dispatch(actions.changeIdRole(id));
+              dispatch(changeContact());
+            }}
+            deleteContact={(e) => dispatch(deleteContact(e))}
+          />
+        </LazyLoadingSpin>
       </div>
       <Layout className="isoContactBoxWrapper">
         <Content className="isoContactBox">

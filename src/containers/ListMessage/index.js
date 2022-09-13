@@ -1,6 +1,6 @@
 import React, { useEffect, useState, lazy } from "react";
 import useWindowSize from "@iso/lib/hooks/useWindowSize";
-
+import LazyLoadingSpin from "@iso/components/LazyLoadingSpin";
 import { Pagination } from "antd";
 
 // react-redux
@@ -19,7 +19,7 @@ export default function ListMessage() {
   const { width } = useWindowSize();
   const dispatch = useDispatch();
 
-  const { listNoti, totalNoti } = useSelector((state) => state.Noti);
+  const { listNoti, totalNoti, isLoading } = useSelector((state) => state.Noti);
 
   console.log("duwqeourwq", width);
 
@@ -40,7 +40,7 @@ export default function ListMessage() {
   return (
     <LayoutContentWrapper>
       <layoutContent style={{ width: "100%" }}>
-        {width > 400 ? <ListTable dataSource={listNoti} /> : <CartList dataSource={listNoti} />}
+        <LazyLoadingSpin loading={isLoading}>{width > 400 ? <ListTable dataSource={listNoti} /> : <CartList dataSource={listNoti} />}</LazyLoadingSpin>
         <Pagination
           responsive={width <= 400}
           style={{ textAlign: "center", margin: "10px 0" }}

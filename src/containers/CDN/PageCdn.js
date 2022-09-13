@@ -12,11 +12,13 @@ import { ContactsWrapper } from "./Cdn.styles";
 import Scrollbar from "@iso/components/utility/customScrollBar";
 import actions from "@iso/redux/cdn/actions";
 import actionRole from "@iso/redux/role/actions";
+import notification from "@iso/components/Notification";
+import LazyLoadingSpin from "@iso/components/LazyLoadingSpin";
 
 const { Content } = Layout;
 export default function Account() {
   const { listRole } = useSelector((state) => state.Role);
-  const { listCdn, versionId, contentVersion, editView, addCdn, statusAddCdn } = useSelector((state) => state.Cdn);
+  const { listCdn, loading, versionId, contentVersion, loadingViewContent, editView, addCdn, statusAddCdn } = useSelector((state) => state.Cdn);
 
   const dispatch = useDispatch();
   const [textSearch, setTxtSearch] = useState("");
@@ -25,6 +27,8 @@ export default function Account() {
   const [valueAddCdn, setValueAddCdn] = useState("");
   const [versionAdd, setVersionAdd] = useState("");
   const [platformAdd, setPlatformAddVersion] = useState("");
+
+  console.log("asdkfjkasdhfa", loading);
 
   useEffect(() => {
     dispatch({
@@ -60,11 +64,15 @@ export default function Account() {
     if (!editView) {
       dispatch(actions.viewChange(!editView));
     } else {
-      if (addCdn) {
-        if (!valueAddCdn || !platformAdd || !versionAdd) return;
-        dispatch(actions.editVersion({ ...JSON.parse(valueAddCdn), version: versionAdd, platform: platformAdd }));
-      } else {
-        dispatch(actions.editVersion({ ...JSON.parse(valueTextarea), version: versionId, platform }));
+      try {
+        if (addCdn) {
+          if (!valueAddCdn || !platformAdd || !versionAdd) return notification("error", "Invalid value", "");
+          dispatch(actions.editVersion({ ...JSON.parse(valueAddCdn), version: versionAdd, platform: platformAdd }));
+        } else {
+          dispatch(actions.editVersion({ ...JSON.parse(valueTextarea), version: versionId, platform }));
+        }
+      } catch (e) {
+        notification("error", e.toString(), "");
       }
     }
   };
@@ -72,17 +80,19 @@ export default function Account() {
   return (
     <ContactsWrapper className="isomorphicContacts" style={{ background: "none" }}>
       <div className="isoContactListBar">
-        <CdnList
-          textSearch={textSearch}
-          setTxtSearch={setTxtSearch}
-          data={listCdn}
-          selectedId={versionId}
-          changeContact={(id, platform) => {
-            dispatch(actions.changeVersionId(id));
-            setPlatform(platform);
-            dispatch(actions.viewVersionContent({ version: id, platform }));
-          }}
-        />
+        <LazyLoadingSpin loading={loading}>
+          <CdnList
+            textSearch={textSearch}
+            setTxtSearch={setTxtSearch}
+            data={listCdn}
+            selectedId={versionId}
+            changeContact={(id, platform) => {
+              dispatch(actions.changeVersionId(id));
+              setPlatform(platform);
+              dispatch(actions.viewVersionContent({ version: id, platform }));
+            }}
+          />
+        </LazyLoadingSpin>
       </div>
       <Layout className="isoContactBoxWrapper">
         <Content className="isoContactBox">
@@ -98,7 +108,7 @@ export default function Account() {
 
           <Scrollbar className="contactBoxScrollbar">
             {addCdn ? (
-              <AddCdnView handleChangeTextarea={handleChangeTextarea} setVersionAdd={setVersionAdd} setPlatformAddVersion={setPlatformAddVersion} />
+              <AddCdnView handleChangeTextarea={handleChangeTextarea} valueAddCdn={valueAddCdn} setVersionAdd={setVersionAdd} setPlatformAddVersion={setPlatformAddVersion} />
             ) : editView ? (
               <EditCdnView
                 contact={contentVersion}
@@ -108,7 +118,9 @@ export default function Account() {
                 otherAttributes={otherAttributes}
               />
             ) : (
-              <SingleContactView contact={contentVersion} />
+              <LazyLoadingSpin loading={loadingViewContent}>
+                <SingleContactView contact={contentVersion} />
+              </LazyLoadingSpin>
             )}
           </Scrollbar>
         </Content>
