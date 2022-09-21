@@ -3,7 +3,7 @@ import { ContactCardWrapper } from "@iso/components/Contacts/ContactCard.style";
 import JSONFormatter from "json-formatter-js";
 import usePrevious from "@iso/lib/hooks/usePrevious";
 
-export default function ({ contact }) {
+export default function ({ contact, id }) {
   if (!contact) return <h3 style={{ textAlign: "center" }}>No data</h3>;
 
   const refNodeTextarea = useRef();
@@ -23,14 +23,11 @@ export default function ({ contact }) {
   }, [contact, refNodeTextarea]);
 
   return (
-    <ContactCardWrapper className="isoContactCard">
-      <div className="isoContactCardHead">
-        <div className="isoPersonImage">
-          <img alt="#" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThpUgC7dkHYV0KD26Ujw5u83EI43dOZqvABg&usqp=CAU" />
-        </div>
-        <h1 className="isoPersonName">{contact?.content?.title ? contact.content.title : "No data"}</h1>
+    <ContactCardWrapper className="isoContactCard" style={{ flexDirection: "column" }}>
+      <div className="isoContactCardHead" style={{ width: "100%" }}>
+        <h1 className="isoPersonName">{id ? id : "No data"}</h1>
       </div>
-      <div ref={refNodeTextarea} className="isoContactInfoWrapper"></div>
+      <div ref={refNodeTextarea} style={{ fontSize: "16px", padding: "30px" }} className="isoContactInfoWrapper"></div>
     </ContactCardWrapper>
   );
 }

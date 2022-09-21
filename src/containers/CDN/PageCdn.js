@@ -22,13 +22,14 @@ export default function Account() {
 
   const dispatch = useDispatch();
   const [textSearch, setTxtSearch] = useState("");
-  const [valueTextarea, setValueTextarea] = useState("");
+  const [valueTextarea, setValueTextarea] = useState(null);
   const [platform, setPlatform] = useState("");
   const [valueAddCdn, setValueAddCdn] = useState("");
   const [versionAdd, setVersionAdd] = useState("");
   const [platformAdd, setPlatformAddVersion] = useState("");
+  const [id, setId] = useState("");
 
-  console.log("asdkfjkasdhfa", loading);
+  console.log("asdkfjkasdhfa", contentVersion);
 
   useEffect(() => {
     dispatch({
@@ -57,7 +58,7 @@ export default function Account() {
   }, [statusAddCdn]);
 
   const handleChangeTextarea = (value) => {
-    setValueAddCdn(value.target.value);
+    setValueAddCdn(value);
   };
 
   const onVIewChange = () => {
@@ -66,10 +67,14 @@ export default function Account() {
     } else {
       try {
         if (addCdn) {
+          console.log("ksdjfas", valueAddCdn);
           if (!valueAddCdn || !platformAdd || !versionAdd) return notification("error", "Invalid value", "");
-          dispatch(actions.editVersion({ ...JSON.parse(valueAddCdn), version: versionAdd, platform: platformAdd }));
+          dispatch(actions.editVersion({ content: { ...valueAddCdn }, version: versionAdd, platform: platformAdd }));
         } else {
-          dispatch(actions.editVersion({ ...JSON.parse(valueTextarea), version: versionId, platform }));
+          console.log("dsklfjksdafksajdf", valueTextarea);
+          if (valueTextarea) {
+            dispatch(actions.editVersion({ content: { ...valueTextarea }, version: versionId, platform }));
+          }
         }
       } catch (e) {
         notification("error", e.toString(), "");
@@ -89,6 +94,7 @@ export default function Account() {
             changeContact={(id, platform) => {
               dispatch(actions.changeVersionId(id));
               setPlatform(platform);
+              setId(id);
               dispatch(actions.viewVersionContent({ version: id, platform }));
             }}
           />
@@ -110,16 +116,10 @@ export default function Account() {
             {addCdn ? (
               <AddCdnView handleChangeTextarea={handleChangeTextarea} valueAddCdn={valueAddCdn} setVersionAdd={setVersionAdd} setPlatformAddVersion={setPlatformAddVersion} />
             ) : editView ? (
-              <EditCdnView
-                contact={contentVersion}
-                editContact={(contact) => {
-                  setValueTextarea(contact.target.value);
-                }}
-                otherAttributes={otherAttributes}
-              />
+              <EditCdnView id={id} contact={contentVersion} editContact={setValueTextarea} />
             ) : (
               <LazyLoadingSpin loading={loadingViewContent}>
-                <SingleContactView contact={contentVersion} />
+                <SingleContactView id={id} contact={contentVersion} />
               </LazyLoadingSpin>
             )}
           </Scrollbar>
