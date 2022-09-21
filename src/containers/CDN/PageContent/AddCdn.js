@@ -7,25 +7,10 @@ import notification from "@iso/components/Notification";
 import { JsonEditor as Editor } from "jsoneditor-react";
 import "jsoneditor-react/es/editor.min.css";
 import { Select, Button } from "antd";
-// jsoneditor-mode-tree
+
 const { Option } = Select;
 
 export default function ({ handleChangeTextarea, setVersionAdd, setPlatformAddVersion, valueAddCdn }) {
-  const refTextArea = useRef();
-  const [loading, setLoading] = useState(false);
-
-  const handleFormatTextarea = () => {
-    setLoading(true);
-    try {
-      let obj = JSON.parse(valueAddCdn);
-      refTextArea.current.value = JSON.stringify(obj, undefined, 4);
-    } catch (e) {
-      notification("error", e.toString(), "");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <ContactCardWrapper className="isoContactCard" style={{ flexDirection: "column" }}>
       <div className="isoContactCardHead" style={{ width: "100%", marginBottom: "20px" }}>
