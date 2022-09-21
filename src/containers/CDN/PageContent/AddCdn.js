@@ -4,9 +4,10 @@ import { PlusOutlined } from "@ant-design/icons";
 import Input, { Textarea } from "@iso/components/uielements/input";
 import { ContactCardWrapper } from "@iso/components/Contacts/ContactCard.style";
 import notification from "@iso/components/Notification";
-
+import { JsonEditor as Editor } from "jsoneditor-react";
+import "jsoneditor-react/es/editor.min.css";
 import { Select, Button } from "antd";
-
+// jsoneditor-mode-tree
 const { Option } = Select;
 
 export default function ({ handleChangeTextarea, setVersionAdd, setPlatformAddVersion, valueAddCdn }) {
@@ -26,8 +27,8 @@ export default function ({ handleChangeTextarea, setVersionAdd, setPlatformAddVe
   };
 
   return (
-    <ContactCardWrapper className="isoContactCard">
-      <div className="isoContactCardHead">
+    <ContactCardWrapper className="isoContactCard" style={{ flexDirection: "column" }}>
+      <div className="isoContactCardHead" style={{ width: "100%", marginBottom: "20px" }}>
         <h1 className="isoPersonName">ADD CDN</h1>
       </div>
       <div className="isoContactInfoWrapper">
@@ -43,13 +44,10 @@ export default function ({ handleChangeTextarea, setVersionAdd, setPlatformAddVe
           </Select>
         </div>
         <div className="isoContactInfoWrapper">
-          <p className="isoInfoLabel">Content</p>
-          <textarea rows={20} onChange={handleChangeTextarea} ref={refTextArea} />
-        </div>
-        <div style={{ marginTop: 10 }}>
-          <Button type="default" onClick={handleFormatTextarea} loading={loading}>
-            Format
-          </Button>
+          <p className="isoInfoLabel" style={{ color: "#323332", fontWeight: 500 }}>
+            Content
+          </p>
+          <Editor allowedModes={["tree", "code"]} value={{}} onChange={handleChangeTextarea} />
         </div>
       </div>
     </ContactCardWrapper>
