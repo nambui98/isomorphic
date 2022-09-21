@@ -62,15 +62,19 @@ export default function TabNotification() {
     });
   };
 
-  const handleSendNoti = (values) => {
-    console.log("sdkafhsdahfasdj", values);
-
-    if (!values.content.trim()) return openNotificationWithIcon("error", "Error", "invalid content");
+  const handleSendNoti = (values, errors) => {
+    if (!values.content.trim()) {
+      openNotificationWithIcon("error", "Error", "invalid content");
+      return setCurrentStep(0);
+    }
     dispatch(actions.sendNoti(transitionData(values)));
   };
 
   const handleSave = (value) => {
-    if (!value.content.trim()) return openNotificationWithIcon("error", "Error", "invalid content");
+    if (!value.content.trim()) {
+      openNotificationWithIcon("error", "Error", "invalid content");
+      return setCurrentStep(0);
+    }
     dispatch(actions.draftNoti({ ...transitionData(value), id: idSave }));
   };
 
@@ -97,14 +101,12 @@ export default function TabNotification() {
           console.log("ksjfksafa", values);
           return (
             <Form>
-              {/* <Carousel dots={false} beforeChange={beforeChangeCarousel} afterChange={afterChangeCarousel} ref={carouselRef}> */}
               <div style={{ height: "500px", minHeight: "500px" }}>
                 <Noti currentStep={currentStep} />
                 <Target currentStep={currentStep} formikRef={formikRef} />
                 <Scheduling currentStep={currentStep} />
                 <Additional currentStep={currentStep} />
               </div>
-              {/* </Carousel> */}
               <div className="isoInputWrapper isoLeftRightComponent" style={{ display: "flex", justifyContent: currentStep > 2 ? "center" : "end" }}>
                 <Button
                   // type="default"
@@ -124,7 +126,8 @@ export default function TabNotification() {
                 </Button>
                 <Button
                   type="default"
-                  onClick={() => handleSendNoti(values)}
+                  htmlType="submit"
+                  onClick={() => handleSendNoti(values, errors)}
                   disabled={currentStep !== 3}
                   style={{
                     display: currentStep !== 3 && "none",

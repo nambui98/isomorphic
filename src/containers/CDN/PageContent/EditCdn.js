@@ -20,11 +20,11 @@ export default function ({ contact, editContact, id }) {
     console.log("sadfsdf", values);
     editContact(values);
   };
-  // jsoneditor-mode-code
+
   return (
     <ContactCardWrapper className="isoContactCard" style={{ flexDirection: "column" }}>
       <div className="isoContactCardHead" style={{ marginBottom: "15px", width: "100%" }}>
-        <h1 className="isoPersonName">{id}</h1>
+        <h1 className="isoPersonName">{`Edit ${id}`}</h1>
       </div>
       <div className="isoContactInfoWrapper" ref={refNode}>
         <Editor allowedModes={["tree", "code"]} value={contact?.content} onChange={handleChangeEditor} />

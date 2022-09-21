@@ -1,8 +1,12 @@
 import Axios from "axios";
 import { AXIOS_CONFIGS } from "../../constants/api";
 
+const baseURLdev = "https://newdev.befitter.io/befadmin";
+const baseURLProduction = "https://api.befitter.io/admin/";
+const isDebug = false;
+const baseURL = isDebug ? baseURLdev : baseURLProduction;
 export const axiosClient = Axios.create({
-  baseURL: "https://newdev.befitter.io/befadmin/",
+  baseURL: baseURL,
   ...AXIOS_CONFIGS,
 });
 
