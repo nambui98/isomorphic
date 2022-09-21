@@ -1,18 +1,15 @@
 import { all, fork, takeLatest } from "redux-saga/effects";
 import { openNotificationWithIcon } from "@iso/containers/Feedback/Notification/Notification";
 import notiRequest from "../../service/noti";
+import { makeActionNotification } from "../common";
 
 import actions from "./actions";
 
 import { createBlankAsyncSagaRequest } from "../common";
 
 function* handleGetListNotifications(action) {
-  console.log("handleGetListNotifications", action);
-
   return yield createBlankAsyncSagaRequest({
     api: notiRequest.getListNotifications,
-    // success: [(res) => openNotificationWithIcon("success", "Success", "Add Account Success")],
-    // failure: [(res) => openNotificationWithIcon("error", "Error", "Errors: account is exist")],
   })(action);
 }
 
@@ -34,8 +31,8 @@ function* handleSaveNotification(action) {
   console.log("ioewhfuhsadf", action);
   return yield createBlankAsyncSagaRequest({
     api: notiRequest.saveNotification,
-    success: [(res) => openNotificationWithIcon("success", "Success", "Update Success")],
-    failure: [(res) => openNotificationWithIcon("error", "Error", res?.meta.error_message)],
+    success: [(res) => makeActionNotification({ status: "success", title: "Success", description: "Update Success" })],
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
   })(action);
 }
 
@@ -46,7 +43,8 @@ function* saveNotiRequest() {
 function* handleSendNotification(action) {
   return yield createBlankAsyncSagaRequest({
     api: notiRequest.sendNoti,
-    success: [(res) => openNotificationWithIcon("success", "Success", "Send Success")],
+    success: [() => makeActionNotification({ status: "success", title: "Success", description: "Send Success" })],
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
   })(action);
 }
 
@@ -57,7 +55,7 @@ function* sendNotiRequest() {
 function* handleDraftNotification(action) {
   return yield createBlankAsyncSagaRequest({
     api: notiRequest.saveNotification,
-    success: [(res) => openNotificationWithIcon("success", "Success", "Save Success")],
+    success: [(res) => makeActionNotification({ status: "success", title: "Success", description: "Save Success" })],
   })(action);
 }
 

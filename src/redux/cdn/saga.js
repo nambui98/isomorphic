@@ -4,8 +4,7 @@ import cdnRequest from "../../service/cdn";
 import { openNotificationWithIcon } from "@iso/containers/Feedback/Notification/Notification";
 import { getToken, clearToken } from "@iso/lib/helpers/utility";
 import actions from "./actions";
-
-import { createBlankAsyncSagaRequest } from "../common";
+import { makeActionNotification, createBlankAsyncSagaRequest } from "../common";
 
 const history = createBrowserHistory();
 
@@ -32,8 +31,8 @@ function* viewContentVersion() {
 function* handleEditViewVersion(action) {
   return yield createBlankAsyncSagaRequest({
     api: cdnRequest.editVersion,
-    success: [(res) => openNotificationWithIcon("success", "Success", "Success")],
-    failure: [(res) => openNotificationWithIcon("error", "Error", res.data?.meta.error_message)],
+    success: [() => makeActionNotification({ status: "success", title: "Success", description: "Edit version success" })],
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
   })(action);
 }
 

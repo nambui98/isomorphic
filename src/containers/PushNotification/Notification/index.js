@@ -24,6 +24,11 @@ const { Title, Text } = Typography;
 const { Step } = Steps;
 
 const transitionData = (values) => {
+  console.log("skadjfxzvjkdaf", values);
+  let convertSchedule;
+  if (values?.scheduled) {
+    convertSchedule = values.scheduled.format("YYYY-MM-DD HH:mm:ss");
+  }
   const newdata = {
     ...values,
     toEmail: values?.email.split(", "),
@@ -35,6 +40,8 @@ const transitionData = (values) => {
       },
     },
     os: values.device,
+    scheduled: convertSchedule,
+    content: values.content.trim(),
   };
 
   return _.omit(newdata, ["image", "email", "device", "expires", "time", "selectOptionsChannel", "selectOptionsDevice", "selectOptionsExpires", "selectOptionsNotifyType", "selectOptionsSegment"]);
@@ -48,80 +55,108 @@ export default function TabNotification() {
   const dispatch = useDispatch();
   const { idSave } = useSelector((state) => state.Noti);
 
-  console.log("sdoifieqwhfa", idSave);
-
   const handleClickNext = (e) => {
     e.preventDefault();
-    carouselRef.current.next();
     setCurrentStep((prev) => {
-      if (prev > 2) return 0;
       return (prev += 1);
     });
   };
 
-  const handleClickPrev = (e) => {
-    e.preventDefault();
-    carouselRef.current.prev();
-    setCurrentStep((prev) => {
-      if (prev < 1) return 3;
-      return (prev -= 1);
-    });
-  };
+  const handleSendNoti = (values) => {
+    console.log("sdkafhsdahfasdj", values);
 
-  const handleSubmitFormLogin = (values) => {
+    if (!values.content.trim()) return openNotificationWithIcon("error", "Error", "invalid content");
     dispatch(actions.sendNoti(transitionData(values)));
   };
 
-  const afterChangeCarousel = (currentSlide) => {
-    setLoading(false);
-  };
-  const beforeChangeCarousel = (from, to) => {
-    setLoading(true);
-  };
-
   const handleSave = (value) => {
-    if (!value.content) return openNotificationWithIcon("error", "Error", "invalid content");
-
+    if (!value.content.trim()) return openNotificationWithIcon("error", "Error", "invalid content");
     dispatch(actions.draftNoti({ ...transitionData(value), id: idSave }));
+  };
+
+  const handleValidateFormLogin = (propsField) => {
+    console.log("ksadjfsjdf", propsField);
+    const errors = {};
+    if (!propsField.content.trim()) {
+      errors.content = "Required";
+    }
+    return errors;
   };
 
   return (
     <NotiWrapper>
       <Steps current={currentStep}>
-        <Step title="Notification" />
-        <Step title="Target" />
-        <Step title="Scheduling" />
-        <Step title="Additional options" />
+        <Step title="Notification" onClick={() => setCurrentStep(0)} style={{ cursor: "pointer" }} />
+        <Step title="Target" onClick={() => setCurrentStep(1)} style={{ cursor: "pointer" }} />
+        <Step title="Scheduling" onClick={() => setCurrentStep(2)} style={{ cursor: "pointer" }} />
+        <Step title="Additional options" onClick={() => setCurrentStep(3)} style={{ cursor: "pointer" }} />
       </Steps>
       <br></br>
-      <Formik initialValues={initialValue} enableReinitialize onSubmit={handleSubmitFormLogin} innerRef={formikRef}>
-        {({ values, handleSubmit, isSubmitting, handleReset, errors, touched, isValidating }) => (
-          <Form>
-            <Carousel dots={false} beforeChange={beforeChangeCarousel} afterChange={afterChangeCarousel} ref={carouselRef}>
-              <Noti currentStep={currentStep} />
-              <Target currentStep={currentStep} formikRef={formikRef} />
-              <Scheduling currentStep={currentStep} />
-              <Additional currentStep={currentStep} />
-            </Carousel>
-            <div className="isoInputWrapper isoLeftRightComponent">
-              <Button type="default" onClick={handleClickPrev} disabled={loading}>
-                Prev
-              </Button>
+      <Formik validate={handleValidateFormLogin} initialValues={initialValue} enableReinitialize innerRef={formikRef}>
+        {({ values, handleSubmit, isSubmitting, handleReset, errors, touched, isValidating }) => {
+          console.log("ksjfksafa", values);
+          return (
+            <Form>
+              {/* <Carousel dots={false} beforeChange={beforeChangeCarousel} afterChange={afterChangeCarousel} ref={carouselRef}> */}
+              <div style={{ height: "500px", minHeight: "500px" }}>
+                <Noti currentStep={currentStep} />
+                <Target currentStep={currentStep} formikRef={formikRef} />
+                <Scheduling currentStep={currentStep} />
+                <Additional currentStep={currentStep} />
+              </div>
+              {/* </Carousel> */}
+              <div className="isoInputWrapper isoLeftRightComponent" style={{ display: "flex", justifyContent: currentStep > 2 ? "center" : "end" }}>
+                <Button
+                  // type="default"
+                  onClick={() => handleSave(values)}
+                  disabled={currentStep !== 3}
+                  style={{
+                    display: currentStep !== 3 && "none",
+                    background: "linear-gradient(180deg, #FF8A50 2.08%, #FF6D24 66.9%)",
+                    boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.25)",
+                    borderRadius: "12px",
+                    color: "white",
+                    fontStyle: "italic",
+                    marginRight: "16px",
+                  }}
+                >
+                  Save
+                </Button>
+                <Button
+                  type="default"
+                  onClick={() => handleSendNoti(values)}
+                  disabled={currentStep !== 3}
+                  style={{
+                    display: currentStep !== 3 && "none",
+                    background: "linear-gradient(180deg, #FF8A50 2.08%, #FF6D24 66.9%)",
+                    boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.25)",
+                    borderRadius: "12px",
+                    color: "white",
+                    fontStyle: "italic",
+                    marginRight: "16px",
+                  }}
+                >
+                  Send
+                </Button>
 
-              <Button type="primary" onClick={() => handleSave(values)} disabled={currentStep !== 3}>
-                <BoxTitle subtitle="Save" primary />
-              </Button>
-              <Button type="primary" htmlType="submit" disabled={currentStep !== 3}>
-                <BoxTitle subtitle="Send" primary />
-              </Button>
-
-              <Button type="default" onClick={handleClickNext} disabled={loading}>
-                Next
-              </Button>
-            </div>
-            {isSubmitting && errors.content && openNotificationWithIcon("error", "Error", "invalid content")}
-          </Form>
-        )}
+                <Button
+                  type="default"
+                  onClick={handleClickNext}
+                  style={{
+                    background: "linear-gradient(180deg, #FF8A50 2.08%, #FF6D24 66.9%)",
+                    boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.25)",
+                    borderRadius: "12px",
+                    color: "white",
+                    fontStyle: "italic",
+                    display: currentStep > 2 ? "none" : "block",
+                  }}
+                >
+                  Next
+                </Button>
+              </div>
+            </Form>
+          );
+        }}
       </Formik>
     </NotiWrapper>
   );

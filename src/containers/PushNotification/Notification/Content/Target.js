@@ -24,7 +24,7 @@ export function Target({ currentStep, formikRef }) {
   };
 
   return (
-    <div style={{ width: "99%" }}>
+    <div style={{ display: currentStep !== 1 && "none" }}>
       <FastField
         component={AntSelect}
         name="device"

@@ -5,7 +5,7 @@ export default function LazyLoadingSpin({ delay, className, style, children, loa
   return (
     <Spin
       delay={delay}
-      loadingStyle={style}
+      style={style}
       spinning={loading}
       indicator={
         <LoadingOutlined

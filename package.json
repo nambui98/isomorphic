@@ -24,6 +24,7 @@
     "enzyme-adapter-react-16": "^1.15.4",
     "enzyme-react-intl": "^2.0.6",
     "express": "^4.17.1",
+    "faker": "^6.6.6",
     "firebase": "^7.20.0",
     "formik": "^2.2.9",
     "frappe-charts": "^1.5.2",

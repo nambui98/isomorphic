@@ -10,7 +10,7 @@ export const initialValue = {
       name: "All",
     },
     {
-      id: "Android",
+      id: "ANDROID",
       name: "Android",
     },
     {
@@ -19,6 +19,7 @@ export const initialValue = {
     },
   ],
   segment: "ALL",
+  time: null,
   selectOptionsSegment: [
     {
       id: "ALL",
@@ -74,5 +75,5 @@ export const initialValue = {
       name: "Months",
     },
   ],
-  expires: "Hours",
+  expires: "hours",
 };

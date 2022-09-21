@@ -1,6 +1,6 @@
 import { RESPONSE_STATUS_CODE } from "../constants/api";
 import { put, call } from "redux-saga/effects";
-
+import { openNotificationWithIcon } from "@iso/containers/Feedback/Notification/Notification";
 export const PENDING = "PENDING";
 export const SUCCESS = "SUCCESS";
 export const ERROR = "ERROR";
@@ -31,6 +31,15 @@ export const makeActionError = ({ type, dataKey, errors, ...rest }) => ({
   },
 });
 
+export const makeActionNotification = (payload) => {
+  openNotificationWithIcon(payload.status, payload.title, payload.description);
+
+  return {
+    type: "PUSH_NOTIFICATION_MESSAGE",
+    payload,
+  };
+};
+
 const GeneratorFunction = function* () {
   yield undefined;
 }.constructor;
@@ -48,15 +57,12 @@ function isGenerator(fn) {
 }
 
 function* mappingActionCreators(creators, response, currentAction) {
-  console.log("ksdhfuiqwherq", { h: Array.isArray(creators), creators: creators });
   if (Array.isArray(creators)) {
     for (const action of creators) {
       if (isGenerator(action)) {
         const nextActionGF = yield action(response, currentAction);
-        console.log("adkfjasdhfuw", nextActionGF);
 
         if (typeof nextActionGF === "object") {
-          console.log("sdakjfewurq", nextActionGF);
           yield put(nextActionGF);
         } else if (typeof nextActionGF === "function") {
           yield put(nextActionGF(response, currentAction));
@@ -121,14 +127,14 @@ export const createBlankAsyncSagaRequest = ({ api, success, failure }) => {
         // build success
         const rsSuccess = buildResponseSuccess(response);
 
-        yield put(
+        yield mappingActionCreators(success, rsSuccess, action);
+
+        return yield put(
           makeActionSuccess({
             type: action.type,
             data: rsSuccess.successfulData,
           })
         );
-
-        return yield mappingActionCreators(success, rsSuccess, action);
       }
 
       // build error
@@ -143,8 +149,7 @@ export const createBlankAsyncSagaRequest = ({ api, success, failure }) => {
         })
       );
     } catch (exception) {
-      console.log("iewruewqyr", exception);
-      console.log("iewrdfduedfdwqyr", action);
+      console.log("Error Exception:::::", exception);
       return yield put(
         makeActionError({
           type: action.type,

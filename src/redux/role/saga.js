@@ -4,6 +4,7 @@ import { openNotificationWithIcon } from "@iso/containers/Feedback/Notification/
 import contactActions from "@iso/redux/contacts/actions";
 // import { useSelector, useDispatch } from "react-redux";
 import actions from "./actions";
+import { makeActionNotification } from "../common";
 
 import { createBlankAsyncSagaRequest } from "../common";
 
@@ -20,8 +21,8 @@ export function* getAllRole() {
 function* handleEditRole(action) {
   return yield createBlankAsyncSagaRequest({
     api: roleRequest.editRole,
-    success: [contactActions.viewChange(false), (res) => openNotificationWithIcon("success", "Success", "Edit role success")],
-    failure: [(res) => openNotificationWithIcon("error", "Error", res?.data?.meta.error_message)],
+    success: [contactActions.viewChange(false), (res) => makeActionNotification({ status: "success", title: "Success", description: "Edit role success" })],
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
   })(action);
 }
 
@@ -32,8 +33,9 @@ export function* editRole() {
 function* handleAddNewRole(action) {
   return yield createBlankAsyncSagaRequest({
     api: roleRequest.addNewRole,
-    success: [() => openNotificationWithIcon("success", "Success", "Add role success")],
-    failure: [(res) => openNotificationWithIcon("error", "Error", res?.data?.meta.error_message)],
+    // Add role success
+    success: [() => makeActionNotification({ status: "success", title: "Success", description: "Add role success" })],
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
   })(action);
 }
 

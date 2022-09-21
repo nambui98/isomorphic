@@ -23,3 +23,15 @@ export const calculatorTtl = (expiresSession, expiresTime) => {
 
   return ttl;
 };
+
+export const convertObject = (value) => {
+  if (!value) return null;
+  let convertObj;
+  try {
+    convertObj = JSON.parse(value);
+  } catch (e) {
+    console.log("convert to obj error::::", e);
+  }
+
+  return convertObj;
+};

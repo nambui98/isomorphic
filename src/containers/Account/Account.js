@@ -21,8 +21,21 @@ const { editContact, deleteContact } = contactActions;
 const { Content } = Layout;
 export default function Account() {
   const { listRole } = useSelector((state) => state.Role);
-  const { listAccount, isLoading, idAccount, statusChangeRole, statusDisableAccount, addAccount, editView, activeAccountRequest, disabledView, resetPasswordView, changeRoleView, activeView } =
-    useSelector((state) => state.Account);
+  const {
+    listAccount,
+    isLoading,
+    idAccount,
+    success,
+    statusChangeRole,
+    statusDisableAccount,
+    addAccount,
+    editView,
+    activeAccountRequest,
+    disabledView,
+    resetPasswordView,
+    changeRoleView,
+    activeView,
+  } = useSelector((state) => state.Account);
 
   const dispatch = useDispatch();
   const [email, setNewEmail] = useState("");
@@ -42,7 +55,7 @@ export default function Account() {
   }, []);
 
   useEffect(() => {
-    (activeAccountRequest || statusDisableAccount || statusChangeRole) &&
+    (activeAccountRequest || statusDisableAccount || statusChangeRole || success) &&
       dispatch({
         type: actions.GET_LIST_ACCOUNT,
         payload: {
@@ -51,7 +64,7 @@ export default function Account() {
           page: 1,
         },
       });
-  }, [activeAccountRequest, statusDisableAccount, statusChangeRole]);
+  }, [activeAccountRequest, statusDisableAccount, statusChangeRole, success]);
 
   useEffect(() => {
     if (listRole.length > 0) return listRole;

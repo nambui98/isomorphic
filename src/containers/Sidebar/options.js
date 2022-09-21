@@ -9,11 +9,11 @@ const options = [
   //   label: "sidebar.chat",
   //   leftIcon: "ion-chatbubbles",
   // },
-  // {
-  //   key: 'quiz',
-  //   label: 'sidebar.quiz',
-  //   leftIcon: 'ion-chatbubbles',
-  // },
+  {
+    key: "",
+    label: "Dashboard",
+    leftIcon: "ion-map",
+  },
   // {
   //   key: "ecommerce",
   //   label: "sidebar.ecommerce",
@@ -40,7 +40,7 @@ const options = [
   {
     key: "PushNotification",
     label: "Push Notification",
-    leftIcon: "ion-bag",
+    leftIcon: "ion-android-mail",
     children: [
       {
         key: "In-AppMessaging",

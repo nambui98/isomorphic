@@ -2,12 +2,16 @@ import React, { useEffect, useState, useRef } from "react";
 import _ from "lodash";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
-
+import CardWrapper, { Box, StatusTag } from "@iso/containers/Invoice/Invoice.styles";
 import PageHeader from "@iso/components/utility/pageHeader";
 import LayoutWrapper from "@iso/components/utility/layoutWrapper";
 import { calculatorTtl } from "@iso/containers/common";
 import UploadFileCsv from "@iso/components/Upload";
-
+import { convertObject } from "../common";
+import LazyLoadingSpin from "@iso/components/LazyLoadingSpin";
+import { BillingFormWrapper, InputBoxWrapper } from "@iso/containers/Ecommerce/Checkout/Checkout.styles";
+import InputBox from "@iso/containers/Ecommerce/Checkout/InputBox";
+import { openNotificationWithIcon } from "@iso/containers/Feedback/Notification/Notification";
 import useQuery from "@iso/lib/hooks/useQuery";
 
 import { Button, Select, Form, Input, DatePicker } from "antd";
@@ -22,18 +26,26 @@ export default function UpdateNoti() {
   let query = useQuery();
   const dispatch = useDispatch();
 
-  const { noti } = useSelector((state) => state.Noti);
+  const { noti, loadingGetNoti, statusSave } = useSelector((state) => state.Noti);
   const refEmail = useRef();
   const refSchedule = useRef();
 
   console.log("dskafiewq", noti);
-  console.log("asdnfjnjvkxczv", noti?.title);
+  try {
+    console.log("asdnfjnjvkxczv", JSON.parse(noti?.extra_data));
+  } catch (e) {
+    console.log("asdjfashdfa", e);
+  }
 
   const id = query.get("id");
 
   useEffect(() => {
     dispatch(actions.getNoti({ id }));
   }, [id]);
+
+  useEffect(() => {
+    statusSave && dispatch(actions.getNoti({ id }));
+  }, [statusSave]);
 
   const optionSegment = [
     { label: "ALL", value: "ALL" },
@@ -143,11 +155,20 @@ export default function UpdateNoti() {
   };
 
   const onFinish = (items) => {
-    console.log("saduewyqr", items);
+    // debugger;
+    console.log("saduewyqr", { ...items });
     let newTtl = 0;
     if (items.expires.expiresTime) {
       newTtl = calculatorTtl(items.expires.expiresSession, items.expires.expiresTime);
     }
+
+    const checkTypeEmail = (email) => {
+      if (typeof email === "object") {
+        return items.email;
+      }
+
+      return items.email.split(", ");
+    };
 
     const newValue = {
       ...items,
@@ -159,139 +180,155 @@ export default function UpdateNoti() {
           ttl: newTtl,
         },
       },
-      toEmail: items.email?.split(", "),
+      toEmail: items?.email && checkTypeEmail(items.email),
+      content: items.content.trim(),
     };
+
+    if (!newValue.content.trim()) {
+      return openNotificationWithIcon("error", "Error", "invalid content");
+    }
 
     console.log("sodifuewqfasf", newValue);
 
     const finalData = _.omit(newValue, ["expires", "image", "email"]);
-
+    console.log("asdkfhdashfa", finalData);
     dispatch(actions.saveNotification(finalData));
+  };
+  console.log("sdkafhjsadnvm", Number(convertObject(noti?.extra_data)?.detail?.ttl));
+
+  const handleSendDraft = () => {
+    try {
+      noti.extraData = JSON.parse(noti.extra_data);
+      noti.scheduled = moment(noti?.scheduled).format("YYYY-MM-DD HH:mm:ss");
+    } catch (err) {
+      console.log("error parse json::", err);
+    }
+
+    const newData = { ...noti, notifyType: noti.notify_type };
+    const finalData = _.omit(newData, ["notify_id", "created_at", "is_read", "status", "notify_type", "extra_data"]);
+    console.log("sdkafkasdf", finalData);
+    dispatch(actions.sendNoti(finalData));
   };
 
   return (
-    <LayoutWrapper style={{ height: "100%" }}>
-      <PageHeader>Update Notification</PageHeader>
-
-      <Form
-        form={form}
-        style={{ width: "100%" }}
-        name="basic"
-        labelCol={{ xs: { span: 24 }, sm: { span: 12 }, md: { span: 8 }, lg: { span: 8 } }}
-        wrapperCol={{ xs: { span: 24 }, sm: { span: 12 }, md: { span: 12 }, lg: { span: 12 } }}
-        onFinish={onFinish}
-        fields={[
-          {
-            name: ["id"],
-            value: noti?.notify_id,
-          },
-          {
-            name: ["name"],
-            value: noti?.name,
-          },
-          {
-            name: ["title"],
-            value: noti?.title,
-          },
-          {
-            name: ["content"],
-            value: noti?.content,
-          },
-          {
-            name: ["channel"],
-            value: noti?.channel,
-          },
-          {
-            name: ["segment"],
-            value: noti?.segment,
-          },
-          {
-            name: ["notifyType"],
-            value: noti?.notifyType,
-          },
-          {
-            name: ["os"],
-            value: noti?.os,
-          },
-          {
-            name: ["image"],
-            value: noti?.image,
-          },
-          {
-            name: ["email"],
-            value: noti?.toEmail,
-          },
-          {
-            name: ["scheduled"],
-            value: noti?.scheduled ? moment(noti?.scheduled) : "",
-          },
-          {
-            name: ["expires"],
-            value: {
-              expiresTime: noti?.detail?.ttl,
-              expiresSession: "minutes",
+    <LazyLoadingSpin loading={loadingGetNoti}>
+      <LayoutWrapper style={{ height: "100%" }}>
+        <PageHeader>Update Notification</PageHeader>
+        <Form
+          form={form}
+          style={{ width: "100%" }}
+          name="basic"
+          labelCol={{ xs: { span: 24 }, sm: { span: 12 }, md: { span: 8 }, lg: { span: 8 } }}
+          wrapperCol={{ xs: { span: 24 }, sm: { span: 12 }, md: { span: 12 }, lg: { span: 12 } }}
+          onFinish={onFinish}
+          fields={[
+            {
+              name: ["id"],
+              value: noti?.notify_id,
             },
-          },
-        ]}
-      >
-        <Form.Item name="id">
-          <Input type="hidden" />
-        </Form.Item>
-
-        <Form.Item label="Name" name="name">
-          <Input />
-        </Form.Item>
-
-        <Form.Item label="Title" name="title">
-          <Input />
-        </Form.Item>
-
-        <Form.Item label="Content" name="content">
-          <TextArea style={{ height: 90 }} />
-        </Form.Item>
-
-        <Form.Item label="Image" name="image">
-          <Input />
-        </Form.Item>
-
-        <Form.Item label="Channel" name="channel">
-          <Select options={optionChannel} />
-        </Form.Item>
-        <Form.Item label="Segment" name="segment">
-          <Select options={optionSegment} onChange={handleChangeSegment} />
-        </Form.Item>
-        <div ref={refEmail} style={{ display: noti.segment === "LIST_EMAIL" ? "" : "none" }}>
-          <Form.Item label="Email" name="email">
-            <TextArea style={{ height: 90, marginBottom: "20px" }} />
-          </Form.Item>
-          <Form.Item name="upload" label="Upload">
-            <UploadFileCsv formikRef={form} />
-          </Form.Item>
-        </div>
-
-        <Form.Item label="NotifyType" name="notifyType">
-          <Select options={optionNotifyType} onChange={handelChangeSelect} />
-        </Form.Item>
-
-        <div style={{ display: noti.notifyType === "SCHEDULED" ? "" : "none" }} ref={refSchedule}>
-          <Form.Item label="Scheduled" name="scheduled">
-            <DatePicker format="YYYY-MM-DD HH:mm:ss" showTime />
-          </Form.Item>
-        </div>
-
-        <Form.Item label="Os" name="os">
-          <Select options={optionOs} />
-        </Form.Item>
-
-        <Form.Item label="Expires" name="expires">
-          <TimeInputPick />
-        </Form.Item>
-        <Form.Item wrapperCol={{ xs: { span: 24, offset: 0 }, sm: 8, lg: 8, md: { span: 16, offset: 8 } }}>
-          <Button type="primary" htmlType="submit" style={{ marginTop: 20 }}>
-            Save
-          </Button>
-        </Form.Item>
-      </Form>
-    </LayoutWrapper>
+            {
+              name: ["name"],
+              value: noti?.name,
+            },
+            {
+              name: ["title"],
+              value: noti?.title,
+            },
+            {
+              name: ["content"],
+              value: noti?.content,
+            },
+            {
+              name: ["channel"],
+              value: noti?.channel,
+            },
+            {
+              name: ["segment"],
+              value: noti?.segment,
+            },
+            {
+              name: ["notifyType"],
+              value: noti?.notify_type,
+            },
+            {
+              name: ["os"],
+              value: noti?.os,
+            },
+            {
+              name: ["image"],
+              value: convertObject(noti?.extra_data) && convertObject(noti?.extra_data).detail.image,
+            },
+            {
+              name: ["email"],
+              value: noti?.to_email,
+            },
+            {
+              name: ["scheduled"],
+              value: noti?.scheduled ? moment(noti?.scheduled) : "",
+            },
+            {
+              name: ["expires"],
+              value: {
+                expiresTime: convertObject(noti?.extra_data) && convertObject(noti?.extra_data).detail.ttl && parseInt(Number(convertObject(noti?.extra_data).detail.ttl) / 1000 / 60),
+                expiresSession: "minutes",
+              },
+            },
+          ]}
+        >
+          <BillingFormWrapper className="isoBillingForm" style={{ margin: "0 auto" }}>
+            <h3 style={{ color: "rgb(111 181 247)" }}>Notification</h3>
+            <Form.Item name="id">
+              <Input type="hidden" />
+            </Form.Item>
+            <div className="isoInputFieldset">
+              <InputBox label="Name" name="name" />
+              <InputBox label="Title" name="title" />
+            </div>
+            <div className="isoInputFieldset">
+              <InputBox label="Content" name="content" type="textarea" important />
+            </div>
+            <div className="isoInputFieldset">
+              <InputBox label="Image" name="image" />
+            </div>
+            <h3 style={{ borderTop: "1px solid #d2d3d5", paddingTop: "10px", marginBottom: "32px", color: "rgb(111 181 247)" }}>Target</h3>
+            <div className="isoInputFieldset">
+              <InputBox label="Channel" name="channel" type="select" important options={optionChannel} />
+              <InputBox label="Os" name="os" type="select" important options={optionOs} />
+              <InputBox label="Segment" name="segment" type="select" important options={optionSegment} onChange={handleChangeSegment} />
+            </div>
+            <div ref={refEmail} style={{ display: noti.segment === "LIST_EMAIL" ? "" : "none" }}>
+              <div className="isoInputFieldset">
+                <InputBox label="Email" name="email" type="textarea" />
+              </div>
+              <Form.Item name="upload" label="Upload">
+                <UploadFileCsv formikRef={form} />
+              </Form.Item>
+            </div>
+            <h3 style={{ borderTop: "1px solid #d2d3d5", paddingTop: "10px", marginBottom: "32px", color: "rgb(111 181 247)" }}>Scheduling</h3>
+            <div className="isoInputFieldset">
+              <InputBox label="NotifyType" name="notifyType" type="select" important options={optionNotifyType} onChange={handelChangeSelect} />
+            </div>
+            <div style={{ display: noti.notify_type === "SCHEDULED" ? "" : "none", paddingTop: "10px", marginBottom: "16px" }} ref={refSchedule}>
+              <Form.Item label="Scheduled" name="scheduled">
+                <DatePicker format="YYYY-MM-DD HH:mm:ss" showTime />
+              </Form.Item>
+            </div>
+            <h3 style={{ borderTop: "1px solid #d2d3d5", paddingTop: "10px", marginBottom: "32px", color: "rgb(111 181 247)" }}>Additional options</h3>
+            <label style={{ width: "100%", color: "#323332", fontWeight: "500" }}>Expires</label>
+            <Form.Item noStyle label="Expires" name="expires">
+              <TimeInputPick />
+            </Form.Item>
+            <Form.Item wrapperCol={{ xs: { span: 24, offset: 0 }, sm: 8, lg: 8, md: { span: 16, offset: 8 } }}>
+              <Button type="primary" htmlType="submit" style={{ marginTop: 20 }}>
+                Save
+              </Button>
+              <Button type="primary" style={{ marginTop: 20, marginLeft: 20, display: noti?.status !== "DRAFT" && "none" }} onClick={handleSendDraft}>
+                Send Draft
+              </Button>
+            </Form.Item>
+          </BillingFormWrapper>
+        </Form>
+      </LayoutWrapper>
+    </LazyLoadingSpin>
   );
 }

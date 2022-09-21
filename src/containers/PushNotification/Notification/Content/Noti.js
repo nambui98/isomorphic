@@ -20,7 +20,7 @@ export function Noti({ currentStep }) {
   console.log("sadfhudsahf", { values, currentStep });
 
   return (
-    <div style={{ width: "99%" }}>
+    <div style={{ display: currentStep !== 0 && "none" }}>
       <FastField
         component={AntInput}
         defaultValue={values.title}

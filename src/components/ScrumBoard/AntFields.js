@@ -16,7 +16,23 @@ const CreateAntField =
     const hasError = form.errors[field.name];
     const submittedError = hasError && submitted;
     const touchedError = hasError && touched;
-    const onInputChange = ({ target: { value } }) => form.setFieldValue(field.name, value);
+    const onInputChange = ({ target: { value } }) => {
+      console.log("skdfjkasdfa", { value, type });
+      if (type === "number") {
+        const regNumber = /^\d+$/;
+        console.log("asdkfsaf", value);
+
+        try {
+          if (regNumber.test(value) | !value) {
+            form.setFieldValue(field.name, value);
+          }
+        } catch (e) {
+          console.log("error parse number input valid", e);
+        }
+      } else {
+        form.setFieldValue(field.name, value);
+      }
+    };
     const onChange = (value) => form.setFieldValue(field.name, value);
     const onBlur = () => form.setFieldTouched(field.name, true);
     return (

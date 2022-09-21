@@ -26,7 +26,7 @@ export function Scheduling({ currentStep }) {
   }, [values.notifyType]);
 
   return (
-    <div style={{ width: "99%" }}>
+    <div style={{ display: currentStep !== 2 && "none" }}>
       <FastField
         component={AntSelect}
         defaultValue={values.notifyType}

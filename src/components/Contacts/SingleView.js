@@ -12,7 +12,7 @@ export default function ({ contact, otherAttributes }) {
         extraInfos.push(
           <div className="isoContactCardInfos" key={attribute.value}>
             <p className="isoInfoLabel">{attribute.title}</p>
-            <p className="isoInfoDetails">{value}</p>
+            {attribute?.value === "createdAt" ? <p className="isoInfoDetails">{new Date(value).toLocaleString()}</p> : <p className="isoInfoDetails">{value}</p>}
           </div>
         );
       }

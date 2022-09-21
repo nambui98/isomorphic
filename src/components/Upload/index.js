@@ -77,7 +77,7 @@ const UploadFileCsv = ({ formikRef }) => {
 
   return (
     <div>
-      <input prefix={<UploadOutlined />} onChange={handleFileChange} id="csvInput" name="file" type="File" style={{ display: "inline-block" }} />
+      <input prefix={<UploadOutlined />} onChange={handleFileChange} id="csvInput" name="file" type="File" style={{ display: "inline-block", marginBottom: "10px" }} />
       <Button icon={<UploadOutlined />} onClick={handleParse} type="dashed">
         Parse
       </Button>

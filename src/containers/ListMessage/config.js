@@ -1,17 +1,17 @@
 import { renderCell } from "../Tables/AntTables/configs";
 
 export const columnNoti = [
-  {
-    title: "Name",
-    key: "name",
-    width: "1%",
-    // className: "isoImageCell",
-    render: (object) => renderCell(object, "TextCell", "name"),
-  },
+  // {
+  //   title: "Name",
+  //   key: "name",
+  //   width: "5%",
+  //   // className: "isoImageCell",
+  //   render: (object) => renderCell(object, "TextCell", "name"),
+  // },
   {
     title: "Title",
     key: "title",
-    width: "1%",
+    width: "8%",
     // className: "isoImageCell",
     render: (object) => renderCell(object, "TextCell", "title"),
   },
@@ -38,7 +38,7 @@ export const columnNoti = [
     key: "notifyType",
     width: "1%",
     // className: "isoImageCell",
-    render: (object) => renderCell(object, "TextCell", "notifyType"),
+    render: (object) => renderCell(object, "TextCell", "notify_type"),
   },
   {
     title: "Segment",
@@ -58,14 +58,12 @@ export const columnNoti = [
     title: "Created At",
     key: "created_at",
     width: "1%",
-    // className: "isoImageCell",
     render: (object) => renderCell(object, "DateCell", "created_at"),
   },
   {
     title: "Action",
     key: "action",
     width: "1%",
-    // className: "isoImageCell",
     render: (object) => renderCell(object, "LinkCell", "notify_id", "notification"),
   },
 ];

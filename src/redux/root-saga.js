@@ -19,6 +19,7 @@ import quizSaga from "@iso/redux/quiz/saga";
 import accountSaga from "@iso/redux/account/saga";
 import notiSaga from "@iso/redux/notification/saga";
 import cdnSaga from "@iso/redux/cdn/saga";
+import dashboardSaga from "@iso/redux/dashboard/saga";
 
 export default function* rootSaga(getState) {
   yield all([
@@ -26,6 +27,7 @@ export default function* rootSaga(getState) {
     accountSaga(),
     notiSaga(),
     cdnSaga(),
+    dashboardSaga(),
     roleSagas(),
     contactSagas(),
     mailSagas(),

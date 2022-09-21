@@ -1,16 +1,15 @@
 import { all, fork, takeLatest } from "redux-saga/effects";
-import { openNotificationWithIcon } from "@iso/containers/Feedback/Notification/Notification";
 import accountRequest from "../../service/account";
 
 import actions from "./actions";
 
-import { createBlankAsyncSagaRequest } from "../common";
+import { makeActionNotification, createBlankAsyncSagaRequest } from "../common";
 
 function* handleAddAccount(action) {
   return yield createBlankAsyncSagaRequest({
     api: accountRequest.addAccount,
-    success: [(res) => openNotificationWithIcon("success", "Success", "Add Account Success")],
-    failure: [(res) => openNotificationWithIcon("error", "Error", res.data?.meta.error_message)],
+    success: [() => makeActionNotification({ status: "success", title: "Success", description: "Add Account Success" })],
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
   })(action);
 }
 
@@ -21,7 +20,7 @@ function* addAccountRequest() {
 function* handleGetListAccount(action) {
   return yield createBlankAsyncSagaRequest({
     api: accountRequest.getListAccount,
-    failure: [(res) => openNotificationWithIcon("error", "Error", "Errors: get list account errors")],
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
   })(action);
 }
 
@@ -32,8 +31,8 @@ function* getListAccountRequest() {
 function* handleActiveAccount(action) {
   return yield createBlankAsyncSagaRequest({
     api: accountRequest.activeAccount,
-    success: [(res) => openNotificationWithIcon("success", "Success", "Active Account Success")],
-    failure: [(res) => openNotificationWithIcon("error", "Error", res.data?.meta.error_message)],
+    success: [() => makeActionNotification({ status: "success", title: "Success", description: "Active Account Success" })],
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
   })(action);
 }
 
@@ -44,8 +43,8 @@ function* activeAccountRequest() {
 function* handleDisableAccount(action) {
   return yield createBlankAsyncSagaRequest({
     api: accountRequest.disableAccount,
-    success: [(res) => openNotificationWithIcon("success", "Success", "Disable Account Success")],
-    failure: [(res) => openNotificationWithIcon("error", "Error", res.data?.meta.error_message)],
+    success: [() => makeActionNotification({ status: "success", title: "Success", description: "Disable Account Success" })],
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
   })(action);
 }
 
@@ -56,8 +55,8 @@ function* disableAccountRequest() {
 function* handleResetAccount(action) {
   return yield createBlankAsyncSagaRequest({
     api: accountRequest.resetAccount,
-    success: [(res) => openNotificationWithIcon("success", "Success", "Reset Account Success")],
-    failure: [(res) => openNotificationWithIcon("error", "Error", res.data?.meta.error_message)],
+    success: [() => makeActionNotification({ status: "success", title: "Success", description: "Reset Account Success" })],
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
   })(action);
 }
 
@@ -68,8 +67,8 @@ function* resetAccountRequest() {
 function* handleChangeRoleAccount(action) {
   return yield createBlankAsyncSagaRequest({
     api: accountRequest.changeRoleAccount,
-    success: [(res) => openNotificationWithIcon("success", "Success", "Change Role Account Success")],
-    failure: [(res) => openNotificationWithIcon("error", "Error", res.data?.meta.error_message)],
+    success: [() => makeActionNotification({ status: "success", title: "Success", description: "Change Role Account Success" })],
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
   })(action);
 }
 
@@ -78,13 +77,5 @@ function* changeRoleAccountRequest() {
 }
 
 export default function* accountSaga() {
-  yield all([
-    fork(addAccountRequest),
-    fork(getListAccountRequest),
-    fork(activeAccountRequest),
-    fork(disableAccountRequest),
-    fork(resetAccountRequest),
-    fork(changeRoleAccountRequest),
-    // fork(activeAccountRequestSuccess),
-  ]);
+  yield all([fork(addAccountRequest), fork(getListAccountRequest), fork(activeAccountRequest), fork(disableAccountRequest), fork(resetAccountRequest), fork(changeRoleAccountRequest)]);
 }

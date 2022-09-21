@@ -27,12 +27,14 @@ import quiz from "@iso/redux/quiz/reducer";
 import Account from "@iso/redux/account/reducer";
 import Noti from "@iso/redux/notification/reducer";
 import Cdn from "@iso/redux/cdn/reducer";
+import Dashboard from "@iso/redux/dashboard/reducer";
 
 export default combineReducers({
   Auth,
   Account,
   Noti,
   Role,
+  Dashboard,
   Cdn,
   App,
   ThemeSwitcher,

@@ -16,9 +16,11 @@ export function Additional({ currentStep }) {
   const { values } = useFormikContext();
 
   return (
-    <div style={{ display: "flex", alignItems: "end" }}>
-      <FastField component={AntInput} defaultValue={values.time} name="time" type="number" placeholder="time" size="large" tasklabel={<Text>EXPIRES</Text>} />
-      <FastField component={AntSelect} defaultValue={values.expires} selectOptions={values.selectOptionsExpires} name="expires" placeholder="Expires" size="large" />
+    <div style={{ display: currentStep !== 3 ? "none" : "flex", alignItems: "end" }}>
+      <FastField component={AntInput} value={values.time} name="time" type="number" placeholder="time" size="large" tasklabel={<Text>EXPIRES</Text>} />
+      <div style={{ marginBottom: "1px" }}>
+        <FastField component={AntSelect} defaultValue={values.expires} selectOptions={values.selectOptionsExpires} name="expires" placeholder="Expires" size="large" />
+      </div>
     </div>
   );
 }

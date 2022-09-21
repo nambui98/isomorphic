@@ -15,7 +15,7 @@ export const renderCell = (object, type, key, checkType) => {
       if (checkStatusNoti(object)) return LinkCell(checkType, value);
       break;
     default:
-      return TextCell(value);
+      return TextCell(value, key);
   }
 };
 
