@@ -35,10 +35,13 @@ export function Target({ currentStep, formikRef }) {
         hasFeedback
         // size="large"
         tasklabel={<Text>Device (*)</Text>}
+        className="text-label-input"
+        size="large"
       />
       <FastField
         component={AntSelect}
         name="segment"
+        size="large"
         defaultValue={values.segment}
         selectOptions={values.selectOptionsSegment}
         placeholder="select"
@@ -47,14 +50,16 @@ export function Target({ currentStep, formikRef }) {
         // size="large"
         tasklabel={<Text>User segment (*)</Text>}
         onChange={handleChangeSegment}
+        className="text-label-input"
       />
       <div ref={refTextarea} style={{ display: values.segment === "LIST_EMAIL" ? "" : "none" }}>
-        <Field component={AntTextArea} name="email" defaultValue={values.email} placeholder="Email" type="text" rows={3} />
+        <Field component={AntTextArea} className="text-label-input" name="email" defaultValue={values.email} placeholder="Email" type="text" rows={3} />
         <UploadFileCsv formikRef={formikRef} />
       </div>
 
       <FastField
         component={AntSelect}
+        size="large"
         name="channel"
         defaultValue={values.channel}
         selectOptions={values.selectOptionsChannel}
@@ -62,6 +67,7 @@ export function Target({ currentStep, formikRef }) {
         validate={isRequired}
         hasFeedback
         tasklabel={<Text>Channel (*)</Text>}
+        className="text-label-input"
       />
     </div>
   );

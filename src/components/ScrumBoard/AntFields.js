@@ -10,20 +10,16 @@ const { TextArea } = Input;
 const CreateAntField =
   (Component) =>
   ({ field, form, hasFeedback, label, tasklabel, selectOptions, submitCount, type, formitem, className, ...props }) => {
-    console.log("sdafuishdaf", { selectOptions, label });
     const touched = form.touched[field.name];
     const submitted = submitCount > 0;
     const hasError = form.errors[field.name];
     const submittedError = hasError && submitted;
     const touchedError = hasError && touched;
     const onInputChange = ({ target: { value } }) => {
-      console.log("skdfjkasdfa", { value, type });
       if (type === "number") {
         const regNumber = /^\d+$/;
-        console.log("asdkfsaf", value);
-
         try {
-          if (regNumber.test(value) | !value) {
+          if (regNumber.test(value) || !value) {
             form.setFieldValue(field.name, value);
           }
         } catch (e) {
