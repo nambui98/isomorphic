@@ -10,7 +10,7 @@ deploy_production:
     - ssh "$PRD_USER@$PRD_HOST" 'mkdir -p ~/befitter-admin-tools/ || true'
     - scp -r ./* "$PRD_USER@$PRD_HOST:~/befitter-admin-tools/"
     - ssh "$PRD_USER@$PRD_HOST" "cd befitter-admin-tools; yarn install; yarn build"
-    - ssh "$PRD_USER@$PRD_HOST" "cd befitter-admin-tools; yarn serve -p 3003 > /dev/null 2>&1 &"
+    - ssh "$PRD_USER@$PRD_HOST" "cd befitter-admin-tools; yarn serve -p 3002 > /dev/null 2>&1 &"
   tags:
     - release
   only:
