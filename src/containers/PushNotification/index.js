@@ -27,7 +27,7 @@ export default function PushNotification() {
       <PageHeader>Push Notification</PageHeader>
       <Row style={style} gutter={gutter} justify="start">
         <Col md={12} xs={24} style={colStyle}>
-          <Tabs defaultActiveKey="1" onChange={onChange}>
+          <Tabs defaultActiveKey="1" onChange={onChange} tabBarStyle={{ fontSize: "20px" }} size="large">
             <TabPane tab="Notification" key="notification">
               <TabNotification />
             </TabPane>

@@ -21,19 +21,7 @@ export function Noti({ currentStep }) {
 
   return (
     <div style={{ display: currentStep !== 0 && "none" }}>
-      <FastField
-        component={AntInput}
-        defaultValue={values.title}
-        name="title"
-        type="text"
-        placeholder="title"
-        // validate={isRequired}
-        // submitCount={submitCount}
-        hasFeedback
-        size="large"
-        // label={<Text>hello</Text>}
-        tasklabel={<Text>Title</Text>}
-      />
+      <FastField component={AntInput} defaultValue={values.title} className="text-label-input" name="title" type="text" placeholder="title" hasFeedback size="large" tasklabel={<Text>Title</Text>} />
 
       <FastField
         component={AntTextArea}
@@ -42,27 +30,16 @@ export function Noti({ currentStep }) {
         type="text"
         placeholder="content"
         validate={isRequired}
-        // submitCount={submitCount}
         hasFeedback
         rows={3}
         size="large"
         tasklabel={<Text>Content (*)</Text>}
+        className="ant-input-lg text-label-input"
       />
 
-      <FastField component={AntInput} defaultValue={values.image} name="image" type="text" placeholder="url" size="large" tasklabel={<Text>Image</Text>} />
+      <FastField component={AntInput} className="text-label-input" defaultValue={values.image} name="image" type="text" placeholder="url" hasFeedback size="large" tasklabel={<Text>Image</Text>} />
 
-      <FastField
-        component={AntInput}
-        name="name"
-        defaultValue={values.name}
-        type="text"
-        placeholder="name"
-        // validate={isRequired}
-        // submitCount={submitCount}
-        hasFeedback
-        size="large"
-        tasklabel={<Text>Noti Name</Text>}
-      />
+      <FastField component={AntInput} className="text-label-input" name="name" defaultValue={values.name} type="text" placeholder="name" hasFeedback size="large" tasklabel={<Text>Noti Name</Text>} />
     </div>
   );
 }

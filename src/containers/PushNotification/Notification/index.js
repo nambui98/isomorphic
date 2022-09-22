@@ -49,8 +49,6 @@ const transitionData = (values) => {
 
 export default function TabNotification() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const carouselRef = useRef();
   const formikRef = useRef();
   const dispatch = useDispatch();
   const { idSave } = useSelector((state) => state.Noti);
@@ -62,9 +60,10 @@ export default function TabNotification() {
     });
   };
 
-  const handleSendNoti = (values, errors) => {
+  const handleSendNoti = (values, isValidating) => {
     if (!values.content.trim()) {
       openNotificationWithIcon("error", "Error", "invalid content");
+      formikRef.current.handleSubmit();
       return setCurrentStep(0);
     }
     dispatch(actions.sendNoti(transitionData(values)));
@@ -73,13 +72,13 @@ export default function TabNotification() {
   const handleSave = (value) => {
     if (!value.content.trim()) {
       openNotificationWithIcon("error", "Error", "invalid content");
+      formikRef.current.handleSubmit();
       return setCurrentStep(0);
     }
     dispatch(actions.draftNoti({ ...transitionData(value), id: idSave }));
   };
 
   const handleValidateFormLogin = (propsField) => {
-    console.log("ksadjfsjdf", propsField);
     const errors = {};
     if (!propsField.content.trim()) {
       errors.content = "Required";
@@ -108,52 +107,14 @@ export default function TabNotification() {
                 <Additional currentStep={currentStep} />
               </div>
               <div className="isoInputWrapper isoLeftRightComponent" style={{ display: "flex", justifyContent: currentStep > 2 ? "center" : "end" }}>
-                <Button
-                  // type="default"
-                  onClick={() => handleSave(values)}
-                  disabled={currentStep !== 3}
-                  style={{
-                    display: currentStep !== 3 && "none",
-                    background: "linear-gradient(180deg, #FF8A50 2.08%, #FF6D24 66.9%)",
-                    boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.25)",
-                    borderRadius: "12px",
-                    color: "white",
-                    fontStyle: "italic",
-                    marginRight: "16px",
-                  }}
-                >
+                <Button type="default" onClick={() => handleSave(values)} className={currentStep !== 3 ? "disabled-button" : "button-primary"}>
                   Save
                 </Button>
-                <Button
-                  type="default"
-                  htmlType="submit"
-                  onClick={() => handleSendNoti(values, errors)}
-                  disabled={currentStep !== 3}
-                  style={{
-                    display: currentStep !== 3 && "none",
-                    background: "linear-gradient(180deg, #FF8A50 2.08%, #FF6D24 66.9%)",
-                    boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.25)",
-                    borderRadius: "12px",
-                    color: "white",
-                    fontStyle: "italic",
-                    marginRight: "16px",
-                  }}
-                >
+                <Button type="default" onClick={() => handleSendNoti(values, isValidating)} className={currentStep !== 3 ? "disabled-button" : "button-primary"}>
                   Send
                 </Button>
 
-                <Button
-                  type="default"
-                  onClick={handleClickNext}
-                  style={{
-                    background: "linear-gradient(180deg, #FF8A50 2.08%, #FF6D24 66.9%)",
-                    boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.25)",
-                    borderRadius: "12px",
-                    color: "white",
-                    fontStyle: "italic",
-                    display: currentStep > 2 ? "none" : "block",
-                  }}
-                >
+                <Button type="default" onClick={handleClickNext} className={currentStep > 2 ? "disabled-button" : "button-primary"}>
                   Next
                 </Button>
               </div>

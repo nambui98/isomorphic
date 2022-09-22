@@ -34,11 +34,13 @@ export function Scheduling({ currentStep }) {
         name="notifyType"
         placeholder="notifyType"
         size="large"
-        tasklabel={<Text>Notify Type</Text>}
+        hasFeedback
+        tasklabel={<Text>Notify Type (*)</Text>}
+        className="ant-select-selector text-label-input"
       />
 
       <div ref={refSchedule} style={{ display: values.notifyType === "SCHEDULED" ? "" : "none" }}>
-        <FastField component={AntDatePicker} name="scheduled" tasklabel={<Text>Scheduled: </Text>} defaultValue={values.scheduled} format="YYYY-MM-DD HH:mm:ss" showTime />
+        <FastField component={AntDatePicker} className="text-label-input" name="scheduled" tasklabel={<Text>Scheduled: </Text>} defaultValue={values.scheduled} format="YYYY-MM-DD HH:mm:ss" showTime />
       </div>
     </div>
   );
