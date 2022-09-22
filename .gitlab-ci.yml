@@ -1,0 +1,18 @@
+stages:
+  - deploy
+
+deploy_production:
+  stage: deploy
+  image: node:4.2.2
+  script:
+    - ssh "$PRD_USER@$PRD_HOST" './killall-admin-tool-process.sh || true'
+    - ssh "$PRD_USER@$PRD_HOST" 'rm -rf ~/befitter-admin-tools || true'
+    - ssh "$PRD_USER@$PRD_HOST" 'mkdir -p ~/befitter-admin-tools/ || true'
+    - scp -r ./* "$PRD_USER@$PRD_HOST:~/befitter-admin-tools/"
+    - ssh "$PRD_USER@$PRD_HOST" "cd befitter-admin-tools; yarn install; yarn build"
+    - ssh "$PRD_USER@$PRD_HOST" "cd befitter-admin-tools; yarn serve -p 3003 > /dev/null 2>&1 &"
+  tags:
+    - release
+  only:
+    - main
+  when: manual
