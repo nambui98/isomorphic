@@ -99,7 +99,8 @@
     "rich-marker": "^0.0.1",
     "styled-components": "^5.2.0",
     "styled-theme": "^0.3.3",
-    "swiper": "5.4.5"
+    "swiper": "5.4.5",
+    "serve": "14.0.1"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.13.0",
