@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import Input, { Textarea } from "@iso/components/uielements/input";
 import notification from "@iso/components/Notification";
@@ -14,7 +14,16 @@ export default function ({ contact, otherAttributes, editContact }) {
   if (!contact) return null;
   const dispatch = useDispatch();
 
-  const { deleteGroup, updateGroup } = useSelector((state) => state.GroupPermission);
+  const {
+    deleteGroup,
+    updateGroup,
+    addPermission,
+    allPermission,
+    listPermissionByGroup,
+  } = useSelector((state) => state.GroupPermission);
+
+  console.log("dkajfhjsadhfjas", allPermission);
+  console.log("sdajkxzjkdhsafasd", listPermissionByGroup);
 
   const name = contact?.groupName ? contact.groupName : "No Group Name";
 
@@ -34,7 +43,11 @@ export default function ({ contact, otherAttributes, editContact }) {
           extraInfos.push(
             <div className="isoContactCardInfos" key={attribute.value}>
               <p className="isoInfoLabel">{`${attribute.title}`}</p>
-              <Input placeholder={`${attribute.title}`} value={value} onChange={handleEditContact} />
+              <Input
+                placeholder={`${attribute.title}`}
+                value={value}
+                onChange={handleEditContact}
+              />
             </div>
           );
         }
@@ -47,11 +60,43 @@ export default function ({ contact, otherAttributes, editContact }) {
           extraInfos.push(
             <div className="isoContactCardInfos" key={attribute.value}>
               <p className="isoInfoLabel">{`${attribute.title}`}</p>
-              <Input placeholder={`${attribute.title}`} value={value} readOnly />
+              <Input
+                placeholder={`${attribute.title}`}
+                value={value}
+                readOnly
+              />
             </div>
           );
         }
       });
+    } else if (addPermission) {
+      const children = [];
+
+      const handleChangeAllPermission = (permissions) => {
+        dispatch(actions.allPermissionSelected(permissions));
+      };
+
+      allPermission.forEach((permission) => {
+        children.push(
+          <Option key={permission?.id}>{permission?.permissionName}</Option>
+        );
+      });
+      return (
+        <Select
+          mode="multiple"
+          allowClear
+          style={{
+            width: "100%",
+          }}
+          placeholder="Please select"
+          defaultValue={listPermissionByGroup.map(
+            (permissionByGroup) => permissionByGroup.id
+          )}
+          onChange={handleChangeAllPermission}
+        >
+          {children}
+        </Select>
+      );
     }
 
     return extraInfos;
@@ -66,13 +111,24 @@ export default function ({ contact, otherAttributes, editContact }) {
         <div className="isoContactInfoWrapper">{renderInfo()}</div>
       </ContactCardWrapper>
       <div style={{ padding: 30, marginTop: 60, textAlign: "center" }}>
-        <Button onClick={() => dispatch({ type: actions.ACTIVE_VIEW })} type={updateGroup ? "primary" : "default"}>
+        <Button
+          onClick={() => dispatch({ type: actions.ACTIVE_VIEW })}
+          type={updateGroup ? "primary" : "default"}
+        >
           Update
         </Button>
-        <Button style={{ margin: "0 10px" }} type={deleteGroup ? "primary" : "default"} onClick={() => dispatch({ type: actions.DELETE_GROUP })}>
+        <Button
+          style={{ margin: "0 10px" }}
+          type={addPermission ? "primary" : "default"}
+          onClick={() => dispatch({ type: actions.ADD_PERMISSIONS })}
+        >
           Add Permissions
         </Button>
-        <Button style={{ margin: "0 10px" }} type={deleteGroup ? "primary" : "default"} onClick={() => dispatch({ type: actions.DELETE_GROUP })}>
+        <Button
+          style={{ margin: "0 10px" }}
+          type={deleteGroup ? "primary" : "default"}
+          onClick={() => dispatch({ type: actions.DELETE_GROUP })}
+        >
           Delete
         </Button>
       </div>

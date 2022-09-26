@@ -10,10 +10,13 @@ export default function groupPermissionReducer(
     addGroup: false,
     updateGroup: false,
     deleteGroup: false,
+    addPermission: false,
     addGroupRequest: {
       statusAddGroup: false,
     },
     listPermissionByGroup: null,
+    allPermission: null,
+    selectedPermission: null,
   },
   action
 ) {
@@ -44,6 +47,7 @@ export default function groupPermissionReducer(
         editView: action.payload,
         updateGroup: true,
         deleteGroup: false,
+        addPermission: false,
       };
     case actions.CHANGE_GROUP:
       return {
@@ -61,18 +65,27 @@ export default function groupPermissionReducer(
         ...state,
         updateGroup: true,
         deleteGroup: false,
+        addPermission: false,
       };
     case actions.DELETE_GROUP:
       return {
         ...state,
         deleteGroup: true,
         updateGroup: false,
+        addPermission: false,
       };
     case actions.ADD_GROUP_ACTION:
       return {
         ...state,
         addGroup: true,
         editView: true,
+      };
+    case actions.ADD_PERMISSIONS:
+      return {
+        ...state,
+        addPermission: true,
+        deleteGroup: false,
+        updateGroup: false,
       };
     case actions.ADD_GROUP_SUCCESS:
       return {
@@ -110,6 +123,16 @@ export default function groupPermissionReducer(
       return {
         ...state,
         listPermissionByGroup: action.payload.data,
+      };
+    case actions.GET_LIST_PERMISSIONS_SUCCESS:
+      return {
+        ...state,
+        allPermission: action.payload.data,
+      };
+    case actions.PERMISSIONS_SELECTED:
+      return {
+        ...state,
+        selectedPermission: action.payload,
       };
 
     default:

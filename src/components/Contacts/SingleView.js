@@ -8,10 +8,14 @@ export default function ({ contact, otherAttributes, type }) {
   if (!contact) return null;
   const dispatch = useDispatch();
   const [toggle, setToggle] = useState(false);
-  const { listPermissionByGroup } = useSelector((state) => state.GroupPermission);
+  const { listPermissionByGroup } = useSelector(
+    (state) => state.GroupPermission
+  );
 
   useEffect(() => {
-    type === "group" && contact && dispatch(actions.getListPermissionByGroup({ groupId: contact.id }));
+    type === "group" &&
+      contact &&
+      dispatch(actions.getListPermissionByGroup({ groupId: contact.id }));
   }, [type, contact]);
 
   console.log("dksafjksdaf", listPermissionByGroup);
@@ -26,7 +30,13 @@ export default function ({ contact, otherAttributes, type }) {
         extraInfos.push(
           <div className="isoContactCardInfos" key={attribute.value}>
             <p className="isoInfoLabel">{attribute.title}</p>
-            {attribute?.value === "createdAt" ? <p className="isoInfoDetails">{new Date(value).toLocaleString()}</p> : <p className="isoInfoDetails">{value}</p>}
+            {attribute?.value === "createdAt" ? (
+              <p className="isoInfoDetails">
+                {new Date(value).toLocaleString()}
+              </p>
+            ) : (
+              <p className="isoInfoDetails">{value}</p>
+            )}
           </div>
         );
       }
@@ -34,11 +44,11 @@ export default function ({ contact, otherAttributes, type }) {
 
   if (type === "group" && listPermissionByGroup?.length) {
     const columns = [
-      {
-        title: "Id",
-        dataIndex: "id",
-        key: "id",
-      },
+      // {
+      //   title: "Id",
+      //   dataIndex: "id",
+      //   key: "id",
+      // },
       {
         title: "Permission key",
         dataIndex: "permissionKey",
@@ -55,7 +65,20 @@ export default function ({ contact, otherAttributes, type }) {
         key: "description",
       },
     ];
-    extraInfos.push(<Table columns={columns} dataSource={listPermissionByGroup} />);
+    extraInfos.push(
+      <div className="isoContactCardInfos" style={{ flexDirection: "column" }}>
+        <p className="isoInfoLabel" style={{ padding: "24px 0" }}>
+          List Permission
+        </p>
+        <div style={{ flex: 1, width: "100%" }}>
+          <Table
+            columns={columns}
+            dataSource={listPermissionByGroup}
+            pagination={false}
+          />
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -63,9 +86,15 @@ export default function ({ contact, otherAttributes, type }) {
       <div className="isoContactCardHead">
         <div className="isoPersonImage">
           {contact?.roleName === "Admin" ? (
-            <img alt="#" src="https://thumbs.dreamstime.com/b/admin-sign-laptop-icon-stock-vector-166205404.jpg" />
+            <img
+              alt="#"
+              src="https://thumbs.dreamstime.com/b/admin-sign-laptop-icon-stock-vector-166205404.jpg"
+            />
           ) : (
-            <img alt="#" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThpUgC7dkHYV0KD26Ujw5u83EI43dOZqvABg&usqp=CAU" />
+            <img
+              alt="#"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThpUgC7dkHYV0KD26Ujw5u83EI43dOZqvABg&usqp=CAU"
+            />
           )}
         </div>
         <h1 className="isoPersonName">{name || groupName}</h1>

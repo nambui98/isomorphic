@@ -17,9 +17,18 @@ import LazyLoadingSpin from "@iso/components/LazyLoadingSpin";
 const { Content } = Layout;
 export default function GroupPermission() {
   const { listRole } = useSelector((state) => state.Role);
-  const { listAccount, idAccount, statusChangeRole, statusDisableAccount, addAccount, activeAccountRequest, disabledView, resetPasswordView, changeRoleView, activeView } = useSelector(
-    (state) => state.Account
-  );
+  const {
+    listAccount,
+    idAccount,
+    statusChangeRole,
+    statusDisableAccount,
+    addAccount,
+    activeAccountRequest,
+    disabledView,
+    resetPasswordView,
+    changeRoleView,
+    activeView,
+  } = useSelector((state) => state.Account);
 
   const {
     listGroup,
@@ -30,9 +39,11 @@ export default function GroupPermission() {
     addGroup,
     deleteGroup,
     addGroupRequest: { statusAddGroup },
+    selectedPermission,
+    addPermission,
   } = useSelector((state) => state.GroupPermission);
 
-  console.log("ksadfjaskdf");
+  console.log("ksadfjaskdf", selectedPermission);
 
   const dispatch = useDispatch();
   const [groupName, setGroupName] = useState("");
@@ -41,6 +52,10 @@ export default function GroupPermission() {
   useEffect(() => {
     dispatch({
       type: actions.GET_LIST_GROUP,
+    });
+
+    dispatch({
+      type: actions.GET_LIST_PERMISSIONS,
     });
   }, []);
 
@@ -52,7 +67,9 @@ export default function GroupPermission() {
   }, [statusAddGroup]);
 
   const selectedGroup = useMemo(() => {
-    return idGroup ? listGroup.filter((group) => group.id === idGroup)[0] : null;
+    return idGroup
+      ? listGroup.filter((group) => group.id === idGroup)[0]
+      : null;
   }, [idGroup, listGroup]);
 
   console.log("asdkfdsafasdf", selectedGroup);
@@ -83,13 +100,26 @@ export default function GroupPermission() {
               groupId: selectedGroup.id,
             })
           );
+        } else if (addPermission) {
+          console.log("dklashfjasdhf", selectedPermission);
+          console.log("dklashdsadsfjasdhf", selectedGroup);
+
+          dispatch(
+            actions.updatePermissionGroup({
+              groupId: selectedGroup.id,
+              permissionId: selectedPermission,
+            })
+          );
         }
       }
     }
   };
 
   return (
-    <GroupPermissionWrapper className="isomorphicContacts" style={{ background: "none" }}>
+    <GroupPermissionWrapper
+      className="isomorphicContacts"
+      style={{ background: "none" }}
+    >
       <div className="isoContactListBar">
         <LazyLoadingSpin loading={isLoading}>
           <GroupListPermission
@@ -106,21 +136,44 @@ export default function GroupPermission() {
         <Content className="isoContactBox">
           <div className="isoContactControl">
             <Button type="primary" onClick={onVIewChange}>
-              {editView || addGroup ? <CheckOutlined /> : selectedGroup ? <EditOutlined /> : ""}
+              {editView || addGroup ? (
+                <CheckOutlined />
+              ) : selectedGroup ? (
+                <EditOutlined />
+              ) : (
+                ""
+              )}
             </Button>
 
-            <Button onClick={() => dispatch({ type: actions.ADD_GROUP_ACTION })} className="isoAddContactBtn" type="default">
+            <Button
+              onClick={() => dispatch({ type: actions.ADD_GROUP_ACTION })}
+              className="isoAddContactBtn"
+              type="default"
+            >
               Add Group
             </Button>
           </div>
 
           <Scrollbar className="contactBoxScrollbar">
             {addGroup ? (
-              <AddGroup setDescription={setDescription} setGroupName={setGroupName} />
+              <AddGroup
+                setDescription={setDescription}
+                setGroupName={setGroupName}
+              />
             ) : editView ? (
-              <EditGroup contact={selectedGroup} editContact={(contact) => dispatch(actions.editContact(contact))} otherAttributes={otherAttributes} />
+              <EditGroup
+                contact={selectedGroup}
+                editContact={(contact) =>
+                  dispatch(actions.editContact(contact))
+                }
+                otherAttributes={otherAttributes}
+              />
             ) : (
-              <SingleContactView contact={selectedGroup} otherAttributes={otherAttributes} type="group" />
+              <SingleContactView
+                contact={selectedGroup}
+                otherAttributes={otherAttributes}
+                type="group"
+              />
             )}
           </Scrollbar>
         </Content>
