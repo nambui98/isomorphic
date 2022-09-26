@@ -1,4 +1,4 @@
-import { all, takeEvery, put, fork } from "redux-saga/effects";
+import { all, takeEvery, put, fork, takeLatest } from "redux-saga/effects";
 import { createBrowserHistory } from "history";
 import authRequest from "../../service/auth";
 import { getToken, clearToken } from "@iso/lib/helpers/utility";
@@ -33,8 +33,22 @@ function* requestResetPassword(action) {
 
   return yield createBlankAsyncSagaRequest({
     api: authRequest.changeAccount,
-    success: [() => makeActionNotification({ status: "success", title: "Success", description: "Change Account Success" })],
-    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
+    success: [
+      () =>
+        makeActionNotification({
+          status: "success",
+          title: "Success",
+          description: "Change Account Success",
+        }),
+    ],
+    failure: [
+      (res) =>
+        makeActionNotification({
+          status: "error",
+          title: "Error",
+          description: res?.data?.meta.error_message,
+        }),
+    ],
   })(action);
 }
 
@@ -42,14 +56,14 @@ export function* resetPasswordRequest() {
   yield takeEvery(actions.RESET_PASSWORD, requestResetPassword);
 }
 
-export function* logout() {
+function* logout() {
   yield takeEvery(actions.LOGOUT, function* () {
     yield clearToken();
     history.push("/");
   });
 }
-export function* checkAuthorization() {
-  yield takeEvery(actions.CHECK_AUTHORIZATION, function* () {
+function* checkAuthorization() {
+  yield takeLatest(actions.CHECK_AUTHORIZATION, function* () {
     const token = getToken().get("accessToken");
     const permissions = getToken().get("permissions");
 
@@ -87,5 +101,13 @@ export function* loginEnable2FA() {
 }
 
 export default function* rootSaga() {
-  yield all([fork(checkAuthorization), fork(loginRequest), fork(loginSuccess), fork(logout), fork(resetPasswordRequest), fork(login2FA), fork(loginEnable2FA)]);
+  yield all([
+    fork(checkAuthorization),
+    fork(loginRequest),
+    fork(loginSuccess),
+    fork(logout),
+    fork(resetPasswordRequest),
+    fork(login2FA),
+    fork(loginEnable2FA),
+  ]);
 }
