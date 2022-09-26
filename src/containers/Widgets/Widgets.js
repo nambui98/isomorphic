@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import clone from "clone";
-import { Row, Col } from "antd";
+import { Row, Col, DatePicker, Space } from "antd";
 import LayoutWrapper from "@iso/components/utility/layoutWrapper";
 import basicStyle from "@iso/assets/styles/constants";
 import IsoWidgetsWrapper from "./WidgetsWrapper";
@@ -9,6 +9,8 @@ import { Line } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
 import actions from "@iso/redux/dashboard/actions";
 import useWindowSize from "@iso/lib/hooks/useWindowSize";
+import { LineChart } from "./Line";
+import moment from "moment";
 // import faker from "faker";
 // import IsoWidgetBox from "./WidgetBox";
 // import CardWidget from "./Card/CardWidget";
@@ -30,7 +32,7 @@ import GoogleChart, { Chart } from "react-google-charts";
 // import IntlMessages from "@iso/components/utility/intlMessages";
 
 // ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-
+const { RangePicker } = DatePicker;
 const tableDataList = clone(dataList);
 tableDataList.size = 5;
 const styles = {
@@ -213,7 +215,9 @@ export default function () {
   const { rowStyle, colStyle } = basicStyle;
   const dispatch = useDispatch();
   const { listDataHee } = useSelector((state) => state.Dashboard);
-  console.log("daskfjashdf", listDataHee);
+  const [datePicker, setDatePicker] = useState([]);
+  // ${Date.getFullYear()}-${Date.getMonth()}-${Date.getDay()}
+  console.log(`daskfjashdf`);
 
   const { width } = useWindowSize();
 
@@ -228,27 +232,39 @@ export default function () {
   console.log("dsfhjahsdfa", dataHeeInfo);
 
   useEffect(() => {
+    let currentDate;
+    let prevDate;
+    if (!datePicker.length) {
+      currentDate = moment(Date.now()).format("YYYY-MM-DD");
+      prevDate = moment(Date.now() - 1296000000).format("YYYY-MM-DD");
+    } else {
+      currentDate = datePicker[1];
+      prevDate = datePicker[0];
+    }
+
     dispatch(
       actions.getHeeInfo({
-        fromDate: "2022-08-20",
-        toDate: "2022-09-20",
+        fromDate: prevDate,
+        toDate: currentDate,
       })
     );
-  }, []);
+  }, [datePicker, dispatch]);
 
-  const options = {
-    chart: {
-      title: "Total amount of hee for the day",
-      subtitle: `Total: ${Number(parseFloat(listDataHee?.total / 10 ** 18).toFixed(2))} hee.`,
-    },
-    width: width > 400 ? "1200px" : "600px",
-    height: "600px",
-    // vAxis: {
-    //   format: "long",
-    // },
-    // chartArea: { left: 15, top: 15, right: 0, bottom: 0 },
-    // curveType: "function",
-  };
+  const labels = listDataHee?.chart?.categories;
+  const data = listDataHee?.chart?.series[0]?.data.map((series) => {
+    return formatHee(series);
+  });
+
+  const totalHee = Number(parseFloat(listDataHee?.total / 10 ** 18).toFixed(2));
+
+  // const options = {
+  //   chart: {
+  //     title: "Total amount of hee for the day",
+  //     subtitle: `Total: ${Number(parseFloat(listDataHee?.total / 10 ** 18).toFixed(2))} hee.`,
+  //   },
+  //   width: width > 400 ? "1200px" : "600px",
+  //   height: "600px",
+  // };
 
   // const chartEvents = [
   //   {
@@ -261,18 +277,43 @@ export default function () {
   //   ...rechartConfigs.StackedAreaChart,
   //   width: !isServer && window.innerWidth < 450 ? 300 : 500,
   // };
+  const handleChangeDate = (date, event) => {
+    console.log("sdakfhsdaf", date);
+    const dates = date.map((d, i) => moment(d).format("YYYY-MM-DD"));
+    console.log("ksafa", dates);
+    setDatePicker(dates);
+  };
   return (
     <LayoutWrapper style={{ overflow: "auto" }}>
-      <div>
-        <Row style={rowStyle} gutter={0} justify="start">
-          <Col lg={8} md={12} sm={24} xs={24} style={colStyle}>
-            {/* <Col> */}
-            <IsoWidgetsWrapper>
-              {/* <Line options={options} data={data} /> */}
-              <Chart chartType="Line" data={dataHeeInfo && [["Days", "Hee"], ...dataHeeInfo]} options={options} />
-            </IsoWidgetsWrapper>
-          </Col>
-        </Row>
+      <div style={{ width: "70%" }}>
+        <div>
+          <RangePicker
+            onChange={handleChangeDate}
+            dateRender={(current) => {
+              const style = {};
+
+              if (current.date() === 1) {
+                style.border = "1px solid #1890ff";
+                style.borderRadius = "50%";
+              }
+
+              return (
+                <div className="ant-picker-cell-inner" style={style}>
+                  {current.date()}
+                </div>
+              );
+            }}
+          />
+        </div>
+        {/* <Row style={rowStyle} gutter={0} justify="start"> */}
+        {/* <Col lg={8} md={12} sm={24} xs={24} style={colStyle}> */}
+        {/* <Col> */}
+        {/* <IsoWidgetsWrapper> */}
+        <LineChart data={data} labels={labels} totalHee={totalHee} />
+        {/* </IsoWidgetsWrapper> */}
+        {/* </Col> */}
+        {/* </Row> */}
+        {/* <LineChart /> */}
       </div>
     </LayoutWrapper>
   );

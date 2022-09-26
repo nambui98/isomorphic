@@ -48,6 +48,10 @@ const routes = [
     path: "cdn",
     component: lazy(() => import("@iso/containers/CDN/PageCdn")),
   },
+  {
+    path: "group",
+    component: lazy(() => import("@iso/containers/GroupPermission/GroupPermission")),
+  },
 
   // {
   //   path: "addAccount",

@@ -119,6 +119,11 @@ const options = [
     leftIcon: "ion-person",
   },
   {
+    key: "group",
+    label: "Group Permission",
+    leftIcon: "ion-grid",
+  },
+  {
     key: "account",
     label: "Account",
     leftIcon: "ion-android-person-add",
