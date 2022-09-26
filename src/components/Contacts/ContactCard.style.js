@@ -26,7 +26,7 @@ const WDContactCardWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 120px;
+    width: 150px;
     flex-shrink: 0;
     margin-right: ${(props) => (props["data-rtl"] === "rtl" ? "inherit" : "50px")};
     margin-left: ${(props) => (props["data-rtl"] === "rtl" ? "50px" : "inherit")};

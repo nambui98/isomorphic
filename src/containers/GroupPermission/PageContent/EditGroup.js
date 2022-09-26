@@ -5,72 +5,49 @@ import notification from "@iso/components/Notification";
 import { ContactCardWrapper } from "@iso/components/Contacts/ContactCard.style";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "@iso/components/uielements/button";
-import actions from "@iso/redux/account/actions";
+import actions from "@iso/redux/groupPermission/actions";
 import { Select } from "antd";
 
 const { Option } = Select;
 
-export default function ({ contact, otherAttributes, editContact, setRoleId }) {
+export default function ({ contact, otherAttributes, editContact }) {
   if (!contact) return null;
   const dispatch = useDispatch();
 
-  const { disabledView, resetPasswordView, changeRoleView, activeView } = useSelector((state) => state.Account);
-  const { listRole } = useSelector((state) => state.Role);
+  const { deleteGroup, updateGroup } = useSelector((state) => state.GroupPermission);
 
-  console.log("kfjasdhfads", contact);
-
-  const name = contact.account ? contact.account : "No Account";
+  const name = contact?.groupName ? contact.groupName : "No Group Name";
 
   const renderInfo = () => {
     const extraInfos = [];
 
-    if (activeView || disabledView || resetPasswordView) {
+    if (updateGroup) {
       [...otherAttributes].forEach((attribute) => {
         const value = contact[attribute.value];
         const handleEditContact = (event) => {
           contact[attribute.value] = event.target.value;
+          console.log("sadkfjsad", contact);
           editContact(contact);
         };
 
-        if (attribute.value === "account") {
+        if (attribute.value !== "id") {
           extraInfos.push(
             <div className="isoContactCardInfos" key={attribute.value}>
               <p className="isoInfoLabel">{`${attribute.title}`}</p>
-              <Input placeholder={`${attribute.title}`} value={value} onChange={handleEditContact} readOnly />
+              <Input placeholder={`${attribute.title}`} value={value} onChange={handleEditContact} />
             </div>
           );
         }
       });
-    } else if (changeRoleView) {
+    } else if (deleteGroup) {
       [...otherAttributes].forEach((attribute) => {
         const value = contact[attribute.value];
-        const handleEditContact = (event) => {
-          contact[attribute.value] = event.target.value;
-          editContact(contact);
-        };
 
-        if (attribute.value === "account") {
+        if (attribute.value === "id") {
           extraInfos.push(
             <div className="isoContactCardInfos" key={attribute.value}>
               <p className="isoInfoLabel">{`${attribute.title}`}</p>
-              <Input placeholder={`${attribute.title}`} value={value} onChange={handleEditContact} readOnly />
-            </div>
-          );
-        }
-        if (attribute.value === "roleName") {
-          const handleChangeRole = (roleId) => {
-            setRoleId(roleId);
-          };
-          extraInfos.push(
-            <div className="isoContactCardInfos" key={attribute.value}>
-              <p className="isoInfoLabel">{`${attribute.title}`}</p>
-              <Select defaultValue={contact.roleId} style={{ width: 120 }} onChange={handleChangeRole}>
-                {listRole?.map((item) => (
-                  <Option key={item?.id} value={item?.id}>
-                    {item?.roleName}
-                  </Option>
-                ))}
-              </Select>
+              <Input placeholder={`${attribute.title}`} value={value} readOnly />
             </div>
           );
         }
@@ -89,17 +66,14 @@ export default function ({ contact, otherAttributes, editContact, setRoleId }) {
         <div className="isoContactInfoWrapper">{renderInfo()}</div>
       </ContactCardWrapper>
       <div style={{ padding: 30, marginTop: 60, textAlign: "center" }}>
-        <Button onClick={() => dispatch({ type: actions.ACTIVE_VIEW })} type={activeView ? "primary" : "default"}>
-          Active
+        <Button onClick={() => dispatch({ type: actions.ACTIVE_VIEW })} type={updateGroup ? "primary" : "default"}>
+          Update
         </Button>
-        <Button style={{ margin: "0 10px" }} type={disabledView ? "primary" : "default"} onClick={() => dispatch({ type: actions.DISABLE_VIEW })}>
-          Disabled
+        <Button style={{ margin: "0 10px" }} type={deleteGroup ? "primary" : "default"} onClick={() => dispatch({ type: actions.DELETE_GROUP })}>
+          Add Permissions
         </Button>
-        <Button style={{ marginRight: "10px" }} type={resetPasswordView ? "primary" : "default"} onClick={() => dispatch({ type: actions.RESET_PASSWORD_VIEW })}>
-          Reset Pw
-        </Button>
-        <Button type={changeRoleView ? "primary" : "default"} onClick={() => dispatch({ type: actions.CHANGE_ROLE })}>
-          Change Role
+        <Button style={{ margin: "0 10px" }} type={deleteGroup ? "primary" : "default"} onClick={() => dispatch({ type: actions.DELETE_GROUP })}>
+          Delete
         </Button>
       </div>
     </div>

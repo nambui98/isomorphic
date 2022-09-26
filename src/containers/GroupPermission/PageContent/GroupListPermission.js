@@ -21,11 +21,8 @@ export default function GroupListPermission(props) {
     const onChange = () => changeContact(contact.id);
     return (
       <div key={contact.id} className={`${activeClass} isoSingleContact`} onClick={onChange}>
-        {/* <div className="isoAvatar">
-          {contact.avatar ? <img alt="#" src={contact.avatar} /> : ''}
-        </div> */}
         <div className="isoContactName">
-          <h3>{contact.account ? contact.account : "No Account"}</h3>
+          <h3>{contact.groupName ? contact.groupName : "No Group"}</h3>
         </div>
       </div>
     );
@@ -60,7 +57,7 @@ export default function GroupListPermission(props) {
           </Scrollbar>
         </div>
       ) : (
-        <span className="isoNoResultMsg">No Account</span>
+        <span className="isoNoResultMsg">No Group Name</span>
       )}
     </ContactListWrapper>
   );

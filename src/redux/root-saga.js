@@ -20,6 +20,7 @@ import accountSaga from "@iso/redux/account/saga";
 import notiSaga from "@iso/redux/notification/saga";
 import cdnSaga from "@iso/redux/cdn/saga";
 import dashboardSaga from "@iso/redux/dashboard/saga";
+import groupPermissionSaga from "@iso/redux/groupPermission/saga";
 
 export default function* rootSaga(getState) {
   yield all([
@@ -27,6 +28,7 @@ export default function* rootSaga(getState) {
     accountSaga(),
     notiSaga(),
     cdnSaga(),
+    groupPermissionSaga(),
     dashboardSaga(),
     roleSagas(),
     contactSagas(),
