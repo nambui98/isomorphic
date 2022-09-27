@@ -23,6 +23,13 @@ const roleRequest = {
       },
     });
   },
+  getListGroupByRole(payload) {
+    return axiosClient.post("group/list-by-role", payload, {
+      headers: {
+        Authorization: "Bearer " + getToken().get("accessToken"),
+      },
+    });
+  },
 };
 
 export default roleRequest;

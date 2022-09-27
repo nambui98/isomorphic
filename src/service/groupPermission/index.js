@@ -4,11 +4,7 @@ import { getToken } from "@iso/lib/helpers/utility";
 
 const groupRequest = {
   getListGroupPermissions() {
-    return axiosClient.post(
-      "group/list-all",
-      {},
-      { headers: { Authorization: "Bearer " + getToken().get("accessToken") } }
-    );
+    return axiosClient.post("group/list-all", {}, { headers: { Authorization: "Bearer " + getToken().get("accessToken") } });
   },
   updateGroupPermissions(payload) {
     return axiosClient.post("group/update", payload, {
@@ -31,14 +27,15 @@ const groupRequest = {
     });
   },
   getAllPermissions(payload) {
-    return axiosClient.post(
-      "permission/list-all",
-      {},
-      { headers: { Authorization: "Bearer " + getToken().get("accessToken") } }
-    );
+    return axiosClient.post("permission/list-all", {}, { headers: { Authorization: "Bearer " + getToken().get("accessToken") } });
   },
   updatePermissionByGroup(payload) {
     return axiosClient.post("group/update-group-permission", payload, {
+      headers: { Authorization: "Bearer " + getToken().get("accessToken") },
+    });
+  },
+  updateGroupByRole(payload) {
+    return axiosClient.post("role/update-role-group", payload, {
       headers: { Authorization: "Bearer " + getToken().get("accessToken") },
     });
   },

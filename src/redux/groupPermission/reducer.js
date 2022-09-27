@@ -17,6 +17,7 @@ export default function groupPermissionReducer(
     listPermissionByGroup: null,
     allPermission: null,
     selectedPermission: null,
+    statusUpdateGroupByRole: false,
   },
   action
 ) {
@@ -133,6 +134,30 @@ export default function groupPermissionReducer(
       return {
         ...state,
         selectedPermission: action.payload,
+      };
+    case actions.UPDATE_GROUP_PERMISSIONS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        statusUpdatePermissionByGroup: true,
+      };
+    case actions.UPDATE_GROUP_PERMISSIONS_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+        statusUpdatePermissionByGroup: false,
+      };
+    case actions.UPDATE_ROLE_GROUP_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+        statusUpdateGroupByRole: false,
+      };
+    case actions.UPDATE_ROLE_GROUP_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        statusUpdateGroupByRole: true,
       };
 
     default:

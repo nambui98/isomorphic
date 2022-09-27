@@ -43,6 +43,19 @@ export function* addNewRole() {
   yield takeEvery(actions.ADD_NEW_ROLE, handleAddNewRole);
 }
 
+function* handleGetListGroupByRole(action) {
+  return yield createBlankAsyncSagaRequest({
+    api: roleRequest.getListGroupByRole,
+    // Add role success
+    // success: [() => makeActionNotification({ status: "success", title: "Success", description: "Add role success" })],
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
+  })(action);
+}
+
+export function* getListGroup() {
+  yield takeEvery(actions.GET_LIST_GROUP_BY_ROLE, handleGetListGroupByRole);
+}
+
 export default function* roleSaga() {
-  yield all([fork(getAllRole), fork(editRole), fork(addNewRole)]);
+  yield all([fork(getAllRole), fork(editRole), fork(addNewRole), fork(getListGroup)]);
 }

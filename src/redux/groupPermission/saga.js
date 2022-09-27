@@ -116,10 +116,7 @@ function* handleGetListPermissionsByGroup(action) {
 }
 
 function* listPermissionByGroup() {
-  yield takeLatest(
-    actions.LIST_PERMISSION_BY_GROUP,
-    handleGetListPermissionsByGroup
-  );
+  yield takeLatest(actions.LIST_PERMISSION_BY_GROUP, handleGetListPermissionsByGroup);
 }
 
 function* handleGetAllPermissions(action) {
@@ -164,10 +161,33 @@ function* handleUpdatePermissionsByGroup(action) {
 }
 
 function* changePermissionsByGroup() {
-  yield takeEvery(
-    actions.UPDATE_GROUP_PERMISSIONS,
-    handleUpdatePermissionsByGroup
-  );
+  yield takeEvery(actions.UPDATE_GROUP_PERMISSIONS, handleUpdatePermissionsByGroup);
+}
+
+function* handleUpdateGroupByRole(action) {
+  return yield createBlankAsyncSagaRequest({
+    api: groupRequest.updateGroupByRole,
+    success: [
+      () =>
+        makeActionNotification({
+          status: "success",
+          title: "Success",
+          description: "Update Role Group success",
+        }),
+    ],
+    failure: [
+      (res) =>
+        makeActionNotification({
+          status: "error",
+          title: "Error",
+          description: res?.data?.meta.error_message,
+        }),
+    ],
+  })(action);
+}
+
+function* ChangeGroupByRole() {
+  yield takeEvery(actions.UPDATE_ROLE_GROUP, handleUpdateGroupByRole);
 }
 
 export default function* groupPermissionSaga() {
@@ -179,5 +199,6 @@ export default function* groupPermissionSaga() {
     fork(listPermissionByGroup),
     fork(listPermission),
     fork(changePermissionsByGroup),
+    fork(ChangeGroupByRole),
   ]);
 }

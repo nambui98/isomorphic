@@ -14,6 +14,7 @@ import IntlMessages from "@iso/components/utility/intlMessages";
 import { ContactsWrapper } from "./Contacts.styles";
 import Scrollbar from "@iso/components/utility/customScrollBar";
 import actions from "@iso/redux/role/actions";
+import actionsGroup from "@iso/redux/groupPermission/actions";
 import LazyLoadingSpin from "@iso/components/LazyLoadingSpin";
 
 const { changeContact, addContact, editContact, deleteContact, viewChange } = contactActions;
@@ -27,6 +28,12 @@ export default function Contacts({ setTxtSearch, textSearch }) {
   const [keyRole, setKeyRole] = useState("");
 
   console.log("dsahfueiwqfhas", addRole);
+
+  useEffect(() => {
+    dispatch({
+      type: actionsGroup.GET_LIST_GROUP,
+    });
+  }, []);
 
   useEffect(() => {
     (statusAddRole || statusEditRole) &&
@@ -99,7 +106,7 @@ export default function Contacts({ setTxtSearch, textSearch }) {
             ) : editView ? (
               <EditContactView contact={selectedContact} editContact={(contact) => dispatch(editContact(contact))} otherAttributes={otherAttributes} />
             ) : (
-              <SingleContactView contact={selectedContact} otherAttributes={otherAttributes} />
+              <SingleContactView contact={selectedContact} otherAttributes={otherAttributes} type="ROLE_GROUP" />
             )}
           </Scrollbar>
         </Content>

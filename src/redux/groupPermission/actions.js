@@ -29,6 +29,11 @@ const actions = {
   GET_LIST_PERMISSIONS_SUCCESS: "GET_LIST_PERMISSIONS_SUCCESS",
   PERMISSIONS_SELECTED: "PERMISSIONS_SELECTED",
   UPDATE_GROUP_PERMISSIONS: "UPDATE_GROUP_PERMISSIONS",
+  UPDATE_GROUP_PERMISSIONS_PENDING: "UPDATE_GROUP_PERMISSIONS_PENDING",
+  UPDATE_GROUP_PERMISSIONS_SUCCESS: "UPDATE_GROUP_PERMISSIONS_SUCCESS",
+  UPDATE_ROLE_GROUP: "UPDATE_ROLE_GROUP",
+  UPDATE_ROLE_GROUP_SUCCESS: "UPDATE_ROLE_GROUP_SUCCESS",
+  UPDATE_ROLE_GROUP_PENDING: "UPDATE_ROLE_GROUP_PENDING",
   changeIdGroup: (payload) => ({
     type: actions.CHANGE_GROUP_ID,
     payload,
@@ -59,6 +64,10 @@ const actions = {
   }),
   updatePermissionGroup: (payload) => ({
     type: actions.UPDATE_GROUP_PERMISSIONS,
+    payload,
+  }),
+  updateGroupByRole: (payload) => ({
+    type: actions.UPDATE_ROLE_GROUP,
     payload,
   }),
   editContact: (newContact) => {

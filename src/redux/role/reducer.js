@@ -1,6 +1,6 @@
 import actions from "./actions";
 
-const initState = { listRole: [], isLoading: false, errors: null, selectedId: null, addRole: false, statusAddRole: false, statusEditRole: false };
+const initState = { listRole: [], isLoading: false, errors: null, selectedId: null, addRole: false, statusAddRole: false, statusEditRole: false, listGroupByRole: null };
 
 export default function roleReducer(state = initState, action) {
   console.log("ặehfuiewqr", action);
@@ -52,6 +52,17 @@ export default function roleReducer(state = initState, action) {
       return {
         ...state,
         statusEditRole: false,
+      };
+    case actions.GET_LIST_GROUP_BY_ROLE_SUCCESS:
+      return {
+        ...state,
+        statusListGroupByRole: true,
+        listGroupByRole: action.payload.data,
+      };
+    case actions.GET_LIST_GROUP_BY_ROLE_PENDING:
+      return {
+        ...state,
+        statusListGroupByRole: false,
       };
     default:
       return state;

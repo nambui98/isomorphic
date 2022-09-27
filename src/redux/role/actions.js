@@ -10,6 +10,9 @@ const actions = {
   EDIT_ROLE: "EDIT_ROLE",
   EDIT_ROLE_SUCCESS: "EDIT_ROLE_SUCCESS",
   EDIT_ROLE_PENDING: "EDIT_ROLE_PENDING",
+  GET_LIST_GROUP_BY_ROLE: "GET_LIST_GROUP_BY_ROLE",
+  GET_LIST_GROUP_BY_ROLE_SUCCESS: "GET_LIST_GROUP_BY_ROLE_SUCCESS",
+  GET_LIST_GROUP_BY_ROLE_PENDING: "GET_LIST_GROUP_BY_ROLE_PENDING",
   changeIdRole: (id) => ({
     type: actions.CHANGE_ROLE_ID,
     payload: id,
@@ -20,6 +23,10 @@ const actions = {
   }),
   addRoleName: (payload) => ({
     type: actions.ADD_NEW_ROLE,
+    payload,
+  }),
+  getListGroupByRole: (payload) => ({
+    type: actions.GET_LIST_GROUP_BY_ROLE,
     payload,
   }),
 };
