@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import Input, { Textarea } from "@iso/components/uielements/input";
 import notification from "@iso/components/Notification";
@@ -10,8 +10,9 @@ import { Select } from "antd";
 
 const { Option } = Select;
 
-export default function ({ contact, otherAttributes, editContact, setRoleId }) {
+export default function ({ contact, otherAttributes, editContact, setTxtSearch }) {
   if (!contact) return null;
+  const [roleId, setRoleId] = useState("");
   const dispatch = useDispatch();
 
   const { disabledView, resetPasswordView, changeRoleView, activeView } = useSelector((state) => state.Account);
@@ -20,6 +21,27 @@ export default function ({ contact, otherAttributes, editContact, setRoleId }) {
   console.log("kfjasdhfads", contact);
 
   const name = contact.account ? contact.account : "No Account";
+
+  const handleChangeAction = (action) => {
+    console.log("sidajfeiur", action);
+
+    switch (action) {
+      case "activeView":
+        dispatch({ type: actions.ACTIVE_VIEW });
+        break;
+      case "disabledView":
+        dispatch({ type: actions.DISABLE_VIEW });
+        break;
+      case "resetPasswordView":
+        dispatch({ type: actions.RESET_PASSWORD_VIEW });
+        break;
+      case "changeRoleView":
+        dispatch({ type: actions.CHANGE_ROLE });
+        break;
+      default:
+        break;
+    }
+  };
 
   const renderInfo = () => {
     const extraInfos = [];
@@ -77,29 +99,73 @@ export default function ({ contact, otherAttributes, editContact, setRoleId }) {
       });
     }
 
+    extraInfos.push(
+      <div className="isoContactCardInfos" key="123">
+        <p className="isoInfoLabel">Action</p>
+        <Select
+          placeholder="Select a action"
+          defaultValue="activeView"
+          style={{
+            width: 160,
+          }}
+          onChange={handleChangeAction}
+        >
+          <Option value="activeView">Active</Option>
+          <Option value="disabledView">Disabled</Option>
+          <Option value="resetPasswordView">Reset Pw</Option>
+          <Option value="changeRoleView">Change Role</Option>
+        </Select>
+      </div>
+    );
+
     return extraInfos;
+  };
+
+  const handleClickUpdateAccount = () => {
+    if (activeView) {
+      dispatch(
+        actions.activeAccount({
+          account: contact.account,
+        })
+      );
+    } else if (disabledView) {
+      // dispatch(actions.editRole(selectedAccount));
+      dispatch(
+        actions.disabledAccount({
+          account: contact.account,
+        })
+      );
+    } else if (resetPasswordView) {
+      dispatch(
+        actions.resetAccount({
+          account: contact.account,
+        })
+      );
+    } else if (changeRoleView) {
+      if (!roleId) return;
+      dispatch(
+        actions.changeRoleAccount({
+          account: contact.account,
+          roleId,
+        })
+      );
+    }
+    setTxtSearch("");
   };
 
   return (
     <div>
-      <ContactCardWrapper className="isoContactCard">
+      <ContactCardWrapper className="isoContactCard" style={{ flexDirection: "column", alignItems: "center" }}>
         <div className="isoContactCardHead">
-          <h1 className="isoPersonName">{name}</h1>
+          <h1 className="isoPersonName">
+            Update Account Name: &nbsp;<span style={{ color: "rgb(24, 144, 255)" }}>{name}</span>
+          </h1>
         </div>
         <div className="isoContactInfoWrapper">{renderInfo()}</div>
       </ContactCardWrapper>
       <div style={{ padding: 30, marginTop: 60, textAlign: "center" }}>
-        <Button onClick={() => dispatch({ type: actions.ACTIVE_VIEW })} type={activeView ? "primary" : "default"}>
-          Active
-        </Button>
-        <Button style={{ margin: "0 10px" }} type={disabledView ? "primary" : "default"} onClick={() => dispatch({ type: actions.DISABLE_VIEW })}>
-          Disabled
-        </Button>
-        <Button style={{ marginRight: "10px" }} type={resetPasswordView ? "primary" : "default"} onClick={() => dispatch({ type: actions.RESET_PASSWORD_VIEW })}>
-          Reset Pw
-        </Button>
-        <Button type={changeRoleView ? "primary" : "default"} onClick={() => dispatch({ type: actions.CHANGE_ROLE })}>
-          Change Role
+        <Button style={{ marginRight: "10px" }} type="primary" onClick={handleClickUpdateAccount}>
+          Update
         </Button>
       </div>
     </div>

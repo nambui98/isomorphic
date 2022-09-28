@@ -1,12 +1,12 @@
-import styled from 'styled-components';
-import { palette } from 'styled-theme';
-import { transition, borderRadius } from '@iso/lib/helpers/style_utils';
-import WithDirection from '@iso/lib/helpers/rtl';
+import styled from "styled-components";
+import { palette } from "styled-theme";
+import { transition, borderRadius } from "@iso/lib/helpers/style_utils";
+import WithDirection from "@iso/lib/helpers/rtl";
 
 const WDContactsWrapper = styled.div`
   padding: 50px 35px;
   display: flex;
-  ${'' /* max-height: calc(100vh - 130px); */} @media only screen and (max-width: 767px) {
+  ${"" /* max-height: calc(100vh - 130px); */} @media only screen and (max-width: 767px) {
     padding: 50px 20px;
     flex-direction: column;
     height: auto;
@@ -21,7 +21,7 @@ const WDContactsWrapper = styled.div`
     flex-direction: column;
     flex-shrink: 0;
     background: #ffffff;
-    border: 1px solid ${palette('border', 0)};
+    border: 1px solid ${palette("border", 0)};
     width: 320px;
     overflow: hidden;
     overflow-y: auto;
@@ -45,9 +45,9 @@ const WDContactsWrapper = styled.div`
     display: flex;
     justify-content: flex-start;
     background-color: #ffffff;
-    border: 1px solid ${palette('border', 0)};
-    border-left: ${(props) => (props['data-rtl'] === 'rtl' ? 'inherit' : '0')};
-    border-right: ${(props) => (props['data-rtl'] === 'rtl' ? '0' : 'inherit')};
+    border: 1px solid ${palette("border", 0)};
+    border-left: ${(props) => (props["data-rtl"] === "rtl" ? "inherit" : "0")};
+    border-right: ${(props) => (props["data-rtl"] === "rtl" ? "0" : "inherit")};
     position: relative;
 
     .isoContactBox {
@@ -67,6 +67,8 @@ const WDContactsWrapper = styled.div`
       flex-shrink: 0;
       padding: 30px;
       background-color: #ffffff;
+      border-bottom: 1px solid #e9e9e9;
+      margin-bottom: 30px;
 
       @media only screen and (max-width: 767px) {
         padding: 30px 20px;
@@ -74,7 +76,7 @@ const WDContactsWrapper = styled.div`
 
       button:not(.isoAddContactBtn) {
         font-size: 16px;
-        color: ${palette('secondary', 0)};
+        color: ${palette("secondary", 0)};
         width: 35px;
         height: 35px;
         display: flex;
@@ -84,11 +86,9 @@ const WDContactsWrapper = styled.div`
         background-color: #ffffff;
         outline: 0;
         padding: 0;
-        border: 1px solid ${palette('border', 0)};
-        margin-left: ${(props) =>
-          props['data-rtl'] === 'rtl' ? 'inherit' : '-1px'};
-        margin-right: ${(props) =>
-          props['data-rtl'] === 'rtl' ? '-1px' : 'inherit'};
+        border: 1px solid ${palette("border", 0)};
+        margin-left: ${(props) => (props["data-rtl"] === "rtl" ? "inherit" : "-1px")};
+        margin-right: ${(props) => (props["data-rtl"] === "rtl" ? "-1px" : "inherit")};
         cursor: pointer;
         ${borderRadius()};
         ${transition()};
@@ -98,40 +98,30 @@ const WDContactsWrapper = styled.div`
         }
 
         &:first-child {
-          margin-left: ${(props) =>
-            props['data-rtl'] === 'rtl' ? 'inherit' : '0'};
-          margin-right: ${(props) =>
-            props['data-rtl'] === 'rtl' ? '0' : 'inherit'};
+          margin-left: ${(props) => (props["data-rtl"] === "rtl" ? "inherit" : "0")};
+          margin-right: ${(props) => (props["data-rtl"] === "rtl" ? "0" : "inherit")};
         }
 
         &:hover {
-          color: ${palette('primary', 0)};
-          background-color: ${palette('grayscale', 7)};
+          color: ${palette("primary", 0)};
+          background-color: ${palette("grayscale", 7)};
         }
       }
 
       .isoAddContactBtn {
-        background-color: ${palette('primary', 0)};
         border: 0;
         height: 30px;
         padding: 0 15px;
-        margin-left: ${(props) =>
-          props['data-rtl'] === 'rtl' ? 'inherit' : 'auto'};
-        margin-right: ${(props) =>
-          props['data-rtl'] === 'rtl' ? 'auto' : 'inherit'};
-        ${borderRadius('3px')};
+        margin-left: ${(props) => (props["data-rtl"] === "rtl" ? "inherit" : "auto")};
+        margin-right: ${(props) => (props["data-rtl"] === "rtl" ? "auto" : "inherit")};
+        ${borderRadius("3px")};
         ${transition()};
 
         span {
-          font-size: 12px;
+          font-size: 16px;
           font-weight: 400;
           padding: 0;
           text-transform: uppercase;
-          color: #ffffff;
-        }
-
-        &:hover {
-          background-color: ${palette('primary', 1)};
         }
       }
     }

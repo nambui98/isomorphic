@@ -26,7 +26,6 @@ const WDContactCardWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 150px;
     flex-shrink: 0;
     margin-right: ${(props) => (props["data-rtl"] === "rtl" ? "inherit" : "50px")};
     margin-left: ${(props) => (props["data-rtl"] === "rtl" ? "50px" : "inherit")};
@@ -64,11 +63,12 @@ const WDContactCardWrapper = styled.div`
     }
 
     .isoPersonName {
-      font-size: 15px;
+      font-size: 17px;
       font-weight: 500;
       color: ${palette("text", 0)};
       line-height: 1.5;
       margin: 0;
+      margin-bottom: 40px;
     }
   }
 

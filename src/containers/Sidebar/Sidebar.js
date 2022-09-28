@@ -9,6 +9,7 @@ import appActions from "@iso/redux/app/actions";
 import Logo from "@iso/components/utility/logo";
 import SidebarWrapper from "./Sidebar.styles";
 import SidebarMenu from "./SidebarMenu";
+import { getToken } from "@iso/lib/helpers/utility";
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const { Sider } = Layout;
@@ -19,6 +20,7 @@ export default function Sidebar({ chooseSidebarOptions }) {
   const dispatch = useDispatch();
   const { view, openKeys, collapsed, openDrawer, current, height } = useSelector((state) => state.App);
   const customizedTheme = useSelector((state) => state.ThemeSwitcher.sidebarTheme);
+  const getAccessPermission = getToken().get("permissions").split(",");
 
   function handleClick(e) {
     dispatch(changeCurrent([e.key]));
@@ -96,9 +98,11 @@ export default function Sidebar({ chooseSidebarOptions }) {
         <Logo collapsed={isCollapsed} />
         <Scrollbars style={{ height: height - 70 }}>
           <Menu onClick={handleClick} theme="dark" className="isoDashboardMenu" mode={mode} openKeys={isCollapsed ? [] : openKeys} selectedKeys={current} onOpenChange={onOpenChange}>
-            {chooseOptions.map((singleOption) => (
-              <SidebarMenu key={singleOption.key} submenuStyle={submenuStyle} submenuColor={submenuColor} singleOption={singleOption} />
-            ))}
+            {chooseOptions.map((singleOption) => {
+              if (getAccessPermission.includes(singleOption?.type)) {
+                return <SidebarMenu key={singleOption.key} type={singleOption?.type} submenuStyle={submenuStyle} submenuColor={submenuColor} singleOption={singleOption} />;
+              }
+            })}
             {/* Demo Menu */}
             {/* <SubMenu
               key="sub1"

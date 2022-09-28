@@ -1,11 +1,11 @@
 import React from "react";
 import { Space, Table, Button, Checkbox } from "antd";
 
-export const OptionTable = ({ onChange, listId }) => {
+export const OptionTable = ({ onChange, listId, type }) => {
   return [
     {
-      title: "Permission Name",
-      dataIndex: "permissionName",
+      title: type === "group" ? "Permission Name" : "Group Name",
+      dataIndex: type === "group" ? "permissionName" : "groupName",
       key: "permissionName",
     },
     {

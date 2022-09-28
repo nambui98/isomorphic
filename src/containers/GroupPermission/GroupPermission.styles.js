@@ -60,6 +60,8 @@ const WDGroupPermissionWrapper = styled.div`
     }
 
     .isoContactControl {
+      border-bottom: 1px solid #e9e9e9;
+      margin-bottom: 40px;
       width: 100%;
       display: flex;
       align-items: center;
@@ -107,7 +109,6 @@ const WDGroupPermissionWrapper = styled.div`
       }
 
       .isoAddContactBtn {
-        background-color: ${palette("primary", 0)};
         border: 0;
         height: 30px;
         padding: 0 15px;
@@ -121,11 +122,6 @@ const WDGroupPermissionWrapper = styled.div`
           font-weight: 400;
           padding: 0;
           text-transform: uppercase;
-          color: #ffffff;
-        }
-
-        &:hover {
-          background-color: ${palette("primary", 1)};
         }
       }
     }
