@@ -21,6 +21,22 @@ export default function ({ contact, otherAttributes, editContact }) {
 
   const name = contact?.groupName ? contact.groupName : "No Group Name";
 
+  const handleChangeAction = (action) => {
+    console.log("sidajfeiur", action);
+
+    switch (action) {
+      case "updateGroup":
+        dispatch({ type: actions.ACTIVE_VIEW });
+        break;
+      case "deleteGroup":
+        dispatch({ type: actions.DELETE_GROUP });
+        break;
+
+      default:
+        break;
+    }
+  };
+
   const renderInfo = () => {
     const extraInfos = [];
 
@@ -81,23 +97,56 @@ export default function ({ contact, otherAttributes, editContact }) {
       );
     }
 
+    extraInfos.push(
+      <div className="isoContactCardInfos" key="xyz">
+        <p className="isoInfoLabel">Action</p>
+        <Select
+          placeholder="Select a action"
+          defaultValue="updateGroup"
+          style={{
+            width: 160,
+          }}
+          onChange={handleChangeAction}
+        >
+          <Option value="updateGroup">Active</Option>
+          <Option value="deleteGroup">Delete</Option>
+        </Select>
+      </div>
+    );
+
     return extraInfos;
+  };
+
+  const handleClickSumit = () => {
+    if (updateGroup) {
+      dispatch(
+        actions.updateGroup({
+          ...contact,
+        })
+      );
+    } else if (deleteGroup) {
+      // dispatch(actions.editRole(selectedAccount));
+      dispatch(
+        actions.deleteGroup({
+          groupId: contact.id,
+        })
+      );
+    }
   };
 
   return (
     <div>
-      <ContactCardWrapper className="isoContactCard">
+      <ContactCardWrapper className="isoContactCard" style={{ flexDirection: "column", alignItems: "center" }}>
         <div className="isoContactCardHead">
-          <h1 className="isoPersonName">{name}</h1>
+          <h1 className="isoPersonName">
+            Update Group Permission: &nbsp;<span style={{ color: "rgb(24, 144, 255)" }}>{name}</span>
+          </h1>
         </div>
         <div className="isoContactInfoWrapper">{renderInfo()}</div>
       </ContactCardWrapper>
       <div style={{ padding: 30, marginTop: 60, textAlign: "center" }}>
-        <Button onClick={() => dispatch({ type: actions.ACTIVE_VIEW })} type={updateGroup ? "primary" : "default"}>
-          Update
-        </Button>
-        <Button style={{ margin: "0 10px" }} type={deleteGroup ? "primary" : "default"} onClick={() => dispatch({ type: actions.DELETE_GROUP })}>
-          Delete
+        <Button type="primary" style={{ padding: "0 20px" }} onClick={handleClickSumit}>
+          Submit
         </Button>
       </div>
     </div>

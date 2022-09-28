@@ -24,7 +24,9 @@ export function* loginRequest() {
 export function* loginSuccess() {
   yield takeEvery(actions.LOGIN_SUCCESS, function* ({ payload }) {
     yield localStorage.setItem("accessToken", payload?.data?.accessToken);
-    yield localStorage.setItem("permissions", payload?.data?.permissions[0]);
+
+    console.log("asdjkiewyqrsdjakfsa", payload?.data?.permissions);
+    yield localStorage.setItem("permissions", payload?.data?.permissions.toString());
   });
 }
 
@@ -101,13 +103,5 @@ export function* loginEnable2FA() {
 }
 
 export default function* rootSaga() {
-  yield all([
-    fork(checkAuthorization),
-    fork(loginRequest),
-    fork(loginSuccess),
-    fork(logout),
-    fork(resetPasswordRequest),
-    fork(login2FA),
-    fork(loginEnable2FA),
-  ]);
+  yield all([fork(checkAuthorization), fork(loginRequest), fork(loginSuccess), fork(logout), fork(resetPasswordRequest), fork(login2FA), fork(loginEnable2FA)]);
 }

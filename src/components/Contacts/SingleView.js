@@ -8,6 +8,7 @@ import BaseModal from "@iso/components/BaseModal/BaseModal";
 import LazyLoadingSpin from "@iso/components/LazyLoadingSpin";
 import { ContinuousColorLegend } from "react-vis";
 import { OptionTable } from "./const";
+import BaseButton from "@iso/components/BaseButton/BaseButton";
 
 export default function ({ contact, otherAttributes, type }) {
   if (!contact) return null;
@@ -67,7 +68,7 @@ export default function ({ contact, otherAttributes, type }) {
       <div className="isoContactCardInfos" style={{ flexDirection: "column" }}>
         <div style={{ padding: "24px 0", display: "flex", alignItems: "center" }}>
           <b className="isoInfoLabel">List Permission &nbsp;</b>
-          <Button type="primary" style={{ border: "none" }} onClick={() => setOpenModal(true)}>
+          <Button location="GROUP_PERMISSION_UPDATE" type="primary" style={{ border: "none" }} onClick={() => setOpenModal(true)}>
             Update Permission
           </Button>
         </div>
@@ -96,9 +97,9 @@ export default function ({ contact, otherAttributes, type }) {
       <div className="isoContactCardInfos" style={{ flexDirection: "column" }}>
         <div style={{ padding: "24px 0", display: "flex", alignItems: "center" }}>
           <b className="isoInfoLabel">List Group &nbsp;</b>
-          <Button type="primary" style={{ border: "none" }} onClick={() => setOpenModal(true)}>
+          <BaseButton type="primary" location="ROLE_GROUP_UPDATE" style={{ border: "none" }} onClick={() => setOpenModal(true)}>
             Update Role Group
-          </Button>
+          </BaseButton>
         </div>
         <div style={{ flex: 1, width: "100%" }}>
           <Table columns={columns} dataSource={listGroupByRole} pagination={false} />
@@ -162,10 +163,12 @@ export default function ({ contact, otherAttributes, type }) {
       ? OptionTable({
           onChange: handleChangeCheckboxPermission,
           listId: listIdPermissionsByGroup,
+          type,
         })
       : OptionTable({
           onChange: handleChangeCheckboxRoleGroup,
           listId: listIdGroupByRole,
+          type,
         });
 
   const checkRolePermission = useMemo(() => {

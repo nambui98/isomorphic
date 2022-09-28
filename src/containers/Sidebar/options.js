@@ -13,6 +13,7 @@ const options = [
     key: "",
     label: "Dashboard",
     leftIcon: "ion-map",
+    type: "DASHBOARD_VIEW_HEE_INFO",
   },
   // {
   //   key: "ecommerce",
@@ -41,6 +42,7 @@ const options = [
     key: "PushNotification",
     label: "Push Notification",
     leftIcon: "ion-android-mail",
+    type: "NOTIFICATION_PUSH",
     children: [
       {
         key: "In-AppMessaging",
@@ -117,16 +119,19 @@ const options = [
     key: "role",
     label: "Role",
     leftIcon: "ion-person",
+    type: "ROLE_GET_LIST",
   },
   {
     key: "group",
     label: "Group Permission",
     leftIcon: "ion-grid",
+    type: "PERMISSION_READ",
   },
   {
     key: "account",
     label: "Account",
     leftIcon: "ion-android-person-add",
+    type: "ACCOUNT_GET_LIST",
   },
   {
     key: "changePassword",
@@ -137,6 +142,7 @@ const options = [
     key: "cdn",
     label: "CDN",
     leftIcon: "ion-android-menu",
+    type: "CDN_GET_LIST",
   },
   // {
   //   key: "shuffle",

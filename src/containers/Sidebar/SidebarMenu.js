@@ -2,7 +2,8 @@ import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 
 import Menu from "@iso/components/uielements/menu";
-import IntlMessages from "@iso/components/utility/intlMessages";
+import { sidebarPermission } from "./constSidebarPermission";
+import { getToken } from "@iso/lib/helpers/utility";
 const SubMenu = Menu.SubMenu;
 
 const stripTrailingSlash = (str) => {
@@ -24,10 +25,7 @@ export default React.memo(function SidebarMenu({ singleOption, submenuStyle, sub
         title={
           <span className="isoMenuHolder" style={submenuColor}>
             <i className={leftIcon} />
-            <span className="nav-text">
-              {/* <IntlMessages id={label} /> */}
-              {label}
-            </span>
+            <span className="nav-text">{label}</span>
           </span>
         }
         {...rest}
@@ -37,7 +35,6 @@ export default React.memo(function SidebarMenu({ singleOption, submenuStyle, sub
           return (
             <Menu.Item style={submenuStyle} key={child.key}>
               <Link style={submenuColor} to={linkTo}>
-                {/* <IntlMessages id={child.label} /> */}
                 {child.label}
               </Link>
             </Menu.Item>
@@ -47,15 +44,16 @@ export default React.memo(function SidebarMenu({ singleOption, submenuStyle, sub
     );
   }
 
+  const getAccessPermission = getToken().get("permissions").split(",");
+
+  console.log("sdfhdiuaewdsjfka", getAccessPermission);
+
   return (
     <Menu.Item key={key} {...rest}>
       <Link to={`${url}/${key}`}>
         <span className="isoMenuHolder" style={submenuColor}>
           <i className={leftIcon} />
-          <span className="nav-text">
-            {/* <IntlMessages id={label} /> */}
-            {label}
-          </span>
+          <span className="nav-text">{label}</span>
         </span>
       </Link>
     </Menu.Item>

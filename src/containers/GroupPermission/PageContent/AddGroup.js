@@ -1,16 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { PlusOutlined } from "@ant-design/icons";
 import Input, { Textarea } from "@iso/components/uielements/input";
 import { ContactCardWrapper } from "@iso/components/Contacts/ContactCard.style";
-
-import { Select } from "antd";
+import actions from "@iso/redux/groupPermission/actions";
+import { Select, Button } from "antd";
 
 const { Option } = Select;
 
-export default function ({ setGroupName, setDescription }) {
+export default function () {
+  const [groupName, setGroupName] = useState("");
+  const [description, setDescription] = useState("");
+  const dispatch = useDispatch();
+
+  const handleClickAdd = () => {
+    dispatch(
+      actions.addGroupAction({
+        groupName,
+        description,
+      })
+    );
+  };
+
   return (
-    <ContactCardWrapper className="isoContactCard">
+    <ContactCardWrapper className="isoContactCard" style={{ flexDirection: "column", textAlign: "center" }}>
       <div className="isoContactCardHead">
         <h1 className="isoPersonName">ADD GROUP</h1>
       </div>
@@ -22,6 +35,11 @@ export default function ({ setGroupName, setDescription }) {
         <div className="isoContactCardInfos">
           <p className="isoInfoLabel">Description</p>
           <Input placeholder="description" onChange={(e) => setDescription(e.target.value)} />
+        </div>
+        <div>
+          <Button type="primary" style={{ padding: "0 20px", marginTop: "40px" }} onClick={handleClickAdd}>
+            Add
+          </Button>
         </div>
       </div>
     </ContactCardWrapper>

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import contactActions from "@iso/redux/contacts/actions";
-import { CheckOutlined, EditOutlined } from "@ant-design/icons";
+import { RollbackOutlined, EditOutlined } from "@ant-design/icons";
 import { Layout } from "antd";
 import Button from "@iso/components/uielements/button";
 import AccountList from "./PageContent/AccountList";
@@ -15,34 +15,18 @@ import actions from "@iso/redux/account/actions";
 import actionRole from "@iso/redux/role/actions";
 import { useEffect } from "react";
 import LazyLoadingSpin from "@iso/components/LazyLoadingSpin";
+import BaseButton from "@iso/components/BaseButton/BaseButton";
 
 const { editContact, deleteContact } = contactActions;
 
 const { Content } = Layout;
 export default function Account() {
   const { listRole } = useSelector((state) => state.Role);
-  const {
-    listAccount,
-    isLoading,
-    idAccount,
-    success,
-    statusChangeRole,
-    statusDisableAccount,
-    addAccount,
-    editView,
-    activeAccountRequest,
-    disabledView,
-    resetPasswordView,
-    changeRoleView,
-    activeView,
-  } = useSelector((state) => state.Account);
+  const { listAccount, isLoading, idAccount, success, statusChangeRole, statusDisableAccount, addAccount, editView, activeAccountRequest } = useSelector((state) => state.Account);
 
   const dispatch = useDispatch();
-  const [email, setNewEmail] = useState("");
-  const [account, setNewAccount] = useState("");
-  const [role, setNewRole] = useState("");
   const [textSearch, setTxtSearch] = useState("");
-
+  console.log("dsakewiurqo", idAccount);
   useEffect(() => {
     dispatch({
       type: actions.GET_LIST_ACCOUNT,
@@ -82,52 +66,9 @@ export default function Account() {
   const selectedAccount = useMemo(() => {
     return idAccount ? listAccount.filter((contact) => contact.id === idAccount)[0] : null;
   }, [idAccount, listAccount]);
-  const [roleId, setRoleId] = useState("");
 
   const onVIewChange = () => {
-    if (!editView) {
-      dispatch(actions.viewChange(!editView));
-    } else {
-      if (addAccount) {
-        dispatch(
-          actions.addAccountAction({
-            account,
-            email,
-            roleId: role,
-          })
-        );
-      } else {
-        if (activeView) {
-          dispatch(
-            actions.activeAccount({
-              account: selectedAccount.account,
-            })
-          );
-        } else if (disabledView) {
-          // dispatch(actions.editRole(selectedAccount));
-          dispatch(
-            actions.disabledAccount({
-              account: selectedAccount.account,
-            })
-          );
-        } else if (resetPasswordView) {
-          dispatch(
-            actions.resetAccount({
-              account: selectedAccount.account,
-            })
-          );
-        } else if (changeRoleView) {
-          if (!roleId) return;
-          dispatch(
-            actions.changeRoleAccount({
-              account: selectedAccount.account,
-              roleId,
-            })
-          );
-        }
-      }
-      setTxtSearch("");
-    }
+    dispatch(actions.viewChange(!editView));
   };
 
   return (
@@ -150,20 +91,25 @@ export default function Account() {
       <Layout className="isoContactBoxWrapper">
         <Content className="isoContactBox">
           <div className="isoContactControl">
-            <Button type="default" onClick={onVIewChange}>
-              {editView || addAccount ? <CheckOutlined /> : selectedAccount ? <EditOutlined /> : ""}
-            </Button>
+            <BaseButton location="ACCOUNT_UPDATE" type="default" onClick={onVIewChange}>
+              {!addAccount ? selectedAccount ? editView ? <RollbackOutlined /> : <EditOutlined /> : null : null}
+            </BaseButton>
 
-            <Button type="primary" onClick={() => dispatch({ type: actions.ADD_ACCOUNT_ACTION })} className="isoAddContactBtn">
+            <BaseButton
+              location="ACCOUNT_ADD_NEW"
+              onClick={() => dispatch({ type: actions.ADD_ACCOUNT_ACTION })}
+              className="isoAddContactBtn"
+              style={{ color: addAccount ? "rgb(24, 144, 255)" : "black" }}
+            >
               Add Account
-            </Button>
+            </BaseButton>
           </div>
 
           <Scrollbar className="contactBoxScrollbar">
             {addAccount ? (
-              <AddAccountView setNewAccount={setNewAccount} setNewEmail={setNewEmail} setNewRole={setNewRole} />
+              <AddAccountView setTxtSearch={setTxtSearch} />
             ) : editView ? (
-              <EditAccountView setRoleId={setRoleId} contact={selectedAccount} editContact={(contact) => dispatch(editContact(contact))} otherAttributes={otherAttributes} />
+              <EditAccountView setTxtSearch={setTxtSearch} contact={selectedAccount} editContact={(contact) => dispatch(editContact(contact))} otherAttributes={otherAttributes} />
             ) : (
               <SingleContactView contact={selectedAccount} otherAttributes={otherAttributes} />
             )}

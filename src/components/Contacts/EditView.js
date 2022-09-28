@@ -5,25 +5,13 @@ import Upload from "../uielements/upload";
 import notification from "../Notification";
 import { ContactCardWrapper } from "./ContactCard.style";
 import "./upload.css";
-import { useSelector } from "react-redux";
-import AddRoleView from "@iso/components/Contacts/AddRoleView";
+import { useSelector, useDispatch } from "react-redux";
+import { Button } from "antd";
+import actions from "@iso/redux/role/actions";
 
-function beforeUpload(file) {
-  const isJPG = file.type === "image/jpeg";
-  if (!isJPG) {
-    notification("error", "You can only upload JPG file!", "");
-    return false;
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    notification("error", "Image must smaller than 2MB!", "");
-    return false;
-  }
-  notification("success", "Image uploaded successfully!", "");
-  return true;
-}
-export default function ({ contact, otherAttributes, editContact }) {
+export default function ({ contact, otherAttributes, editContact, setTxtSearch }) {
   if (!contact) return null;
+  const dispatch = useDispatch();
   const { addRole } = useSelector((state) => state.Contacts);
   const name = contact.roleName ? contact.roleName : "No Name";
   const extraInfos = [];
@@ -35,12 +23,6 @@ export default function ({ contact, otherAttributes, editContact }) {
       editContact(contact);
     };
     if (attribute.value === "note") {
-      // extraInfos.push(
-      //   <div className="isoContactCardInfos" key={attribute.value}>
-      //     <p className="isoInfoLabel">{`${attribute.title}`}</p>
-      //     <Textarea placeholder={`${attribute.title}`} value={value} type="textarea" rows={5} onChange={handleEditContact} />
-      //   </div>
-      // );
     } else if (attribute.value !== "id") {
       extraInfos.push(
         <div className="isoContactCardInfos" key={attribute.value}>
@@ -50,18 +32,30 @@ export default function ({ contact, otherAttributes, editContact }) {
       );
     }
   });
+
+  const handleClickUpdateRole = () => {
+    console.log("sdkfieruq");
+    dispatch(
+      actions.editRole({
+        id: contact.id,
+        roleKey: contact.roleKey,
+        roleName: contact.roleName,
+      })
+    );
+    setTxtSearch("");
+  };
+
   return (
-    <ContactCardWrapper className="isoContactCard">
+    <ContactCardWrapper className="isoContactCard" style={{ flexDirection: "column", alignItems: "center" }}>
       <div className="isoContactCardHead">
-        {/* <div className="isoPersonImage">
-          <Upload className="avatar-uploader" name="avatar" showUploadList={false} beforeUpload={beforeUpload} action="">
-            {contact.avatar ? <img src={contact.avatar} alt="" className="avatar" /> : ""}
-            <PlusOutlined className="avatar-uploader-trigger" />
-          </Upload>
-        </div> */}
-        <h1 className="isoPersonName">{name}</h1>
+        <h1 className="isoPersonName">
+          Edit Role Name: &nbsp;<span style={{ color: "#1890ff" }}>{name}</span>
+        </h1>
       </div>
       <div className="isoContactInfoWrapper">{extraInfos}</div>
+      <Button type="primary" style={{ marginTop: "40px" }} onClick={handleClickUpdateRole}>
+        Update
+      </Button>
     </ContactCardWrapper>
   );
 }

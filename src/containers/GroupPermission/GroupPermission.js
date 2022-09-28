@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import contactActions from "@iso/redux/contacts/actions";
-import { CheckOutlined, EditOutlined } from "@ant-design/icons";
+import { RollbackOutlined, EditOutlined } from "@ant-design/icons";
 import { Layout } from "antd";
 import Button from "@iso/components/uielements/button";
 import GroupListPermission from "./PageContent/GroupListPermission";
@@ -13,8 +13,10 @@ import { GroupPermissionWrapper } from "./GroupPermission.styles";
 import Scrollbar from "@iso/components/utility/customScrollBar";
 import actions from "@iso/redux/groupPermission/actions";
 import LazyLoadingSpin from "@iso/components/LazyLoadingSpin";
+import BaseButton from "@iso/components/BaseButton/BaseButton";
 
 const { Content } = Layout;
+
 export default function GroupPermission() {
   const {
     listGroup,
@@ -29,11 +31,9 @@ export default function GroupPermission() {
     addPermission,
   } = useSelector((state) => state.GroupPermission);
 
-  console.log("ksadfjaskdf", selectedPermission);
+  console.log("ksadfjaskdf", idGroup);
 
   const dispatch = useDispatch();
-  const [groupName, setGroupName] = useState("");
-  const [description, setDescription] = useState("");
 
   useEffect(() => {
     dispatch({
@@ -59,34 +59,7 @@ export default function GroupPermission() {
   console.log("asdkfdsafasdf", selectedGroup);
 
   const onVIewChange = () => {
-    if (!editView) {
-      dispatch(actions.viewChange(!editView));
-    } else {
-      if (addGroup) {
-        dispatch(
-          actions.addGroupAction({
-            groupName,
-            description,
-          })
-        );
-      } else {
-        if (updateGroup) {
-          console.log("dsakfjsdahfas", selectedGroup);
-          dispatch(
-            actions.updateGroup({
-              ...selectedGroup,
-            })
-          );
-        } else if (deleteGroup) {
-          console.log("dsafsdafsdfsad", selectedGroup.id);
-          dispatch(
-            actions.deleteGroup({
-              groupId: selectedGroup.id,
-            })
-          );
-        }
-      }
-    }
+    dispatch(actions.viewChange(!editView));
   };
 
   return (
@@ -106,18 +79,24 @@ export default function GroupPermission() {
       <Layout className="isoContactBoxWrapper">
         <Content className="isoContactBox">
           <div className="isoContactControl">
-            <Button type="primary" onClick={onVIewChange}>
-              {editView || addGroup ? <CheckOutlined /> : selectedGroup ? <EditOutlined /> : ""}
-            </Button>
+            <BaseButton type="primary" onClick={onVIewChange} location="GROUP_UPDATE">
+              {!addGroup ? selectedGroup ? editView ? <RollbackOutlined /> : <EditOutlined /> : null : null}
+            </BaseButton>
 
-            <Button onClick={() => dispatch({ type: actions.ADD_GROUP_ACTION })} className="isoAddContactBtn" type="default">
+            <BaseButton
+              location="GROUP_ADD"
+              onClick={() => dispatch({ type: actions.ADD_GROUP_ACTION })}
+              className="isoAddContactBtn"
+              type="default"
+              style={{ color: !!addGroup ? "#1890ff" : "black" }}
+            >
               Add Group
-            </Button>
+            </BaseButton>
           </div>
 
           <Scrollbar className="contactBoxScrollbar">
             {addGroup ? (
-              <AddGroup setDescription={setDescription} setGroupName={setGroupName} />
+              <AddGroup />
             ) : editView ? (
               <EditGroup contact={selectedGroup} editContact={(contact) => dispatch(actions.editContact(contact))} otherAttributes={otherAttributes} />
             ) : (

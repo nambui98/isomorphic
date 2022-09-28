@@ -14,6 +14,7 @@ import actions from "@iso/redux/cdn/actions";
 import actionRole from "@iso/redux/role/actions";
 import notification from "@iso/components/Notification";
 import LazyLoadingSpin from "@iso/components/LazyLoadingSpin";
+import BaseButton from "@iso/components/BaseButton/BaseButton";
 
 const { Content } = Layout;
 export default function Account() {
@@ -103,13 +104,13 @@ export default function Account() {
       <Layout className="isoContactBoxWrapper">
         <Content className="isoContactBox">
           <div className="isoContactControl">
-            <Button type="default" onClick={onVIewChange}>
+            <BaseButton type="default" onClick={onVIewChange} location="CDN_UPDATE">
               {editView || addCdn ? <CheckOutlined /> : contentVersion ? <EditOutlined /> : ""}
-            </Button>
+            </BaseButton>
 
-            <Button type="primary" onClick={() => dispatch({ type: actions.ADD_CDN_ACTION })} className="isoAddContactBtn">
+            <BaseButton location="CDN_UPDATE" type="primary" onClick={() => dispatch({ type: actions.ADD_CDN_ACTION })} className="isoAddContactBtn">
               Add Cdn
-            </Button>
+            </BaseButton>
           </div>
 
           <Scrollbar className="contactBoxScrollbar">
