@@ -17,6 +17,10 @@ const authRequest = {
     console.log("iosadufuewqfsadf", payload);
     return axiosClient.post("account/change-password", payload, { headers: { Authorization: "Bearer " + getToken().get("accessToken") } });
   },
+  changeEmail(payload) {
+    console.log("iosadufuewqfsadf", payload);
+    return axiosClient.post("account/change-email", payload, { headers: { Authorization: "Bearer " + getToken().get("accessToken") } });
+  },
 };
 
 export default authRequest;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Layout } from "antd";
 import useWindowSize from "@iso/lib/hooks/useWindowSize";

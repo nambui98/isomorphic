@@ -112,6 +112,7 @@ const WDAccountWrapper = styled.div`
         border: 0;
         height: 30px;
         padding: 0 15px;
+
         margin-left: ${(props) => (props["data-rtl"] === "rtl" ? "inherit" : "auto")};
         margin-right: ${(props) => (props["data-rtl"] === "rtl" ? "auto" : "inherit")};
         ${borderRadius("3px")};
@@ -122,6 +123,7 @@ const WDAccountWrapper = styled.div`
           font-weight: 400;
           padding: 0;
           text-transform: uppercase;
+          text-decoration: underline;
         }
       }
     }

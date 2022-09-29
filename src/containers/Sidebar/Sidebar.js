@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Layout } from "antd";
-import { options, optionsNoti } from "./options";
+import { options, optionsNoti, publicOptions } from "./options";
 import Scrollbars from "@iso/components/utility/customScrollBar";
 import Menu from "@iso/components/uielements/menu";
 import IntlMessages from "@iso/components/utility/intlMessages";
@@ -103,6 +103,9 @@ export default function Sidebar({ chooseSidebarOptions }) {
                 return <SidebarMenu key={singleOption.key} type={singleOption?.type} submenuStyle={submenuStyle} submenuColor={submenuColor} singleOption={singleOption} />;
               }
             })}
+            {publicOptions.map((singleOption) => (
+              <SidebarMenu key={singleOption.key} type={singleOption?.type} submenuStyle={submenuStyle} submenuColor={submenuColor} singleOption={singleOption} />
+            ))}
             {/* Demo Menu */}
             {/* <SubMenu
               key="sub1"

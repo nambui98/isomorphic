@@ -38,7 +38,7 @@ export default function SignIn() {
     }
   }, [isLoggedIn]);
 
-  let { from } = location.state || { from: { pathname: "/dashboard" } };
+  let { from } = { from: { pathname: "/dashboard" } };
 
   if (redirectToReferrer) {
     return <Redirect to={from} />;
@@ -60,44 +60,16 @@ export default function SignIn() {
           <Form initialValues={initialValues} onFinish={handleSubmit}>
             <PageHeader>Login Account</PageHeader>
             <Text>Please enter account and password</Text>
-            <Form.Item
-              name="email"
-              rules={[
-                { required: true, message: "Please input your account!" },
-              ]}
-              style={{ margin: "10px 0" }}
-            >
-              <Input
-                prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Account"
-                style={{ padding: "10px" }}
-              />
+            <Form.Item name="email" rules={[{ required: true, message: "Please input your account!" }]} style={{ margin: "10px 0" }}>
+              <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Account" style={{ padding: "10px" }} />
             </Form.Item>
-            <Form.Item
-              name="password"
-              rules={[
-                { required: true, message: "Please input your Password!" },
-              ]}
-            >
-              <Input
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                type="password"
-                placeholder="Password"
-                style={{ padding: "10px" }}
-              />
+            <Form.Item name="password" rules={[{ required: true, message: "Please input your Password!" }]}>
+              <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" style={{ padding: "10px" }} />
             </Form.Item>
-            <Form.Item>
-              {errorMessage && (
-                <div style={{ color: "red" }}>{errorMessage}</div>
-              )}
-            </Form.Item>
+            <Form.Item>{errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}</Form.Item>
 
             <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className="login-form-button"
-              >
+              <Button type="primary" htmlType="submit" className="login-form-button">
                 Log in
               </Button>
             </Form.Item>

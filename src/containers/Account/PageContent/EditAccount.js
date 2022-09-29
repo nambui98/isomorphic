@@ -56,10 +56,28 @@ export default function ({ contact, otherAttributes, editContact, setTxtSearch }
 
         if (attribute.value === "account") {
           extraInfos.push(
-            <div className="isoContactCardInfos" key={attribute.value}>
-              <p className="isoInfoLabel">{`${attribute.title}`}</p>
-              <Input placeholder={`${attribute.title}`} value={value} onChange={handleEditContact} readOnly />
-            </div>
+            <>
+              <div className="isoContactCardInfos" key={attribute.value}>
+                <p className="isoInfoLabel">{`${attribute.title}`}</p>
+                <Input placeholder={`${attribute.title}`} value={value} onChange={handleEditContact} readOnly />
+              </div>
+              <div className="isoContactCardInfos" key="123">
+                <p className="isoInfoLabel">Choose action</p>
+                <Select
+                  placeholder="Select a action"
+                  defaultValue="activeView"
+                  style={{
+                    width: 180,
+                  }}
+                  onChange={handleChangeAction}
+                >
+                  <Option value="activeView">Active</Option>
+                  <Option value="disabledView">Disabled</Option>
+                  <Option value="resetPasswordView">Reset Pw</Option>
+                  <Option value="changeRoleView">Change Role</Option>
+                </Select>
+              </div>
+            </>
           );
         }
       });
@@ -73,12 +91,31 @@ export default function ({ contact, otherAttributes, editContact, setTxtSearch }
 
         if (attribute.value === "account") {
           extraInfos.push(
-            <div className="isoContactCardInfos" key={attribute.value}>
-              <p className="isoInfoLabel">{`${attribute.title}`}</p>
-              <Input placeholder={`${attribute.title}`} value={value} onChange={handleEditContact} readOnly />
-            </div>
+            <>
+              <div className="isoContactCardInfos" key={attribute.value}>
+                <p className="isoInfoLabel">{`${attribute.title}`}</p>
+                <Input placeholder={`${attribute.title}`} value={value} onChange={handleEditContact} readOnly />
+              </div>
+              <div className="isoContactCardInfos" key="123">
+                <p className="isoInfoLabel">Choose action</p>
+                <Select
+                  placeholder="Select a action"
+                  defaultValue="activeView"
+                  style={{
+                    width: 180,
+                  }}
+                  onChange={handleChangeAction}
+                >
+                  <Option value="activeView">Active</Option>
+                  <Option value="disabledView">Disabled</Option>
+                  <Option value="resetPasswordView">Reset Pw</Option>
+                  <Option value="changeRoleView">Change Role</Option>
+                </Select>
+              </div>
+            </>
           );
         }
+
         if (attribute.value === "roleName") {
           const handleChangeRole = (roleId) => {
             setRoleId(roleId);
@@ -86,7 +123,7 @@ export default function ({ contact, otherAttributes, editContact, setTxtSearch }
           extraInfos.push(
             <div className="isoContactCardInfos" key={attribute.value}>
               <p className="isoInfoLabel">{`${attribute.title}`}</p>
-              <Select defaultValue={contact.roleId} style={{ width: 120 }} onChange={handleChangeRole}>
+              <Select defaultValue={contact.roleId} style={{ width: 180 }} onChange={handleChangeRole}>
                 {listRole?.map((item) => (
                   <Option key={item?.id} value={item?.id}>
                     {item?.roleName}
@@ -98,25 +135,6 @@ export default function ({ contact, otherAttributes, editContact, setTxtSearch }
         }
       });
     }
-
-    extraInfos.push(
-      <div className="isoContactCardInfos" key="123">
-        <p className="isoInfoLabel">Action</p>
-        <Select
-          placeholder="Select a action"
-          defaultValue="activeView"
-          style={{
-            width: 160,
-          }}
-          onChange={handleChangeAction}
-        >
-          <Option value="activeView">Active</Option>
-          <Option value="disabledView">Disabled</Option>
-          <Option value="resetPasswordView">Reset Pw</Option>
-          <Option value="changeRoleView">Change Role</Option>
-        </Select>
-      </div>
-    );
 
     return extraInfos;
   };

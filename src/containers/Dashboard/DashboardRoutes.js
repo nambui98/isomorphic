@@ -362,10 +362,21 @@ const urlMap = {
   },
 };
 
+const publicUrl = [
+  {
+    path: "changePassword",
+    component: lazy(() => import("@iso/containers/Pages/ResetPassword/ResetPassword")),
+  },
+  {
+    path: "changeEmail",
+    component: lazy(() => import("@iso/containers/Pages/ChangeEmail/ChangeEmail")),
+  },
+];
+
 export default function AppRouter() {
   const { url } = useRouteMatch();
   let accessPermissions = [];
-  let accessRoute = [];
+  let accessRoute = [...publicUrl];
   try {
     accessPermissions = getToken().get("permissions").split(",");
   } catch (err) {

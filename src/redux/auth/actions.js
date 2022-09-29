@@ -14,6 +14,7 @@ const actions = {
   LOGIN_ENABLE_2FA_PENDING: "LOGIN_ENABLE_2FA_PENDING",
   LOGIN_ENABLE_2FA_SUCCESS: "LOGIN_ENABLE_2FA_SUCCESS",
   LOGIN_ENABLE_2FA_ERROR: "LOGIN_ENABLE_2FA_ERROR",
+  CHANGE_EMAIL: "CHANGE_EMAIL",
   checkAuthorization: () => ({ type: actions.CHECK_AUTHORIZATION }),
   login: (payload) => {
     return {
@@ -42,6 +43,10 @@ const actions = {
   }),
   resetPassword: (payload) => ({
     type: actions.RESET_PASSWORD,
+    payload,
+  }),
+  changeEmail: (payload) => ({
+    type: actions.CHANGE_EMAIL,
     payload,
   }),
 };

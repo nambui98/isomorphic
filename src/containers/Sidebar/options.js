@@ -134,11 +134,6 @@ const options = [
     type: "ACCOUNT_GET_LIST",
   },
   {
-    key: "changePassword",
-    label: "Change Password",
-    leftIcon: "ion-android-checkbox-outline",
-  },
-  {
     key: "cdn",
     label: "CDN",
     leftIcon: "ion-android-menu",
@@ -420,4 +415,17 @@ const optionsNoti = [
   },
 ];
 
-export { options, optionsNoti };
+const publicOptions = [
+  {
+    key: "changePassword",
+    label: "Change Password",
+    leftIcon: "ion-android-checkbox-outline",
+  },
+  {
+    key: "changeEmail",
+    label: "Change Email",
+    leftIcon: "ion-flash",
+  },
+];
+
+export { options, optionsNoti, publicOptions };

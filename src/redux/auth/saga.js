@@ -61,6 +61,7 @@ export function* resetPasswordRequest() {
 function* logout() {
   yield takeEvery(actions.LOGOUT, function* () {
     yield clearToken();
+    // window.location.reload();
     history.push("/");
   });
 }
@@ -98,10 +99,23 @@ function* handleRequestLoginEnable2FA(action) {
     api: authRequest.loginEnable2FARequest,
   })(action);
 }
+
 export function* loginEnable2FA() {
   yield takeEvery(actions.LOGIN_ENABLE_2FA, handleRequestLoginEnable2FA);
 }
 
+function* handleChangeEmail(action) {
+  return yield createBlankAsyncSagaRequest({
+    api: authRequest.changeEmail,
+    success: [() => makeActionNotification({ status: "success", title: "Success", description: "Change email success" })],
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
+  })(action);
+}
+
+export function* changeEmailRequest() {
+  yield takeEvery(actions.CHANGE_EMAIL, handleChangeEmail);
+}
+
 export default function* rootSaga() {
-  yield all([fork(checkAuthorization), fork(loginRequest), fork(loginSuccess), fork(logout), fork(resetPasswordRequest), fork(login2FA), fork(loginEnable2FA)]);
+  yield all([fork(checkAuthorization), fork(loginRequest), fork(loginSuccess), fork(logout), fork(resetPasswordRequest), fork(login2FA), fork(loginEnable2FA), fork(changeEmailRequest)]);
 }

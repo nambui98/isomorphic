@@ -122,6 +122,7 @@ const WDGroupPermissionWrapper = styled.div`
           font-weight: 400;
           padding: 0;
           text-transform: uppercase;
+          text-decoration: underline;
         }
       }
     }
