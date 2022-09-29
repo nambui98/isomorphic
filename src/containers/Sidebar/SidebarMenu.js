@@ -50,12 +50,19 @@ export default React.memo(function SidebarMenu({ singleOption, submenuStyle, sub
 
   return (
     <Menu.Item key={key} {...rest}>
-      <Link to={`${url}/${key}`}>
-        <span className="isoMenuHolder" style={submenuColor}>
+      {key !== "update" ? (
+        <Link to={`${url}/${key}`}>
+          <span className="isoMenuHolder" style={submenuColor}>
+            <i className={leftIcon} />
+            <span className="nav-text">{label}</span>
+          </span>
+        </Link>
+      ) : (
+        <span className="isoMenuHolder" style={{ color: "white" }}>
           <i className={leftIcon} />
           <span className="nav-text">{label}</span>
         </span>
-      </Link>
+      )}
     </Menu.Item>
   );
 });

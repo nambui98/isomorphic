@@ -412,6 +412,7 @@ const optionsNoti = [
     key: "update",
     label: "Update",
     leftIcon: "ion-document",
+    type: "NOTIFICATION_PUSH",
   },
 ];
 

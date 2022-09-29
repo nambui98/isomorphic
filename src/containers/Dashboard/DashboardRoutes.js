@@ -351,6 +351,10 @@ const urlMap = {
     path: "listmessage",
     component: lazy(() => import("@iso/containers/ListMessage")),
   },
+  UPDATE_MESSAGE: {
+    path: "update",
+    component: lazy(() => import("@iso/containers/UpdateNoti/UpdateNoti")),
+  },
   CDN_GET_LIST: {
     path: "cdn",
     component: lazy(() => import("@iso/containers/CDN/PageCdn")),
@@ -395,6 +399,10 @@ export default function AppRouter() {
         {
           path: urlMap["LIST_MESSAGE"].path,
           component: urlMap["LIST_MESSAGE"].component,
+        },
+        {
+          path: urlMap["UPDATE_MESSAGE"].path,
+          component: urlMap["UPDATE_MESSAGE"].component,
         }
       );
     } else {

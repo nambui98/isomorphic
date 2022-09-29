@@ -40,6 +40,7 @@ export default function UpdateNoti() {
   const id = query.get("id");
 
   useEffect(() => {
+    if (!id) return;
     dispatch(actions.getNoti({ id }));
   }, [id]);
 
@@ -256,7 +257,7 @@ export default function UpdateNoti() {
             },
             {
               name: ["image"],
-              value: convertObject(noti?.extra_data) && convertObject(noti?.extra_data).detail.image,
+              value: convertObject(noti?.extra_data) && convertObject(noti?.extra_data)?.detail?.image,
             },
             {
               name: ["email"],
@@ -269,7 +270,7 @@ export default function UpdateNoti() {
             {
               name: ["expires"],
               value: {
-                expiresTime: convertObject(noti?.extra_data) && convertObject(noti?.extra_data).detail.ttl && parseInt(Number(convertObject(noti?.extra_data).detail.ttl) / 1000 / 60),
+                expiresTime: convertObject(noti?.extra_data) && convertObject(noti?.extra_data)?.detail?.ttl && parseInt(Number(convertObject(noti?.extra_data)?.detail?.ttl) / 1000 / 60),
                 expiresSession: "minutes",
               },
             },

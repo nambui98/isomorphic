@@ -23,6 +23,8 @@ export default function Sidebar({ chooseSidebarOptions }) {
   const getAccessPermission = getToken().get("permissions").split(",");
 
   function handleClick(e) {
+    console.log("ewifhdsaf", e.key);
+    if (e.key === "update") return;
     dispatch(changeCurrent([e.key]));
     if (view === "MobileView") {
       setTimeout(() => {
@@ -34,6 +36,7 @@ export default function Sidebar({ chooseSidebarOptions }) {
     }
   }
   function onOpenChange(newOpenKeys) {
+    console.log("sadkiewurq", newOpenKeys);
     const latestOpenKey = newOpenKeys.find((key) => !(openKeys.indexOf(key) > -1));
     const latestCloseKey = openKeys.find((key) => !(newOpenKeys.indexOf(key) > -1));
     let nextOpenKeys = [];
@@ -103,9 +106,8 @@ export default function Sidebar({ chooseSidebarOptions }) {
                 return <SidebarMenu key={singleOption.key} type={singleOption?.type} submenuStyle={submenuStyle} submenuColor={submenuColor} singleOption={singleOption} />;
               }
             })}
-            {publicOptions.map((singleOption) => (
-              <SidebarMenu key={singleOption.key} type={singleOption?.type} submenuStyle={submenuStyle} submenuColor={submenuColor} singleOption={singleOption} />
-            ))}
+            {chooseOptions.length > 1 &&
+              publicOptions.map((singleOption) => <SidebarMenu key={singleOption.key} type={singleOption?.type} submenuStyle={submenuStyle} submenuColor={submenuColor} singleOption={singleOption} />)}
             {/* Demo Menu */}
             {/* <SubMenu
               key="sub1"

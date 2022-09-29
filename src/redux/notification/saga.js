@@ -20,6 +20,7 @@ function* getListNotificationsRequest() {
 function* handleGetNoti(action) {
   return yield createBlankAsyncSagaRequest({
     api: notiRequest.getNotification,
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
   })(action);
 }
 
