@@ -49,7 +49,7 @@ export default function GroupListPermission(props) {
 
   return (
     <ContactListWrapper className="isoContactListWrapper">
-      <InputSearch placeholder="Search account" value={props.textSearch} onChange={onChange} className="isoSearchBar" />
+      <InputSearch placeholder="Search group permission" value={props.textSearch} onChange={onChange} className="isoSearchBar" />
       {props.data && props.data.length > 0 ? (
         <div className="isoContactList">
           <Scrollbar className="contactListScrollbar" style={{ height: "calc(100vh - 200px)" }}>

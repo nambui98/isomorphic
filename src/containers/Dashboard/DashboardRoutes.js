@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Route, useRouteMatch, Switch } from "react-router-dom";
 import Loader from "@iso/components/utility/loader";
-
+import { getToken } from "@iso/lib/helpers/utility";
 const routes = [
   {
     path: "",
@@ -330,14 +330,78 @@ const routes = [
   // },
 ];
 
+const urlMap = {
+  ACCOUNT_GET_LIST: {
+    path: "account",
+    component: lazy(() => import("@iso/containers/Account/Account")),
+  },
+  ROLE_GET_LIST: {
+    path: "role",
+    component: lazy(() => import("@iso/containers/Role/Role")),
+  },
+  GROUP_READ: {
+    path: "group",
+    component: lazy(() => import("@iso/containers/GroupPermission/GroupPermission")),
+  },
+  NOTIFICATION_PUSH: {
+    path: "In-AppMessaging",
+    component: lazy(() => import("@iso/containers/PushNotification")),
+  }, // dynamic listmessage
+  LIST_MESSAGE: {
+    path: "listmessage",
+    component: lazy(() => import("@iso/containers/ListMessage")),
+  },
+  CDN_GET_LIST: {
+    path: "cdn",
+    component: lazy(() => import("@iso/containers/CDN/PageCdn")),
+  },
+  DASHBOARD_VIEW_HEE_INFO: {
+    path: "",
+    component: lazy(() => import("@iso/containers/Widgets/Widgets")),
+    exact: true,
+  },
+};
+
 export default function AppRouter() {
   const { url } = useRouteMatch();
+  let accessPermissions = [];
+  let accessRoute = [];
+  try {
+    accessPermissions = getToken().get("permissions").split(",");
+  } catch (err) {
+    console.log("error get permissions::::", err);
+  }
+
+  accessPermissions.forEach((permission) => {
+    const objPage = urlMap[permission];
+
+    if (permission === "NOTIFICATION_PUSH") {
+      accessRoute.push(
+        {
+          path: objPage.path,
+          component: objPage.component,
+        },
+        {
+          path: urlMap["LIST_MESSAGE"].path,
+          component: urlMap["LIST_MESSAGE"].component,
+        }
+      );
+    } else {
+      if (objPage) {
+        accessRoute.push({
+          path: objPage.path,
+          component: objPage.component,
+          exact: objPage?.exact,
+        });
+      }
+    }
+  });
 
   console.log("aduisfyusdaf", url);
   return (
     <Suspense fallback={<Loader />}>
       <Switch>
-        {routes.map((route, idx) => (
+        {accessRoute.map((route, idx) => (
           <Route exact={route.exact} key={idx} path={`${url}/${route.path}`}>
             <route.component />
           </Route>
