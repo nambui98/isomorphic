@@ -10,7 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import actions from "@iso/redux/dashboard/actions";
 import useWindowSize from "@iso/lib/hooks/useWindowSize";
 import { LineChart } from "./Line";
+import { PieChart } from "./PieChart";
 import moment from "moment";
+import InfoSpendingToWallet from "./InfoSpendingToWallet";
+import ShoeInfo from "./ShoeInfo";
 // import faker from "faker";
 // import IsoWidgetBox from "./WidgetBox";
 // import CardWidget from "./Card/CardWidget";
@@ -28,6 +31,7 @@ import { TableViews, tableinfos, dataList } from "../Tables/AntTables/AntTables"
 import * as rechartConfigs from "../Charts/Recharts/config";
 // import StackedAreaChart from "../Charts/Recharts/Charts/StackedAreaChart";
 import GoogleChart, { Chart } from "react-google-charts";
+import ActivityInfo from "./ActivityInfo";
 // import * as googleChartConfigs from "../Charts/GoogleChart/config";
 // import IntlMessages from "@iso/components/utility/intlMessages";
 
@@ -43,193 +47,23 @@ const styles = {
     overflow: "hidden",
   },
 };
-const SIGNLE_PROGRESS_WIDGET = [
-  {
-    label: "widget.singleprogresswidget1.label",
-    percent: 70,
-    barHeight: 7,
-    status: "active",
-    info: true,
-  },
-  {
-    label: "widget.singleprogresswidget2.label",
-    percent: 80,
-    barHeight: 7,
-    status: "active",
-    info: true,
-  },
-  {
-    label: "widget.singleprogresswidget3.label",
-    percent: 40,
-    barHeight: 7,
-    status: "active",
-    info: true,
-  },
-  {
-    label: "widget.singleprogresswidget4.label",
-    percent: 60,
-    barHeight: 7,
-    status: "active",
-    info: true,
-  },
-];
 
-const STICKER_WIDGET = [
-  {
-    number: "widget.stickerwidget1.number",
-    text: "widget.stickerwidget1.text",
-    icon: "ion-email-unread",
-    fontColor: "#ffffff",
-    bgColor: "#7266BA",
-  },
-  {
-    number: "widget.stickerwidget1.number",
-    text: "widget.stickerwidget2.text",
-    icon: "ion-android-camera",
-    fontColor: "#ffffff",
-    bgColor: "#42A5F6",
-  },
-  {
-    number: "widget.stickerwidget1.number",
-    text: "widget.stickerwidget3.text",
-    icon: "ion-chatbubbles",
-    fontColor: "#ffffff",
-    bgColor: "#7ED320",
-  },
-  {
-    number: "widget.stickerwidget1.number",
-    text: "widget.stickerwidget4.text",
-    icon: "ion-android-cart",
-    fontColor: "#ffffff",
-    bgColor: "#F75D81",
-  },
-];
+export const formatMoney = (price) => {
+  console.log("price", price);
+  return (price = price ? (price / 10 ** 18).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") : parseInt(price));
+};
 
-const SALE_WIDGET = [
-  {
-    label: "widget.salewidget1.label",
-    price: "widget.salewidget1.price",
-    details: "widget.salewidget1.details",
-    fontColor: "#F75D81",
-  },
-  {
-    label: "widget.salewidget2.label",
-    price: "widget.salewidget2.price",
-    details: "widget.salewidget2.details",
-    fontColor: "#F75D81",
-  },
-  {
-    label: "widget.salewidget3.label",
-    price: "widget.salewidget3.price",
-    details: "widget.salewidget3.details",
-    fontColor: "#F75D81",
-  },
-  {
-    label: "widget.salewidget4.label",
-    price: "widget.salewidget4.price",
-    details: "widget.salewidget4.details",
-    fontColor: "#F75D81",
-  },
-];
-
-const CARD_WIDGET = [
-  {
-    icon: "ion-android-chat",
-    iconcolor: "#42A5F5",
-    number: "widget.cardwidget1.number",
-    text: "widget.cardwidget1.text",
-  },
-  {
-    icon: "ion-music-note",
-    iconcolor: "#F75D81",
-    number: "widget.cardwidget2.number",
-    text: "widget.cardwidget2.text",
-  },
-  {
-    icon: "ion-trophy",
-    iconcolor: "#FEAC01",
-    number: "widget.cardwidget3.number",
-    text: "widget.cardwidget3.text",
-  },
-];
-
-const PROGRESS_WIDGET = [
-  {
-    label: "widget.progresswidget1.label",
-    details: "widget.progresswidget1.details",
-    icon: "ion-archive",
-    iconcolor: "#4482FF",
-    percent: 50,
-    barHeight: 7,
-    status: "active",
-  },
-  {
-    label: "widget.progresswidget2.label",
-    details: "widget.progresswidget2.details",
-    icon: "ion-pie-graph",
-    iconcolor: "#F75D81",
-    percent: 80,
-    barHeight: 7,
-    status: "active",
-  },
-  {
-    label: "widget.progresswidget3.label",
-    details: "widget.progresswidget3.details",
-    icon: "ion-android-download",
-    iconcolor: "#494982",
-    percent: 65,
-    barHeight: 7,
-    status: "active",
-  },
-];
-
-const SOCIAL_PROFILE = [
-  {
-    url: "#",
-    icon: "ion-social-facebook",
-    iconcolor: "#3b5998",
-  },
-  {
-    url: "#",
-    icon: "ion-social-twitter",
-    iconcolor: "#00aced",
-  },
-  {
-    url: "#",
-    icon: "ion-social-googleplus",
-    iconcolor: "#dd4b39",
-  },
-  {
-    url: "#",
-    icon: "ion-social-linkedin-outline",
-    iconcolor: "#007bb6",
-  },
-  {
-    url: "#",
-    icon: "ion-social-dribbble-outline",
-    iconcolor: "#ea4c89",
-  },
-];
+export const formatHee = (price) => (price = price ? Number((price / 10 ** 18).toFixed(2)) : parseInt(price));
 
 export default function () {
-  const { rowStyle, colStyle } = basicStyle;
+  // const { rowStyle, colStyle } = basicStyle;
   const dispatch = useDispatch();
-  const { listDataHee } = useSelector((state) => state.Dashboard);
+  const { listDataHee, listDataInfoSpendingToWallet, dataShoeInfo, dataActivityInfo, dataActivityFee } = useSelector((state) => state.Dashboard);
   const [datePicker, setDatePicker] = useState([]);
-  // ${Date.getFullYear()}-${Date.getMonth()}-${Date.getDay()}
-  console.log(`daskfjashdf`);
 
-  const { width } = useWindowSize();
+  // const { width } = useWindowSize();
 
-  const formatHee = (price) => {
-    return (price = price > 0 ? Number(parseFloat(price / 10 ** 18).toFixed(2)) : parseInt(price));
-  };
-
-  const dataHeeInfo = listDataHee?.chart?.categories.map((category, index) => {
-    return [category, formatHee(listDataHee?.chart?.series[0]?.data[index])];
-  });
-
-  console.log("dsfhjahsdfa", dataHeeInfo);
+  console.log("dasfkdsafjsad", dataActivityFee);
 
   useEffect(() => {
     let currentDate;
@@ -242,12 +76,17 @@ export default function () {
       prevDate = datePicker[0];
     }
 
-    dispatch(
-      actions.getHeeInfo({
-        fromDate: prevDate,
-        toDate: currentDate,
-      })
-    );
+    const payload = {
+      fromDate: prevDate,
+      toDate: currentDate,
+    };
+
+    dispatch(actions.getHeeInfo(payload));
+
+    dispatch(actions.getInfoSpendingToWallet(payload));
+    dispatch(actions.getShoeInfo(payload));
+    dispatch(actions.getActivityInfo(payload));
+    dispatch(actions.getActivityFee(payload));
   }, [datePicker, dispatch]);
 
   const labels = listDataHee?.chart?.categories;
@@ -255,39 +94,18 @@ export default function () {
     return formatHee(series);
   });
 
-  const totalHee = Number(parseFloat(listDataHee?.total / 10 ** 18).toFixed(2));
+  const totalHee = formatMoney(listDataHee?.total);
 
-  // const options = {
-  //   chart: {
-  //     title: "Total amount of hee for the day",
-  //     subtitle: `Total: ${Number(parseFloat(listDataHee?.total / 10 ** 18).toFixed(2))} hee.`,
-  //   },
-  //   width: width > 400 ? "1200px" : "600px",
-  //   height: "600px",
-  // };
-
-  // const chartEvents = [
-  //   {
-  //     eventName: "select",
-  //     callback(Chart) {},
-  //   },
-  // ];
-
-  // const stackConfig = {
-  //   ...rechartConfigs.StackedAreaChart,
-  //   width: !isServer && window.innerWidth < 450 ? 300 : 500,
-  // };
   const handleChangeDate = (date, event) => {
-    console.log("sdakfhsdaf", date);
     const dates = date.map((d, i) => moment(d).format("YYYY-MM-DD"));
-    console.log("ksafa", dates);
     setDatePicker(dates);
   };
   return (
-    <LayoutWrapper style={{ overflow: "auto" }}>
+    <LayoutWrapper style={{ overflow: "auto", background: "#17171a" }}>
       <div style={{ width: "70%" }}>
         <div>
           <RangePicker
+            style={{ padding: "8px 16px", borderRadius: "8px" }}
             onChange={handleChangeDate}
             dateRender={(current) => {
               const style = {};
@@ -305,15 +123,19 @@ export default function () {
             }}
           />
         </div>
-        {/* <Row style={rowStyle} gutter={0} justify="start"> */}
-        {/* <Col lg={8} md={12} sm={24} xs={24} style={colStyle}> */}
-        {/* <Col> */}
-        {/* <IsoWidgetsWrapper> */}
-        <LineChart data={data} labels={labels} totalHee={totalHee} />
-        {/* </IsoWidgetsWrapper> */}
-        {/* </Col> */}
-        {/* </Row> */}
-        {/* <LineChart /> */}
+        <div style={{ display: "flex", gap: "150px", marginTop: "35px", marginBottom: "35px" }}>
+          <InfoSpendingToWallet listDataInfoSpendingToWallet={listDataInfoSpendingToWallet} />
+          <ShoeInfo dataShoeInfo={dataShoeInfo} />
+        </div>
+        <LineChart data={data && data} labels={labels} totalHee={totalHee} />
+        <div style={{ display: "flex", gap: "60px" }}>
+          <PieChart dataActivityFee={dataActivityFee["HEE"]} label="ACTIVITY DATA FEE HEE" />
+          <PieChart dataActivityFee={dataActivityFee["FIU"]} label="ACTIVITY DATA FEE FIU" />
+        </div>
+        <div>
+          <h1 style={{ lineHeight: "50px", fontWeight: "bold", fontSize: "20px", color: "rgb(255, 255, 255)" }}>Information Activity</h1>
+          <ActivityInfo dataActivityInfo={dataActivityInfo} />
+        </div>
       </div>
     </LayoutWrapper>
   );
