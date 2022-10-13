@@ -107,7 +107,7 @@ export default function Account() {
             <BaseButton type="default" onClick={onVIewChange} location="CDN_UPDATE">
               {editView || addCdn ? <CheckOutlined /> : contentVersion ? <EditOutlined /> : ""}
             </BaseButton>
-
+            {console.log("add Cdn::::", listCdn)}
             <BaseButton location="CDN_UPDATE" type="primary" onClick={() => dispatch({ type: actions.ADD_CDN_ACTION })} className="isoAddContactBtn">
               Add Cdn
             </BaseButton>
