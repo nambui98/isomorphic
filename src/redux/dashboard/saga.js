@@ -68,6 +68,18 @@ function* getActivityFee() {
   yield takeEvery(actions.GET_ACTIVE_FEE, handleGetActivityFee);
 }
 
+function* handleGetMintInfo(action) {
+  return yield createBlankAsyncSagaRequest({
+    api: dashboardRequest.getMintInfo,
+    // success: [() => makeActionNotification({ status: "success", title: "Success", description: "Edit version success" })],
+    failure: [(res) => makeActionNotification({ status: "error", title: "Error", description: res?.data?.meta.error_message })],
+  })(action);
+}
+
+function* getMintInfo() {
+  yield takeEvery(actions.GET_MINT_INFO, handleGetMintInfo);
+}
+
 export default function* rootSaga() {
-  yield all([fork(getHeeInfo), fork(getDataSpendingToWallet), fork(getShoeInfo), fork(getActivityInfo), fork(getActivityFee)]);
+  yield all([fork(getMintInfo), fork(getHeeInfo), fork(getDataSpendingToWallet), fork(getShoeInfo), fork(getActivityInfo), fork(getActivityFee)]);
 }

@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import actions from "@iso/redux/dashboard/actions";
 import useWindowSize from "@iso/lib/hooks/useWindowSize";
 import { LineChart } from "./Line";
+import { BarChart } from "./BarChart";
 import { PieChart } from "./PieChart";
 import moment from "moment";
 import InfoSpendingToWallet from "./InfoSpendingToWallet";
@@ -58,12 +59,12 @@ export const formatHee = (price) => (price = price ? Number((price / 10 ** 18).t
 export default function () {
   // const { rowStyle, colStyle } = basicStyle;
   const dispatch = useDispatch();
-  const { listDataHee, listDataInfoSpendingToWallet, dataShoeInfo, dataActivityInfo, dataActivityFee } = useSelector((state) => state.Dashboard);
+  const { dataMint, listDataHee, listDataInfoSpendingToWallet, dataShoeInfo, dataActivityInfo, dataActivityFee } = useSelector((state) => state.Dashboard);
   const [datePicker, setDatePicker] = useState([]);
-
+  const dateFormat = "YYYY/MM/DD";
   // const { width } = useWindowSize();
 
-  console.log("dasfkdsafjsad", dataActivityFee);
+  console.log("dasfkdsafjsad", dataMint);
 
   useEffect(() => {
     let currentDate;
@@ -87,6 +88,7 @@ export default function () {
     dispatch(actions.getShoeInfo(payload));
     dispatch(actions.getActivityInfo(payload));
     dispatch(actions.getActivityFee(payload));
+    dispatch(actions.getMintInfo(payload));
   }, [datePicker, dispatch]);
 
   const labels = listDataHee?.chart?.categories;
@@ -102,9 +104,10 @@ export default function () {
   };
   return (
     <LayoutWrapper style={{ overflow: "auto", background: "#17171a" }}>
-      <div style={{ width: "70%" }}>
+      <div style={{ width: "100%" }}>
         <div>
           <RangePicker
+            allowClear={false}
             style={{ padding: "8px 16px", borderRadius: "8px" }}
             onChange={handleChangeDate}
             dateRender={(current) => {
@@ -121,19 +124,25 @@ export default function () {
                 </div>
               );
             }}
+            defaultValue={[moment(moment(Date.now()), dateFormat), moment(moment(Date.now() - 1296000000), dateFormat)]}
           />
         </div>
         <div style={{ display: "flex", gap: "150px", marginTop: "35px", marginBottom: "35px" }}>
           <InfoSpendingToWallet listDataInfoSpendingToWallet={listDataInfoSpendingToWallet} />
           <ShoeInfo dataShoeInfo={dataShoeInfo} />
         </div>
-        <LineChart data={data && data} labels={labels} totalHee={totalHee} />
-        <div style={{ display: "flex", gap: "60px" }}>
+        <div style={{ width: "95%", margin: "auto" }}>
+          <LineChart data={data && data} labels={labels} totalHee={totalHee} />
+        </div>
+        <div style={{ display: "flex", gap: "60px", width: "90%", margin: "auto" }}>
           <PieChart dataActivityFee={dataActivityFee["HEE"]} label="ACTIVITY DATA FEE HEE" />
           <PieChart dataActivityFee={dataActivityFee["FIU"]} label="ACTIVITY DATA FEE FIU" />
         </div>
         <div>
           <h1 style={{ lineHeight: "50px", fontWeight: "bold", fontSize: "20px", color: "rgb(255, 255, 255)" }}>Information Activity</h1>
+          <div style={{ width: "60%", margin: "auto", marginBottom: "100px" }}>
+            <BarChart data={dataMint} />
+          </div>
           <ActivityInfo dataActivityInfo={dataActivityInfo} />
         </div>
       </div>

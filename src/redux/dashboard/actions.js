@@ -11,6 +11,8 @@ const actions = {
   GET_ACTIVE_INFO_SUCCESS: "GET_ACTIVE_INFO_SUCCESS",
   GET_ACTIVE_FEE: "GET_ACTIVE_FEE",
   GET_ACTIVE_FEE_SUCCESS: "GET_ACTIVE_FEE_SUCCESS",
+  GET_MINT_INFO: "GET_MINT_INFO",
+  GET_MINT_INFO_SUCCESS: "GET_MINT_INFO_SUCCESS",
 
   getHeeInfo: (payload) => ({
     type: actions.GET_HEE,
@@ -30,6 +32,10 @@ const actions = {
   }),
   getActivityFee: (payload) => ({
     type: actions.GET_ACTIVE_FEE,
+    payload,
+  }),
+  getMintInfo: (payload) => ({
+    type: actions.GET_MINT_INFO,
     payload,
   }),
 };
