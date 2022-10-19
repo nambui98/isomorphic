@@ -1,6 +1,6 @@
 import actions from "./actions";
 
-const initState = { listDataHee: {}, loading: false, listDataInfoSpendingToWallet: [], dataShoeInfo: {}, dataActivityInfo: {}, dataActivityFee: {} };
+const initState = { listDataHee: {}, dataMint: {}, loading: false, listDataInfoSpendingToWallet: [], dataShoeInfo: {}, dataActivityInfo: {}, dataActivityFee: {} };
 
 export default function dashboardReducer(state = initState, action) {
   switch (action.type) {
@@ -34,6 +34,11 @@ export default function dashboardReducer(state = initState, action) {
       return {
         ...state,
         dataActivityFee: action.payload.data,
+      };
+    case actions.GET_MINT_INFO_SUCCESS:
+      return {
+        ...state,
+        dataMint: action.payload.data,
       };
 
     default:

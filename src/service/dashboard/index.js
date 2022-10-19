@@ -18,6 +18,9 @@ const dashboardRequest = {
   getActivityFee(payload) {
     return axiosClient.post("dashboard/activities-fee", payload, { headers: { Authorization: "Bearer " + getToken().get("accessToken") } });
   },
+  getMintInfo(payload) {
+    return axiosClient.post("dashboard/mint-info", payload, { headers: { Authorization: "Bearer " + getToken().get("accessToken") } });
+  },
 };
 
 export default dashboardRequest;

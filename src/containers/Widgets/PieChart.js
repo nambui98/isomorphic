@@ -36,8 +36,16 @@ export function PieChart({ dataActivityFee, label }) {
     labels: dataActivityFee ? dataActivityFee.map((label) => label.activity) : [],
     datasets: [
       {
-        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(255, 206, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(255, 159, 64, 0.2)"],
-        borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)", "rgba(153, 102, 255, 1)", "rgba(255, 159, 64, 1)"],
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(46, 138, 49, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+          "rgba(255, 0, 37, 0.2)",
+          "rgba(46, 138, 138, 0.2)",
+        ],
+        borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(46, 138, 49, 1)", "rgba(153, 102, 255, 1)", "rgba(255, 0, 37, 1)", "rgba(46, 138, 138, 1)"],
         borderWidth: 1,
         data: dataActivityFee ? dataActivityFee.map((data) => formatHee(data.amount)) : [],
       },
@@ -45,7 +53,7 @@ export function PieChart({ dataActivityFee, label }) {
   };
 
   return (
-    <div style={{ width: "50%", marginTop: "70px" }}>
+    <div style={{ width: "45%", marginTop: "70px" }}>
       <h1 style={{ textAlign: "center", fontSize: "16px", fontWeight: "600", color: "rgb(255, 255, 255)" }}>{label}</h1>
       <Pie data={dataInfo} options={options} />
     </div>
