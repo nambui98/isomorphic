@@ -34,7 +34,6 @@ export default function ({ contact, otherAttributes, editContact, setTxtSearch }
   });
 
   const handleClickUpdateRole = () => {
-    console.log("sdkfieruq");
     dispatch(
       actions.editRole({
         id: contact.id,

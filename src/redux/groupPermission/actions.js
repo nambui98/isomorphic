@@ -71,7 +71,6 @@ const actions = {
     payload,
   }),
   editContact: (newContact) => {
-    console.log("dsakfjksdaf", newContact);
     return (dispatch, getState) => {
       const contacts = getState().GroupPermission.listGroup;
       const newContacts = [];

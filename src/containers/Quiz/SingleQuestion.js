@@ -1,13 +1,13 @@
-import React, { Component, Fragment } from 'react';
-import { RadioGroup } from '@iso/components/uielements/radio';
-import Button from '@iso/components/uielements/button';
+import React, { Component, Fragment } from "react";
+import { RadioGroup } from "@iso/components/uielements/radio";
+import Button from "@iso/components/uielements/button";
 
 export default class SingleQuestion extends Component {
   // Then we add our constructor which receives our props
   constructor(props) {
     super(props);
     this.state = {
-      answer: '',
+      answer: "",
       showResult: false,
     };
   }
@@ -18,51 +18,34 @@ export default class SingleQuestion extends Component {
     this.setState({ answer: e.target.value });
   };
   answerQuestion = (e) => {
-    if (this.state.answer !== '') {
+    if (this.state.answer !== "") {
       this.props.setQuestionAnswer(this.state.answer);
     } else {
-      alert('Please select an answer');
+      alert("Please select an answer");
     }
   };
   nextQuestion = (e) => {
-    this.setState({ answer: '' });
+    this.setState({ answer: "" });
     this.props.nextQuestion();
   };
   // The render function, where we actually tell the browser what it should show
   render() {
-    const {
-      question,
-      answers,
-      submitted,
-      total,
-      activeQuestion,
-      correct,
-      wrong,
-    } = this.props;
-    console.log(activeQuestion, 'active');
-    console.log(total, 'total');
+    const { question, answers, submitted, total, activeQuestion, correct, wrong } = this.props;
     return (
       <div>
         {!this.state.showResult ? (
           <Fragment>
-            {' '}
+            {" "}
             {!question.showAnswer ? (
               <Fragment>
-                <RadioGroup
-                  onChange={this.onRadioChange}
-                  options={question.options}
-                />
+                <RadioGroup onChange={this.onRadioChange} options={question.options} />
                 <Button type="primary" onClick={this.answerQuestion}>
                   Submit
                 </Button>
               </Fragment>
             ) : (
               <Fragment>
-                <RadioGroup
-                  onChange={this.onRadioChange}
-                  options={question.options}
-                  disabled
-                />
+                <RadioGroup onChange={this.onRadioChange} options={question.options} disabled />
                 {activeQuestion < total - 1 ? (
                   <Button type="primary" onClick={this.nextQuestion}>
                     Next

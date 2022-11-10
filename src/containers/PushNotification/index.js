@@ -18,9 +18,7 @@ export default function PushNotification() {
     justifyContent: "center",
   };
 
-  const onChange = (key) => {
-    console.log("dsahuiehf", key);
-  };
+  const onChange = (key) => {};
 
   return (
     <LayoutWrapper className="isoMapPage">

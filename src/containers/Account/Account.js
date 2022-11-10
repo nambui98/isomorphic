@@ -26,7 +26,7 @@ export default function Account() {
 
   const dispatch = useDispatch();
   const [textSearch, setTxtSearch] = useState("");
-  console.log("dsakewiurqo", idAccount);
+
   useEffect(() => {
     dispatch({
       type: actions.GET_LIST_ACCOUNT,

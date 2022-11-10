@@ -3,7 +3,6 @@ import actions from "./actions";
 const initState = { listRole: [], isLoading: false, errors: null, selectedId: null, addRole: false, statusAddRole: false, statusEditRole: false, listGroupByRole: null };
 
 export default function roleReducer(state = initState, action) {
-  console.log("ặehfuiewqr", action);
   switch (action.type) {
     case actions.GET_ALL_ROLE_SUCCESS:
       return {

@@ -6,11 +6,8 @@ import actions from "@iso/redux/role/actions";
 export default function Role() {
   const dispatch = useDispatch();
   const [textSearch, setTxtSearch] = useState("");
-  console.log("kadshfuewqr", textSearch);
 
   useEffect(() => {
-    console.log("helllotesxt", textSearch);
-
     dispatch({
       type: actions.GET_ALL_ROLE,
       payload: {

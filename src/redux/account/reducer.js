@@ -7,8 +7,6 @@ function initStateEdit(edit) {
   const initState = { disabledView: false, resetPasswordView: false, changeRoleView: false, activeView: false };
   if (!edit) return initState;
 
-  console.log("asdjfuewhqr", initState[edit]);
-
   return { ...initState, [edit]: true };
 }
 

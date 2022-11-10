@@ -18,8 +18,6 @@ export function Scheduling({ currentStep }) {
   const { values, submitForm } = useFormikContext();
   const refSchedule = useRef();
 
-  console.log("sadfhudsahf", { values, currentStep });
-
   useEffect(() => {
     if (values.notifyType === "SCHEDULED") refSchedule.current.style.display = "";
     else refSchedule.current.style.display = "none";

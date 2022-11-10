@@ -26,8 +26,6 @@ export default function Contacts({ setTxtSearch, textSearch }) {
   const { listRole, selectedId, statusAddRole, statusEditRole, isLoading } = useSelector((state) => state.Role);
   const dispatch = useDispatch();
 
-  console.log("dsahfueiwqfhas", addRole);
-
   useEffect(() => {
     dispatch({
       type: actionsGroup.GET_LIST_GROUP,
@@ -47,8 +45,6 @@ export default function Contacts({ setTxtSearch, textSearch }) {
   }, [statusAddRole, statusEditRole]);
 
   const selectedContact = selectedId ? listRole.filter((contact) => contact.id === selectedId)[0] : null;
-
-  console.log("kdasuiyerq", selectedContact);
 
   const onVIewChange = () => {
     dispatch(viewChange(!editView));

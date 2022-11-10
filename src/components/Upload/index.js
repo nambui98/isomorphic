@@ -8,7 +8,6 @@ import Button from "@iso/components/uielements/button";
 const allowedExtensions = ["csv"];
 
 const UploadFileCsv = ({ formikRef }) => {
-  console.log("daksfhuweqfa", formikRef);
   // This state will store the parsed data
   const [data, setData] = useState([]);
 
@@ -55,7 +54,7 @@ const UploadFileCsv = ({ formikRef }) => {
     reader.onload = async ({ target }) => {
       const csv = Papa.parse(target.result, { header: true });
       const parsedData = csv?.data;
-      console.log("oiweqruyewqur", parsedData);
+
       // const columns = Object.keys(parsedData[1]);
       setData(parsedData);
     };
@@ -63,14 +62,12 @@ const UploadFileCsv = ({ formikRef }) => {
     reader.readAsText(file);
   };
 
-  console.log("ewiohfyugsadyfas", data);
-
   useEffect(() => {
     const listMail = data
       .map((col, idx) => col?.mail_address)
       .filter(Boolean)
-      .join(", ");
-    console.log("sadfhuiewfa", listMail);
+      .join(",");
+
     formikRef?.setFieldsValue && formikRef.setFieldsValue({ email: listMail });
     formikRef?.current && formikRef.current.setFieldValue("email", listMail);
   }, [data, formikRef]);

@@ -14,8 +14,6 @@ export default function GroupListPermission(props) {
   const dispatch = useDispatch();
   const { selectedId, deleteContact, changeContact } = props;
 
-  console.log("iewojfsadfas", selectedId);
-
   function singleContact(contact) {
     const activeClass = selectedId === contact.id ? "active" : "";
     const onChange = () => changeContact(contact.id);

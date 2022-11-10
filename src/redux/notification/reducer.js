@@ -4,7 +4,6 @@ import { INIT_STATE } from "../common";
 const initState = INIT_STATE;
 
 export default function notiReducer(state = { ...initState, statusSave: false, listNoti: [], noti: {}, totalNoti: 0, idSave: null, loadingGetNoti: false, bodySearch: null }, action) {
-  console.log("iewurioqwr", action);
   switch (action.type) {
     case actions.GET_NOTIFICATIONS_SUCCESS:
       return {

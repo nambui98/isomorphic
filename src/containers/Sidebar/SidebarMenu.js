@@ -46,8 +46,6 @@ export default React.memo(function SidebarMenu({ singleOption, submenuStyle, sub
 
   const getAccessPermission = getToken().get("permissions").split(",");
 
-  console.log("sdfhdiuaewdsjfka", getAccessPermission);
-
   return (
     <Menu.Item key={key} {...rest}>
       {key !== "update" ? (

@@ -25,14 +25,11 @@ export function* loginSuccess() {
   yield takeEvery(actions.LOGIN_SUCCESS, function* ({ payload }) {
     yield localStorage.setItem("accessToken", payload?.data?.accessToken);
 
-    console.log("asdjkiewyqrsdjakfsa", payload?.data?.permissions);
     yield localStorage.setItem("permissions", payload?.data?.permissions.toString());
   });
 }
 
 function* requestResetPassword(action) {
-  console.log("asdifhuef", action);
-
   return yield createBlankAsyncSagaRequest({
     api: authRequest.changeAccount,
     success: [

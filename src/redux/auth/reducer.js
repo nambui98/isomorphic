@@ -3,7 +3,6 @@ import actions from "./actions";
 const initState = { accessToken: null, isLoading: false, isAuthenticated: false, error: null, permissions: null, secretKey: "", action: "", refId: "", qrcode: "" };
 
 export default function authReducer(state = initState, action) {
-  console.log("dsaueywuqruiweyrwqe", action);
   switch (action.type) {
     case actions.LOGIN_SUCCESS:
       return {

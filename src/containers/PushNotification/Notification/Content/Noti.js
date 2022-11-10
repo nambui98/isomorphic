@@ -17,8 +17,6 @@ const { TextArea } = Input;
 export function Noti({ currentStep }) {
   const { values, submitForm } = useFormikContext();
 
-  console.log("sadfhudsahf", { values, currentStep });
-
   return (
     <div style={{ display: currentStep !== 0 && "none" }}>
       <FastField component={AntInput} defaultValue={values.title} className="text-label-input" name="title" type="text" placeholder="title" hasFeedback size="large" tasklabel={<Text>Title</Text>} />

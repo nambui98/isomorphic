@@ -50,7 +50,6 @@ const styles = {
 };
 
 export const formatMoney = (price) => {
-  console.log("price", price);
   return (price = price ? (price / 10 ** 18).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") : parseInt(price));
 };
 
@@ -63,8 +62,6 @@ export default function () {
   const [datePicker, setDatePicker] = useState([]);
   const dateFormat = "YYYY/MM/DD";
   // const { width } = useWindowSize();
-
-  console.log("dasfkdsafjsad", dataMint);
 
   useEffect(() => {
     let currentDate;

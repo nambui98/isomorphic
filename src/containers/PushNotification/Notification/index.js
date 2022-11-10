@@ -24,7 +24,6 @@ const { Title, Text } = Typography;
 const { Step } = Steps;
 
 const transitionData = (values) => {
-  console.log("skadjfxzvjkdaf", values);
   let convertSchedule;
   if (values?.scheduled) {
     convertSchedule = values.scheduled.format("YYYY-MM-DD HH:mm:ss");
@@ -97,7 +96,6 @@ export default function TabNotification() {
       <br></br>
       <Formik validate={handleValidateFormLogin} initialValues={initialValue} enableReinitialize innerRef={formikRef}>
         {({ values, handleSubmit, isSubmitting, handleReset, errors, touched, isValidating }) => {
-          console.log("ksjfksafa", values);
           return (
             <Form>
               <div style={{ height: "500px", minHeight: "500px" }}>

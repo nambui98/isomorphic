@@ -28,8 +28,6 @@ export default function SignIn() {
   const errorMessage = useSelector((state) => state.Auth.error);
   const checkAction = useSelector((state) => state.Auth.action);
 
-  console.log("skadfjuiewry", isLoggedIn);
-
   const [redirectToReferrer, setRedirectToReferrer] = useState(false);
 
   useEffect(() => {

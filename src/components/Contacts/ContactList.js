@@ -15,8 +15,6 @@ export default function ContactList(props) {
   const [search, setSearch] = React.useState("");
   const { selectedId, deleteContact, changeContact } = props;
 
-  console.log("iewojfsadfas", selectedId);
-
   function singleContact(contact) {
     const activeClass = selectedId === contact.id ? "active" : "";
     const onChange = () => changeContact(contact.id);

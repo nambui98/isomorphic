@@ -30,13 +30,6 @@ export default function UpdateNoti() {
   const refEmail = useRef();
   const refSchedule = useRef();
 
-  console.log("dskafiewq", noti);
-  try {
-    console.log("asdnfjnjvkxczv", JSON.parse(noti?.extra_data));
-  } catch (e) {
-    console.log("asdjfashdfa", e);
-  }
-
   const id = query.get("id");
 
   useEffect(() => {
@@ -147,7 +140,6 @@ export default function UpdateNoti() {
   };
 
   const handleChangeSegment = (segment) => {
-    console.log("oweriqwr", refEmail.current);
     if (segment === "LIST_EMAIL") {
       refEmail.current.style.display = "";
     } else {
@@ -157,7 +149,6 @@ export default function UpdateNoti() {
 
   const onFinish = (items) => {
     // debugger;
-    console.log("saduewyqr", { ...items });
     let newTtl = 0;
     if (items.expires.expiresTime) {
       newTtl = calculatorTtl(items.expires.expiresSession, items.expires.expiresTime);
@@ -189,13 +180,9 @@ export default function UpdateNoti() {
       return openNotificationWithIcon("error", "Error", "invalid content");
     }
 
-    console.log("sodifuewqfasf", newValue);
-
     const finalData = _.omit(newValue, ["expires", "image", "email"]);
-    console.log("asdkfhdashfa", finalData);
     dispatch(actions.saveNotification(finalData));
   };
-  console.log("sdkafhjsadnvm", Number(convertObject(noti?.extra_data)?.detail?.ttl));
 
   const handleSendDraft = () => {
     try {
@@ -207,7 +194,7 @@ export default function UpdateNoti() {
 
     const newData = { ...noti, notifyType: noti.notify_type };
     const finalData = _.omit(newData, ["notify_id", "created_at", "is_read", "status", "notify_type", "extra_data"]);
-    console.log("sdkafkasdf", finalData);
+
     dispatch(actions.sendNoti(finalData));
   };
 

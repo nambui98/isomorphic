@@ -59,7 +59,6 @@ export const options = {
 };
 
 export function LineChart({ data, labels, totalHee }) {
-  console.log("data", data);
   const dataInfo = {
     labels,
     datasets: [

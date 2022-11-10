@@ -16,14 +16,9 @@ export default function ({ contact, otherAttributes, editContact }) {
 
   const { deleteGroup, updateGroup, addPermission, allPermission, listPermissionByGroup } = useSelector((state) => state.GroupPermission);
 
-  console.log("dkajfhjsadhfjas", allPermission);
-  console.log("sdajkxzjkdhsafasd", listPermissionByGroup);
-
   const name = contact?.groupName ? contact.groupName : "No Group Name";
 
   const handleChangeAction = (action) => {
-    console.log("sidajfeiur", action);
-
     switch (action) {
       case "updateGroup":
         dispatch({ type: actions.ACTIVE_VIEW });
@@ -45,7 +40,6 @@ export default function ({ contact, otherAttributes, editContact }) {
         const value = contact[attribute.value];
         const handleEditContact = (event) => {
           contact[attribute.value] = event.target.value;
-          console.log("sadkfjsad", contact);
           editContact(contact);
         };
 

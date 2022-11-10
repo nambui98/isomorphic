@@ -31,8 +31,6 @@ export default function GroupPermission() {
     addPermission,
   } = useSelector((state) => state.GroupPermission);
 
-  console.log("ksadfjaskdf", idGroup);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -55,8 +53,6 @@ export default function GroupPermission() {
   const selectedGroup = useMemo(() => {
     return idGroup ? listGroup.filter((group) => group.id === idGroup)[0] : null;
   }, [idGroup, listGroup]);
-
-  console.log("asdkfdsafasdf", selectedGroup);
 
   const onVIewChange = () => {
     dispatch(actions.viewChange(!editView));

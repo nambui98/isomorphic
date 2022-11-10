@@ -23,8 +23,6 @@ export default function () {
   const handleSubmitFormLogin = (props) => {
     const { email } = props;
 
-    console.log("adsfioweur", email);
-
     dispatch(changeEmail({ email }));
   };
 

@@ -30,8 +30,6 @@ export default function Account() {
   const [platformAdd, setPlatformAddVersion] = useState("");
   const [id, setId] = useState("");
 
-  console.log("asdkfjkasdhfa", contentVersion);
-
   useEffect(() => {
     dispatch({
       type: actions.GET_LIST_CDN,
@@ -68,11 +66,9 @@ export default function Account() {
     } else {
       try {
         if (addCdn) {
-          console.log("ksdjfas", valueAddCdn);
           if (!valueAddCdn || !platformAdd || !versionAdd) return notification("error", "Invalid value", "");
           dispatch(actions.editVersion({ content: { ...valueAddCdn }, version: versionAdd, platform: platformAdd }));
         } else {
-          console.log("dsklfjksdafksajdf", valueTextarea);
           if (valueTextarea) {
             dispatch(actions.editVersion({ content: { ...valueTextarea }, version: versionId, platform }));
           }
@@ -107,7 +103,6 @@ export default function Account() {
             <BaseButton type="default" onClick={onVIewChange} location="CDN_UPDATE">
               {editView || addCdn ? <CheckOutlined /> : contentVersion ? <EditOutlined /> : ""}
             </BaseButton>
-            {console.log("add Cdn::::", listCdn)}
             <BaseButton location="CDN_UPDATE" type="primary" onClick={() => dispatch({ type: actions.ADD_CDN_ACTION })} className="isoAddContactBtn">
               Add Cdn
             </BaseButton>

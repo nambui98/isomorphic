@@ -29,7 +29,6 @@ function* getNotiRequest() {
 }
 
 function* handleSaveNotification(action) {
-  console.log("ioewhfuhsadf", action);
   return yield createBlankAsyncSagaRequest({
     api: notiRequest.saveNotification,
     success: [(res) => makeActionNotification({ status: "success", title: "Success", description: "Update Success" })],

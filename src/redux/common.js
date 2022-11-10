@@ -121,8 +121,6 @@ export const createBlankAsyncSagaRequest = ({ api, success, failure }) => {
         );
       }
 
-      console.log("oiadfyusdafa", response.status);
-
       if (RESPONSE_STATUS_CODE.SUCCESS.includes(response.status)) {
         // build success
         const rsSuccess = buildResponseSuccess(response);

@@ -10,15 +10,12 @@ const authRequest = {
     return axiosClient.post("account/verify-otp", { refId: user.refId, secretKey: user.secretKey, otp: user.textCode, action: user.action });
   },
   login(payload) {
-    console.log("iosadufuewqfsadf", payload);
     return axiosClient.post("account/verify-otp", { refId: payload.refId, otp: payload.textCode, action: payload.action });
   },
   changeAccount(payload) {
-    console.log("iosadufuewqfsadf", payload);
     return axiosClient.post("account/change-password", payload, { headers: { Authorization: "Bearer " + getToken().get("accessToken") } });
   },
   changeEmail(payload) {
-    console.log("iosadufuewqfsadf", payload);
     return axiosClient.post("account/change-email", payload, { headers: { Authorization: "Bearer " + getToken().get("accessToken") } });
   },
 };

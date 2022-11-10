@@ -49,8 +49,6 @@ function PrivateRoute({ children, ...rest }) {
   const isLoggedIn = useSelector((state) => state.Auth.isAuthenticated);
   const isLoggefddIn = useSelector((state) => state.Auth);
 
-  console.log("dsaihfyudsaf", { isLoggedIn, isLoggefddIn });
-
   return (
     <Route
       {...rest}

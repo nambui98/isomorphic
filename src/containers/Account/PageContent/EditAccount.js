@@ -18,13 +18,9 @@ export default function ({ contact, otherAttributes, editContact, setTxtSearch }
   const { disabledView, resetPasswordView, changeRoleView, activeView } = useSelector((state) => state.Account);
   const { listRole } = useSelector((state) => state.Role);
 
-  console.log("kfjasdhfads", contact);
-
   const name = contact.account ? contact.account : "No Account";
 
   const handleChangeAction = (action) => {
-    console.log("sidajfeiur", action);
-
     switch (action) {
       case "activeView":
         dispatch({ type: actions.ACTIVE_VIEW });

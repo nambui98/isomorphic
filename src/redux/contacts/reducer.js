@@ -39,7 +39,6 @@ export default function contactReducer(state = initState, action) {
         selectedId: action.selectedId,
       };
     case contactActions.EDIT_VIEW:
-      console.log("kadshfhewuqf", action);
       return {
         ...state,
         editView: action.view,

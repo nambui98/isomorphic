@@ -9,9 +9,7 @@ const addressPage = {
 };
 
 export default function BaseButton({ type = "default", onClick = () => {}, children, location, ...rest }) {
-  console.log("dsakfewurq", accessPermissions.split(","));
   if (accessPermissions.split(",").includes(location)) {
-    console.log("asdkfiewurq", location);
     return (
       <Button type={type} onClick={onClick} {...rest}>
         {children}

@@ -12,12 +12,9 @@ export default function ({ contact, editContact, id }) {
   if (!contact) return null;
   const refNode = useRef();
 
-  console.log("kldsjfjhsdafa", id);
-
   const title = contact?.content.title ? contact.content.title : "No Title";
 
   const handleChangeEditor = (values) => {
-    console.log("sadfsdf", values);
     editContact(values);
   };
 

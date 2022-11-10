@@ -3,7 +3,6 @@ import actions from "./actions";
 const initState = { listCdn: {}, loading: false, loadingViewContent: false, versionId: null, contentVersion: null, editView: false, addCdn: false, statusAddCdn: false };
 
 export default function cdnReducer(state = initState, action) {
-  console.log("dsaueywuqruiweyrwqe", action);
   switch (action.type) {
     case actions.GET_LIST_CDN_SUCCESS:
       return {

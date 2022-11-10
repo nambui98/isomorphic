@@ -17,11 +17,7 @@ export function Target({ currentStep, formikRef }) {
     else refTextarea.current.style.display = "none";
   }, [values.segment]);
 
-  console.log("ewhfuasdhfas", values);
-
-  const handleChangeSegment = (value) => {
-    console.log("oiewuhfsadf", values);
-  };
+  const handleChangeSegment = (value) => {};
 
   return (
     <div style={{ display: currentStep !== 1 && "none" }}>
