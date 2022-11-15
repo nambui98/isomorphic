@@ -27,10 +27,9 @@ export default function ({ contact, otherAttributes, type }) {
     statusUpdateGroupByRole && dispatch(actionsRole.getListGroupByRole({ roleId: contact.id }));
   }, [statusUpdatePermissionByGroup, statusUpdateGroupByRole]);
 
-  console.log("dksafjksdaf", statusUpdateGroupByRole);
   const name = contact?.roleName ? contact?.roleName : null;
   const groupName = contact?.groupName ? contact.groupName : null;
-  console.log("sadkjfsadf", groupName);
+
   const extraInfos = [];
   contact &&
     otherAttributes.forEach((attribute) => {
@@ -118,20 +117,19 @@ export default function ({ contact, otherAttributes, type }) {
 
   const handleChangeCheckboxPermission = (e) => {
     const index = listIdPermissionsByGroup.indexOf(e.target.value);
-    console.log("skadfiweur", e.target.value);
+
     if (e.target.checked) {
       listIdPermissionsByGroup.push(e.target.value);
     } else {
       listIdPermissionsByGroup.splice(index, 1);
     }
-    console.log("asdkfjeiwhr", listIdPermissionsByGroup);
+
     // setSelectedPermission(listIdPermissionsByGroup);
   };
 
   const handleChangeCheckboxRoleGroup = (e) => {
-    console.log("sadfjiewrq", e.target.value);
     const index = listIdGroupByRole.indexOf(e.target.value);
-    console.log("skadfiweur", e.target.value);
+
     if (e.target.checked) {
       listIdGroupByRole.push(e.target.value);
     } else {
@@ -148,7 +146,6 @@ export default function ({ contact, otherAttributes, type }) {
         })
       );
     } else {
-      console.log("iewrdjsafhjsdf", listIdGroupByRole);
       dispatch(
         actions.updateGroupByRole({
           roleId: contact.id,
