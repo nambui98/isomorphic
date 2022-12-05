@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { AXIOS_CONFIGS } from "../../constants/api";
 
-const baseURLdev = "https://newdev.befitter.io/admin";
+const baseURLdev = "https://newdev.befitter.io/befadmin";
 const baseURLProduction = "https://api.befitter.io/admin/";
 const isDebug = true;
 const baseURL = isDebug ? baseURLdev : baseURLProduction;
