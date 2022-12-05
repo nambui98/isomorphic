@@ -159,7 +159,7 @@ export default function UpdateNoti() {
         return items.email;
       }
 
-      return items.email.split(", ");
+      return items.email.split(",");
     };
 
     const newValue = {

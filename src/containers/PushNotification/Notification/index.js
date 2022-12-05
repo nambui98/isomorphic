@@ -30,7 +30,7 @@ const transitionData = (values) => {
   }
   const newdata = {
     ...values,
-    toEmail: values?.email.split(", "),
+    toEmail: values?.email.split(","),
     extraData: {
       messageType: "SYSTEM_MANUAL",
       detail: {
