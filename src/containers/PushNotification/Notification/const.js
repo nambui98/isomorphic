@@ -18,13 +18,13 @@ export const initialValue = {
       name: "Ios",
     },
   ],
-  segment: "ALL",
+  segment: "ALL", // dev
   time: null,
   selectOptionsSegment: [
     {
       id: "ALL",
       name: "All",
-    },
+    }, // dev
     {
       id: "LIST_EMAIL",
       name: "Selected device",

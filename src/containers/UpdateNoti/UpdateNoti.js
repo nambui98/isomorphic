@@ -49,7 +49,7 @@ export default function UpdateNoti() {
   }, [statusSave]);
 
   const optionSegment = [
-    { label: "ALL", value: "ALL" },
+    { label: "ALL", value: "ALL" }, // dev
     { label: "LIST_EMAIL", value: "LIST_EMAIL" },
     // { label: "MORE", value: "MORE" },
   ];
