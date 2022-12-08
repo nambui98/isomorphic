@@ -39,10 +39,11 @@ export default function UpdateNoti() {
 
   useEffect(() => {
     statusSave && dispatch(actions.getNoti({ id }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusSave]);
 
   const optionSegment = [
-    { label: "ALL", value: "ALL" },
+    // { label: "ALL", value: "ALL" }, // dev
     { label: "LIST_EMAIL", value: "LIST_EMAIL" },
     // { label: "MORE", value: "MORE" },
   ];
